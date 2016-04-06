@@ -55,8 +55,6 @@ public class ProductosFragment extends Fragment {
     private TextView nombreProducto;
     private TextView priceProducto;
     private TextView cantidadProducto;
-    private String textProducto;
-    private double textCantidad;
 
     private TextView textoNoHay;
 
@@ -77,9 +75,6 @@ public class ProductosFragment extends Fragment {
 
     public ProductosFragment() {
         // Required empty public constructor
-
-        textProducto = "";
-        textCantidad = 0;
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
     }
@@ -268,7 +263,6 @@ public class ProductosFragment extends Fragment {
         adapter = new MyListAdapter();
         ListView list = (ListView) rootView.findViewById(R.id.productsListView);
         list.setAdapter(adapter);
-        //list.setOnClickListener(onListClick);
         adapter.notifyDataSetChanged();
     }
 
@@ -292,8 +286,6 @@ public class ProductosFragment extends Fragment {
                 nombreProductoBase = clickedProduct.getNombreProducto();
 
                 ft.commit();
-
-                //Toast.makeText(getActivity(), "Seleccionaste: " + clickedProduct.getNombreProducto(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -325,7 +317,6 @@ public class ProductosFragment extends Fragment {
             //Nombre:
             nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);
             nombreProducto.setText(currentProduct.getNombreProducto());
-            //changeProducto(textProducto);
 
             //Precio:
             priceProducto = (TextView) productsView.findViewById(R.id.textPrecio);
@@ -334,28 +325,9 @@ public class ProductosFragment extends Fragment {
             //Cantidad:
             cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
             cantidadProducto.setText(" " + currentProduct.getCantidad() + " lb");
-            //changeCantidad(" " + textCantidad);
 
             return productsView;
         }
-    }
-
-    // Setea el nombre del producto con el texto que mandó
-    public void changeProducto(String description){
-        System.out.println("changeProducto");
-        nombreProducto.setText(description);
-    }
-    public void setTextProducto(String textProducto) {
-        this.textProducto = textProducto;
-    }
-
-    // Setea la cantidad del producto con el texto que mandó
-    public void changeCantidad(String description){
-        System.out.println("changeCantidad");
-        cantidadProducto.setText(description);
-    }
-    public void setTextCantidad(Double textCantidad) {
-        this.textCantidad = textCantidad;
     }
 
     @Override
