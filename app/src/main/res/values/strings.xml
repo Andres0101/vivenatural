@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">Vive Natural</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_edit_product">Editar</string>
+    <string name="action_save">Guardar</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <!--Login & Registro-->
+    <string name="login">Iniciar Sesión</string>
+    <string name="singup">Registrarse</string>
+    <string name="crearCuenta">Crear Cuenta</string>
+    <string name="nombreUsuario">Nombre completo</string>
+    <string name="email">Correo</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="err_msg_name">Ingrese su nombre</string>
+    <string name="err_msg_email">Ingrese correo electrónico válido</string>
+    <string name="err_msg_pass">Ingrese la contraseña</string>
+
+    <string name="checkProductor">Productor</string>
+    <string name="checkConsumidor">Consumidor</string>
+
+    <string name="nav_item_perfil">Perfil</string>
+    <string name="nav_item_statistics">Estadísticas</string>
+    <string name="nav_item_reservas">Pedidos</string>
+    <string name="nav_item_products">Productos</string>
+
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_perfil</item>
+        <item>@string/nav_item_statistics</item>
+        <item>@string/nav_item_reservas</item>
+        <item>@string/nav_item_products</item>
+    </string-array>
+
+    <!-- Drawer Productor -->
+    <string name="title_products">Productos</string>
+    <string name="title_reservas">Pedidos</string>
+    <string name="title_statistics">Estadísticas</string>
+    <string name="title_perfil">Perfil</string>
+
+    <!-- Drawer Consumidor -->
+    <string name="title_productores">Productores</string>
+
+    <string name="title_cuenta">Cuenta</string>
+    <string name="title_log_out">Cerrar sesión</string>
+
+    <!-- Perfil -->
+    <string name="description">Descripción</string>
+    <string name="text_description">No hay información.</string>
+
+    <!-- Productores -->
+    <string name="emptyProducers">No hay productores.</string>
+    <string name="calificacion">Las estrellas de una.</string>
+
+    <!-- Productos -->
+    <string name="emptyProducts">No hay productos en tu lista.</string>
+    <string name="addProducts">Agregar Producto</string>
+    <string name="agregar">Agregar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="cantidad">Cantidad disponible:</string>
+    <string name="cantidadOfrecida">Cantidad a ofrecer</string>
+    <string name="info">Información</string>
+    <string name="addDescription">Ingresa descripción.</string>
+    <string name="addCantidad">0.0</string>
+    <string name="libra">lb</string>
+    <string-array name="products_array">
+        <item>Tomate</item>
+        <item>Frijoles</item>
+        <item>Cebolla larga</item>
+        <item>Limones</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

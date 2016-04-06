@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/profile"
+            android:checked="false"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/title_perfil" />
+
+        <item
+            android:id="@+id/productores"
+            android:checked="false"
+            android:icon="@drawable/ic_producers"
+            android:title="@string/title_productores" />
+
+        <!--<item
+            android:id="@+id/reservas"
+            android:checked="false"
+            android:icon="@drawable/ic_reservas"
+            android:title="@string/title_reservas" />
+
+        <item
+            android:id="@+id/products"
+            android:checked="false"
+            android:icon="@drawable/ic_productos"
+            android:title="@string/title_products" />-->
+
+        <!-- Sección de configuración -->
+        <item
+            android:id="@+id/configuration_section"
+            android:title="@string/title_cuenta">
+            <menu>
+                <item
+                    android:id="@+id/log_out"
+                    android:icon="@android:drawable/ic_lock_power_off"
+                    android:title="@string/title_log_out" />
+            </menu>
+        </item>
+
+    </group>
+</menu>

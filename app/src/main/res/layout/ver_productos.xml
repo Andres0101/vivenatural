@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<LinearLayout
+        android:id="@+id/container_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+    </LinearLayout>-->
+
+    <ImageView
+        android:id="@+id/imageProduct"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <TextView
+        android:id="@+id/textViewDescripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/imageProduct"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/description" />
+
+    <EditText
+        android:id="@+id/editTextDescriProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="160"
+        android:enabled="false"
+        android:hint="@string/addDescription"
+        android:layout_below="@+id/textViewDescripcion"
+        android:layout_alignLeft="@+id/textViewDescripcion"
+        android:layout_alignStart="@+id/textViewDescripcion"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <TextView
+        android:id="@+id/textViewCantidadDisponible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/editTextDescriProduct"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@+id/textViewDescripcion"
+        android:layout_alignStart="@+id/textViewDescripcion"
+        android:text="@string/cantidad" />
+
+    <EditText
+        android:id="@+id/editTextCantidadDisponible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/addCantidad"
+        android:paddingBottom="2dp"
+        android:layout_alignBottom="@+id/textViewCantidadDisponible"
+        android:layout_toRightOf="@+id/textViewCantidadDisponible"
+        android:layout_toEndOf="@+id/textViewCantidadDisponible"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
+
+</RelativeLayout>
