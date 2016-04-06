@@ -60,7 +60,7 @@
     <string name="addProducts">Agregar Producto</string>
     <string name="agregar">Agregar</string>
     <string name="cancelar">Cancelar</string>
-    <string name="cantidad">Cantidad disponible:</string>
+    <string name="cantidad">Disponible:</string>
     <string name="cantidadOfrecida">Cantidad a ofrecer</string>
     <string name="info">Información</string>
     <string name="addDescription">Ingresa descripción.</string>
