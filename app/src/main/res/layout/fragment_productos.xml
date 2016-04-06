@@ -8,15 +8,14 @@
     <FrameLayout
         android:id="@+id/container_body"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="0dp" />
 
     <TextView
         android:id="@+id/textoInfoProductos"
         android:layout_centerInParent="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:text="@string/emptyProducts"
@@ -40,7 +39,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="addProduct"/>
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
 
 </RelativeLayout>

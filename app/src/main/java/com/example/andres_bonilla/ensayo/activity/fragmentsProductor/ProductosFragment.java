@@ -3,6 +3,7 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsProductor;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -55,6 +56,7 @@ public class ProductosFragment extends Fragment {
     private TextView nombreProducto;
     private TextView priceProducto;
     private TextView cantidadProducto;
+    private TextView textViewCantidad;
 
     private TextView textoNoHay;
 
@@ -67,6 +69,10 @@ public class ProductosFragment extends Fragment {
     private String nombreProductoSpinner;
 
     private VerProducto verProducto;
+
+    private Typeface texto;
+    private Typeface textCantidad;
+    private Typeface infoName;
 
     private int[] arrayImagenProducto = {R.drawable.tomate, R.drawable.frijoles, R.drawable.cebolla, R.drawable.limon};
 
@@ -91,10 +97,23 @@ public class ProductosFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_productos, container, false);
         setHasOptionsMenu(true);
 
+        texto = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Light.ttf");
+
+        textCantidad = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Regular.ttf");
+
+        infoName = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Medium.ttf");
+
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelProductor = getArguments().getString("nombreDelProductor");
 
         textoNoHay = (TextView) rootView.findViewById(R.id.textoInfoProductos);
+        textoNoHay.setTypeface(texto);
 
         listaBaseDatos();
 
@@ -316,14 +335,19 @@ public class ProductosFragment extends Fragment {
 
             //Nombre:
             nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);
+            nombreProducto.setTypeface(infoName);
             nombreProducto.setText(currentProduct.getNombreProducto());
 
             //Precio:
             priceProducto = (TextView) productsView.findViewById(R.id.textPrecio);
+            priceProducto.setTypeface(texto);
             priceProducto.setText("$" + currentProduct.getPrecio());
 
             //Cantidad:
+            textViewCantidad = (TextView) productsView.findViewById(R.id.textViewCantidad);
+            textViewCantidad.setTypeface(textCantidad);
             cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
+            priceProducto.setTypeface(texto);
             cantidadProducto.setText(" " + currentProduct.getCantidad() + " lb");
 
             return productsView;

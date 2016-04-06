@@ -32,8 +32,10 @@
         android:gravity="end"
         android:paddingTop="7dp"
         android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_alignTop="@+id/imageProduct"
         android:layout_toRightOf="@+id/textNameProduct"
+        android:layout_toEndOf="@+id/textNameProduct"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
