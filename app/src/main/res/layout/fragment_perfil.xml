@@ -28,7 +28,7 @@
             android:layout_gravity="bottom|center"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/user" />
+            android:src="@drawable/nouser" />
 
         <at.markushi.ui.CircleButton
             android:id="@+id/iv_camera"

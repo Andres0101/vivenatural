@@ -30,7 +30,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Small Text"
         android:gravity="end"
-        android:paddingTop="6dp"
+        android:paddingTop="7dp"
         android:layout_marginRight="16dp"
         android:layout_alignTop="@+id/imageProduct"
         android:layout_toRightOf="@+id/textNameProduct"
