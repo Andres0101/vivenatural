@@ -68,9 +68,9 @@
     <string name="libra">lb</string>
     <string-array name="products_array">
         <item>Tomate</item>
-        <item>Frijoles</item>
+        <item>Frijol</item>
         <item>Cebolla larga</item>
-        <item>Limones</item>
+        <item>Limon</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->

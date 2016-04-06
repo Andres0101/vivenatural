@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.MarketProduct;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -40,6 +41,7 @@ public class ProductosFragment extends Fragment {
 
     private Firebase myRef;
     private Firebase productos;
+    private Firebase marketProducts;
 
     MyListAdapter adapter;
 
@@ -64,11 +66,11 @@ public class ProductosFragment extends Fragment {
 
     private String nombreDelProductor;
     private String nombreProductoBase;
+    private String nombreProductoSpinner;
 
     private VerProducto verProducto;
 
     private int[] arrayImagenProducto = {R.drawable.tomate, R.drawable.frijoles, R.drawable.cebolla, R.drawable.limon};
-    private int[] arrayPrecioProducto = {500, 1000, 1000, 400};
 
     private int imagenProducto;
     private int precioProducto;
@@ -142,21 +144,30 @@ public class ProductosFragment extends Fragment {
         spinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                String nombreProducto = String.valueOf(spinnerProduct.getSelectedItem());
+                nombreProductoSpinner = String.valueOf(spinnerProduct.getSelectedItem());
 
-                if (nombreProducto.equals("Tomate")) {
-                    imagenProducto = arrayImagenProducto[0];
-                    precioProducto = arrayPrecioProducto[0];
-                } else if (nombreProducto.equals("Frijoles")) {
-                    imagenProducto = arrayImagenProducto[1];
-                    precioProducto = arrayPrecioProducto[1];
-                } else if (nombreProducto.equals("Cebolla larga")) {
-                    imagenProducto = arrayImagenProducto[2];
-                    precioProducto = arrayPrecioProducto[2];
-                } else if (nombreProducto.equals("Limones")) {
-                    imagenProducto = arrayImagenProducto[3];
-                    precioProducto = arrayPrecioProducto[3];
-                }
+                // Lee los datos de los productos
+                marketProducts = myRef.child("marketProducts");
+                marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            MarketProduct marketProduct = postSnapshot.getValue(MarketProduct.class);
+
+                            if (marketProduct.getNombre().equals(nombreProductoSpinner)) {
+                                imagenProducto = arrayImagenProducto[0];
+                                precioProducto = marketProduct.getPrecio();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
             }
 
             @Override

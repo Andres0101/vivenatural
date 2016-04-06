@@ -1,7 +1,7 @@
 package com.example.andres_bonilla.ensayo.activity.classes;
 
 /**
- * Created by estudiante28 on 31/03/16.
+ * Created by ANDRES_BONILLA on 31/03/16.
  */
 public class Product {
 
