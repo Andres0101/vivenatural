@@ -47,20 +47,11 @@ public class ProductosFragment extends Fragment {
     MyListAdapter adapter;
 
     private List<Product> myProducts = new ArrayList<Product>();
-    private Product currentProduct;
 
     private Product clickedProduct;
 
-    private FloatingActionButton add;
-
-    private TextView nombreProducto;
-    private TextView priceProducto;
-    private TextView cantidadProducto;
-    private TextView textViewCantidad;
-
     private TextView textoNoHay;
 
-    private TextView textViewDialog;
     private Spinner spinnerProduct;
     private EditText productCant;
     private EditText productInfo;
@@ -74,6 +65,7 @@ public class ProductosFragment extends Fragment {
     private Typeface texto;
     private Typeface textCantidad;
     private Typeface infoName;
+    private Typeface bold;
 
     private int[] arrayImagenProducto = {R.drawable.tomate, R.drawable.frijoles, R.drawable.cebolla, R.drawable.limon};
 
@@ -110,6 +102,10 @@ public class ProductosFragment extends Fragment {
                 getActivity().getAssets(),
                 "fonts/Roboto-Medium.ttf");
 
+        bold = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Bold.ttf");
+
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelProductor = getArguments().getString("nombreDelProductor");
 
@@ -122,7 +118,7 @@ public class ProductosFragment extends Fragment {
         clickSobreItem();
 
         //Botón flotante
-        add = (FloatingActionButton) rootView.findViewById(R.id.addProducts);
+        FloatingActionButton add = (FloatingActionButton) rootView.findViewById(R.id.addProducts);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,7 +138,7 @@ public class ProductosFragment extends Fragment {
         d.setContentView(R.layout.productos_add);
         d.setCancelable(true);
 
-        textViewDialog = (TextView) d.findViewById(R.id.textViewDialog);
+        TextView textViewDialog = (TextView) d.findViewById(R.id.textViewDialog);
         textViewDialog.setTypeface(infoName);
         productCant = (EditText) d.findViewById(R.id.editTextCant);
         productCant.setTypeface(texto);
@@ -334,31 +330,39 @@ public class ProductosFragment extends Fragment {
             }
 
             //Encontrar el producto
-            currentProduct = myProducts.get(position);
+            Product currentProduct = myProducts.get(position);
 
             //LLenar el View
             ImageView imageView = (ImageView) productsView.findViewById(R.id.imageProduct);
             imageView.setImageResource(currentProduct.getImage());
 
             //Nombre:
-            nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);
+            TextView nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);
             nombreProducto.setTypeface(infoName);
             nombreProducto.setText(currentProduct.getNombreProducto());
 
             //Precio:
-            priceProducto = (TextView) productsView.findViewById(R.id.textPrecio);
+            TextView priceProducto = (TextView) productsView.findViewById(R.id.textPrecio);
             priceProducto.setTypeface(texto);
             priceProducto.setText("$" + currentProduct.getPrecio());
 
             //Cantidad:
-            textViewCantidad = (TextView) productsView.findViewById(R.id.textViewCantidad);
+            TextView textViewCantidad = (TextView) productsView.findViewById(R.id.textViewCantidad);
             textViewCantidad.setTypeface(textCantidad);
-            cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
+            TextView cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
             cantidadProducto.setTypeface(texto);
             priceProducto.setTypeface(texto);
             cantidadProducto.setText(" " + currentProduct.getCantidad() + " lb");
 
             return productsView;
+        }
+
+        // Affects opened state of the spinner
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+            view.setTypeface(bold);
+            return view;
         }
     }
 
