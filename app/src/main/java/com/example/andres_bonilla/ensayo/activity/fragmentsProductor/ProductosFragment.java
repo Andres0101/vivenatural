@@ -67,7 +67,7 @@ public class ProductosFragment extends Fragment {
     private Typeface infoName;
 
     private int[] arrayImagenProducto = {R.drawable.tomate, R.drawable.frijoles, R.drawable.cebolla, R.drawable.limon};
-    String list[]={"Tomate", "Frijol", "Cebolla larga", "Limon"};
+    private ArrayList<String> list = new ArrayList<String>();
 
     private int imagenProducto;
     private int precioProducto;
@@ -112,6 +112,27 @@ public class ProductosFragment extends Fragment {
 
         listView();
         clickSobreItem();
+
+        // Lee los datos de los productos
+        marketProducts = myRef.child("marketProducts");
+        marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    MarketProduct marketProduct = postSnapshot.getValue(MarketProduct.class);
+
+                    //Obtiene el nombre de los productos y los agrega al arraylist para
+                    //desplegarlo en el spinner.
+                    list.add(marketProduct.getNombre());
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
 
         //Botón flotante
         FloatingActionButton add = (FloatingActionButton) rootView.findViewById(R.id.addProducts);
