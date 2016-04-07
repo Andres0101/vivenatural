@@ -117,7 +117,8 @@
             android:id="@+id/checkProductor"
             android:onClick="selectItem"
             android:layout_marginTop="50dp"
-            android:layout_marginLeft="110dp" />
+            android:layout_marginLeft="110dp"
+            android:layout_marginStart="110dp"/>
 
     </RadioGroup>
 

@@ -1,6 +1,7 @@
 package com.example.andres_bonilla.ensayo.activity.fragmentsProductor;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
@@ -33,6 +35,11 @@ public class VerProducto extends Fragment {
     private ImageView imagenProducto;
     private EditText descripcionProducto;
     private EditText cantidadDisponible;
+    private TextView textDescription;
+    private TextView textViewCantidadDisponible;
+
+    private Typeface editText;
+    private Typeface textView;
 
     public VerProducto() {
         // Required empty public constructor
@@ -52,6 +59,14 @@ public class VerProducto extends Fragment {
         rootView = inflater.inflate(R.layout.ver_productos, container, false);
         setHasOptionsMenu(true);
 
+        editText = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Light.ttf");
+
+        textView = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Bold.ttf");
+
         /*Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
         //for crate home button
@@ -64,9 +79,16 @@ public class VerProducto extends Fragment {
         getActivity().setTitle(nombreDelProducto);
 
         imagenProducto = (ImageView) rootView.findViewById(R.id.imageProduct);
+        textDescription = (TextView) rootView.findViewById(R.id.textViewDescripcion);
+        textDescription.setTypeface(textView);
+        textViewCantidadDisponible = (TextView) rootView.findViewById(R.id.textViewCantidadDisponible);
+        textViewCantidadDisponible.setTypeface(textView);
+
         descripcionProducto = (EditText) rootView.findViewById(R.id.editTextDescriProduct);
+        descripcionProducto.setTypeface(editText);
         descripcionProducto.setBackground(null);
         cantidadDisponible = (EditText) rootView.findViewById(R.id.editTextCantidadDisponible);
+        cantidadDisponible.setTypeface(editText);
         cantidadDisponible.setBackground(null);
 
         // Lee los datos de los productos

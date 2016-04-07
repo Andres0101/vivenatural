@@ -159,7 +159,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Registro
-        ((Button) findViewById(R.id.registrarse)).setOnClickListener(new View.OnClickListener() {
+        Button registro = (Button) findViewById(R.id.registrarse);
+        registro.setTypeface(button);
+        registro.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Registro.class);
                 startActivity(intent);

@@ -60,6 +60,7 @@ public class ProductosFragment extends Fragment {
 
     private TextView textoNoHay;
 
+    private TextView textViewDialog;
     private Spinner spinnerProduct;
     private EditText productCant;
     private EditText productInfo;
@@ -141,8 +142,12 @@ public class ProductosFragment extends Fragment {
         d.setContentView(R.layout.productos_add);
         d.setCancelable(true);
 
+        textViewDialog = (TextView) d.findViewById(R.id.textViewDialog);
+        textViewDialog.setTypeface(infoName);
         productCant = (EditText) d.findViewById(R.id.editTextCant);
+        productCant.setTypeface(texto);
         productInfo = (EditText) d.findViewById(R.id.editTextInfo);
+        productInfo.setTypeface(texto);
 
         ImageView productColorIcon = (ImageView) d.findViewById(R.id.productsIcon);
         ImageView cantColorIcon = (ImageView) d.findViewById(R.id.productsCant);
@@ -190,6 +195,7 @@ public class ProductosFragment extends Fragment {
         });
 
         Button readyToAdd = (Button) d.findViewById(R.id.done);
+        readyToAdd.setTypeface(textCantidad);
         readyToAdd.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -239,6 +245,7 @@ public class ProductosFragment extends Fragment {
         });
 
         Button cancel = (Button) d.findViewById(R.id.cancel);
+        cancel.setTypeface(textCantidad);
         cancel.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -347,6 +354,7 @@ public class ProductosFragment extends Fragment {
             textViewCantidad = (TextView) productsView.findViewById(R.id.textViewCantidad);
             textViewCantidad.setTypeface(textCantidad);
             cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
+            cantidadProducto.setTypeface(texto);
             priceProducto.setTypeface(texto);
             cantidadProducto.setText(" " + currentProduct.getCantidad() + " lb");
 
