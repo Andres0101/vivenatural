@@ -1,6 +1,7 @@
 package com.example.andres_bonilla.ensayo.activity.fragmentsProductor;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
 
@@ -17,14 +19,11 @@ import com.example.andres_bonilla.ensayo.R;
  */
 public class VerProductoCheck extends Fragment {
 
-    private ImageView imagenProducto;
     private EditText descripcionProducto;
     private EditText cantidadDisponible;
 
     private Boolean editText;
     private Boolean editTextCant;
-    private String textDescripcion;
-    private String textCantidad;
 
     public VerProductoCheck() {
         // Required empty public constructor
@@ -44,9 +43,24 @@ public class VerProductoCheck extends Fragment {
         View rootView = inflater.inflate(R.layout.ver_productos, container, false);
         setHasOptionsMenu(true);
 
-        imagenProducto = (ImageView) rootView.findViewById(R.id.imageProduct);
+        Typeface editTextCheck = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Light.ttf");
+
+        Typeface textView = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Bold.ttf");
+
+        ImageView imagenProducto = (ImageView) rootView.findViewById(R.id.imageProduct);
+        TextView textDescription = (TextView) rootView.findViewById(R.id.textViewDescripcion);
+        textDescription.setTypeface(textView);
+        TextView textViewCantidadDisponible = (TextView) rootView.findViewById(R.id.textViewCantidadDisponible);
+        textViewCantidadDisponible.setTypeface(textView);
+
         descripcionProducto = (EditText) rootView.findViewById(R.id.editTextDescriProduct);
+        descripcionProducto.setTypeface(editTextCheck);
         cantidadDisponible = (EditText) rootView.findViewById(R.id.editTextCantidadDisponible);
+        cantidadDisponible.setTypeface(editTextCheck);
 
         textEditable(editText);
         textEditableCantidad(editTextCant);
@@ -78,13 +92,13 @@ public class VerProductoCheck extends Fragment {
     }
 
     public String getTextDescripcion() {
-        textDescripcion = descripcionProducto.getText().toString();
+        String textDescripcion = descripcionProducto.getText().toString();
         return textDescripcion;
     }
 
 
     public String getTextCantidad() {
-        textCantidad = cantidadDisponible.getText().toString();
+        String textCantidad = cantidadDisponible.getText().toString();
         return textCantidad;
     }
 

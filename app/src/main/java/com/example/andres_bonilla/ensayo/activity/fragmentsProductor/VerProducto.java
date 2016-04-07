@@ -21,25 +21,17 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 /**
- * Created by vivianabepa on 3/28/16.
+ * Created by ANDRES_BONILLA on 3/28/16.
  */
 public class VerProducto extends Fragment {
 
-    private View rootView;
-
     private Firebase myRef;
-    private Firebase productos;
 
     private String nombreDelProducto;
 
     private ImageView imagenProducto;
     private EditText descripcionProducto;
     private EditText cantidadDisponible;
-    private TextView textDescription;
-    private TextView textViewCantidadDisponible;
-
-    private Typeface editText;
-    private Typeface textView;
 
     public VerProducto() {
         // Required empty public constructor
@@ -56,14 +48,14 @@ public class VerProducto extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.ver_productos, container, false);
+        View rootView = inflater.inflate(R.layout.ver_productos, container, false);
         setHasOptionsMenu(true);
 
-        editText = Typeface.createFromAsset(
+        Typeface editText = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        textView = Typeface.createFromAsset(
+        Typeface textView = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Bold.ttf");
 
@@ -79,9 +71,9 @@ public class VerProducto extends Fragment {
         getActivity().setTitle(nombreDelProducto);
 
         imagenProducto = (ImageView) rootView.findViewById(R.id.imageProduct);
-        textDescription = (TextView) rootView.findViewById(R.id.textViewDescripcion);
+        TextView textDescription = (TextView) rootView.findViewById(R.id.textViewDescripcion);
         textDescription.setTypeface(textView);
-        textViewCantidadDisponible = (TextView) rootView.findViewById(R.id.textViewCantidadDisponible);
+        TextView textViewCantidadDisponible = (TextView) rootView.findViewById(R.id.textViewCantidadDisponible);
         textViewCantidadDisponible.setTypeface(textView);
 
         descripcionProducto = (EditText) rootView.findViewById(R.id.editTextDescriProduct);
@@ -92,7 +84,7 @@ public class VerProducto extends Fragment {
         cantidadDisponible.setBackground(null);
 
         // Lee los datos de los productos
-        productos = myRef.child("products");
+        Firebase productos = myRef.child("products");
         productos.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
