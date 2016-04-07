@@ -196,6 +196,7 @@ public class ProductosFragment extends Fragment {
         cantColorIcon.setColorFilter(color);
 
         spinnerProduct = (Spinner) d.findViewById(R.id.spinnerProducts);
+        //Agrega al spinner los nombres de los productos en la base de datos.
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, list)
         {
             public View getView(int position, View convertView, android.view.ViewGroup parent) {

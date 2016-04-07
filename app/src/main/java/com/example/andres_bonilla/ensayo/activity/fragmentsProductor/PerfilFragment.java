@@ -1,6 +1,7 @@
 package com.example.andres_bonilla.ensayo.activity.fragmentsProductor;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class PerfilFragment extends Fragment {
 
     private String userString;
     private String imageString;
+    private Bitmap imageBitmap;
     private Boolean editText;
     private String textDescription;
 
@@ -74,7 +76,7 @@ public class PerfilFragment extends Fragment {
         textEditable(editText);
 
         changeDescription(textDescription);
-        changeImage(imageString);
+        changeImage(imageBitmap);
 
         // Inflate the layout for this fragment
         return rootView;
@@ -96,11 +98,14 @@ public class PerfilFragment extends Fragment {
         this.textDescription = textDescription;
     }
 
-    private void changeImage(String image) {
-        imageProducer.setImageBitmap(BitmapFactory.decodeFile(image));
+    private void changeImage(Bitmap image) {
+        imageProducer.setImageBitmap(image);
     }
     public void setImageString(String imageString) {
         this.imageString = imageString;
+    }
+    public void setImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
     }
 
     // Vuelve el editText editable para que el usuario pueda escribir

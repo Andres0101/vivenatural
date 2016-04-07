@@ -1,21 +1,28 @@
 package com.example.andres_bonilla.ensayo.activity;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.EstadisticasFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.PerfilFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.PerfilFragmentCheck;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ProductosFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ReservasFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.VerProductoCheck;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -133,7 +140,44 @@ public class HomeProductor extends AppCompatActivity {
 
                         if (save == true) {
                             fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
-                            fragmentUno.setImageString(fragmentUnoCheck.getBitmap());
+                            //fragmentUno.setImageBitmap(fragmentUnoCheck.getImagenProducto());
+
+                            // Lee los datos de los productos del mercado
+                            /*Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+                            Firebase marketProducts = myRef.child("users");
+                            marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                        User user = postSnapshot.getValue(User.class);
+
+                                        if (user.getNombre().equals(dataNombre)) {
+                                            String imageFile = user.getImagen();
+                                            System.out.println("--------------" + imageFile);
+                                            Bitmap imagenProducto = StringToBitMap(imageFile);
+
+                                            fragmentUno.setImageBitmap(imagenProducto);
+                                        }
+                                    }
+                                }
+
+                                private Bitmap StringToBitMap(String encodedString){
+                                    try {
+                                        byte [] encodeByte= Base64.decode(encodedString, Base64.DEFAULT);
+                                        Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                                        return bitmap;
+                                    } catch(Exception e) {
+                                        e.getMessage();
+                                        return null;
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+
+                                }
+                            });*/
                         }
 
                         // Setea el texto de descripción con la descripción que existe en la base de datos
@@ -264,7 +308,7 @@ public class HomeProductor extends AppCompatActivity {
                     Firebase textoDescripcion = myRef.child("users").child(dataNombre);
                     Map<String, Object> descripcion = new HashMap<String, Object>();
                     descripcion.put("descripcion", fragmentUnoCheck.getTextoCapturadoDelEditText());
-                    descripcion.put("imagen", fragmentUnoCheck.getBitmap());
+                    descripcion.put("imagen", fragmentUnoCheck.getImageFile());
                     textoDescripcion.updateChildren(descripcion);
 
                     fragmentUno = new PerfilFragment();
@@ -297,11 +341,6 @@ public class HomeProductor extends AppCompatActivity {
                     fragmentCuatro = new ProductosFragment();
                     android.support.v4.app.FragmentTransaction fragmentTransactionCuatro = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionCuatro.replace(R.id.container_body, fragmentCuatro);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("nombreDelProductor", dataNombre);
-                    // set Fragmentclass Arguments
-                    fragmentCuatro.setArguments(bundle);
 
                     //Setea el nombre del label
                     setTitle(R.string.title_products);

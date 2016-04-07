@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:font="assets"
     android:orientation="vertical">
 
     <ImageView
@@ -39,7 +38,7 @@
             android:layout_marginLeft="35dp"
             android:layout_marginStart="35dp"
             android:visibility="gone"
-            app:cb_color="#CCCCCC"
+            app:cb_color="#CDDC39"
             app:cb_pressedRingWidth="8dip"
             android:src="@drawable/ic_photo" />
     </FrameLayout>

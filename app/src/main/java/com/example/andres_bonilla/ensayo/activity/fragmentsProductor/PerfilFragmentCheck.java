@@ -3,12 +3,14 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsProductor;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -18,7 +20,14 @@ import android.widget.TextView;
 import android.support.v4.app.Fragment;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.MarketProduct;
+import com.example.andres_bonilla.ensayo.activity.classes.User;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import at.markushi.ui.CircleButton;
@@ -43,6 +52,8 @@ public class PerfilFragmentCheck extends Fragment {
     private TextView userName;
     private TextView textDescriptionTittle;
     private EditText textoEditable;
+
+    private String imageFile;
 
     private static int RESULT_LOAD_IMAGE = 1;
 
@@ -120,12 +131,21 @@ public class PerfilFragmentCheck extends Fragment {
             picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            imageProducer.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            imageFile = BitMapToString(BitmapFactory.decodeFile(picturePath));
+            imageProducer.setImageBitmap(BitmapFactory.decodeFile(imageFile));
         }
     }
 
-    public String getBitmap(){
-        return picturePath;
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
+    public String getImageFile(){
+        return imageFile;
     }
 
     public String getTextoCapturadoDelEditText() {
