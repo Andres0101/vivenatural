@@ -65,9 +65,9 @@ public class ProductosFragment extends Fragment {
     private Typeface texto;
     private Typeface textCantidad;
     private Typeface infoName;
-    private Typeface bold;
 
     private int[] arrayImagenProducto = {R.drawable.tomate, R.drawable.frijoles, R.drawable.cebolla, R.drawable.limon};
+    String list[]={"Tomate", "Frijol", "Cebolla larga", "Limon"};
 
     private int imagenProducto;
     private int precioProducto;
@@ -101,10 +101,6 @@ public class ProductosFragment extends Fragment {
         infoName = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Medium.ttf");
-
-        bold = Typeface.createFromAsset(
-                getActivity().getAssets(),
-                "fonts/Roboto-Bold.ttf");
 
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelProductor = getArguments().getString("nombreDelProductor");
@@ -155,6 +151,23 @@ public class ProductosFragment extends Fragment {
         cantColorIcon.setColorFilter(color);
 
         spinnerProduct = (Spinner) d.findViewById(R.id.spinnerProducts);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, list)
+        {
+            public View getView(int position, View convertView, android.view.ViewGroup parent) {
+                TextView v = (TextView) super.getView(position, convertView, parent);
+                v.setTypeface(texto); //Cambia la tipografía del texto seleccionado
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, android.view.ViewGroup parent) {
+                TextView v = (TextView) super.getView(position, convertView, parent);
+                v.setTypeface(texto); //Cambia la tipografía de los textos que contiene el Spinner
+                return v;
+            }
+        };
+
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerProduct.setAdapter(adapter1);
 
         spinnerProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -175,7 +188,6 @@ public class ProductosFragment extends Fragment {
                                 precioProducto = marketProduct.getPrecio();
                             }
                         }
-
                     }
 
                     @Override
@@ -355,14 +367,6 @@ public class ProductosFragment extends Fragment {
             cantidadProducto.setText(" " + currentProduct.getCantidad() + " lb");
 
             return productsView;
-        }
-
-        // Affects opened state of the spinner
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            TextView view = (TextView) super.getDropDownView(position, convertView, parent);
-            view.setTypeface(bold);
-            return view;
         }
     }
 
