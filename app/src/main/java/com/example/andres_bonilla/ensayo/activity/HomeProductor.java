@@ -133,7 +133,7 @@ public class HomeProductor extends AppCompatActivity {
 
                         if (save == true) {
                             fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
-                            //fragmentUno.setImageString(fragmentUnoCheck.getBitmap());
+                            fragmentUno.setImageString(fragmentUnoCheck.getBitmap());
                         }
 
                         // Setea el texto de descripción con la descripción que existe en la base de datos

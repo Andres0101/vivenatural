@@ -2,11 +2,14 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsProductor;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -30,6 +33,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,11 +70,11 @@ public class ProductosFragment extends Fragment {
     private Typeface textCantidad;
     private Typeface infoName;
 
-    private int[] arrayImagenProducto = {R.drawable.tomate, R.drawable.frijoles, R.drawable.cebolla, R.drawable.limon};
     private ArrayList<String> list = new ArrayList<String>();
 
-    private int imagenProducto;
+    private Bitmap imagenProducto;
     private int precioProducto;
+    String stringImagenFirebase;
 
     public ProductosFragment() {
         // Required empty public constructor
@@ -113,7 +117,7 @@ public class ProductosFragment extends Fragment {
         listView();
         clickSobreItem();
 
-        // Lee los datos de los productos
+        // Lee los datos de los productos del mercado
         marketProducts = myRef.child("marketProducts");
         marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -121,6 +125,8 @@ public class ProductosFragment extends Fragment {
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     MarketProduct marketProduct = postSnapshot.getValue(MarketProduct.class);
+
+                    System.out.println("---------------" + marketProduct.getNombre());
 
                     //Obtiene el nombre de los productos y los agrega al arraylist para
                     //desplegarlo en el spinner.
@@ -145,6 +151,24 @@ public class ProductosFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    public Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
     }
 
     public void addProduct(View view) {
@@ -195,7 +219,7 @@ public class ProductosFragment extends Fragment {
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 nombreProductoSpinner = String.valueOf(spinnerProduct.getSelectedItem());
 
-                // Lee los datos de los productos
+                // Lee los datos de los productos del mercado
                 marketProducts = myRef.child("marketProducts");
                 marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -205,7 +229,9 @@ public class ProductosFragment extends Fragment {
                             MarketProduct marketProduct = postSnapshot.getValue(MarketProduct.class);
 
                             if (marketProduct.getNombre().equals(nombreProductoSpinner)) {
-                                imagenProducto = arrayImagenProducto[0];
+                                stringImagenFirebase = marketProduct.getImagen();
+                                imagenProducto = StringToBitMap(stringImagenFirebase);
+
                                 precioProducto = marketProduct.getPrecio();
                             }
                         }
@@ -298,12 +324,11 @@ public class ProductosFragment extends Fragment {
                     //Si el nombre del productor coincide con el que inicio sesión entonces...
                     if (product.getProductor().equals(nombreDelProductor)) {
                         textoNoHay.setVisibility(View.GONE);
-                        myProducts.add(new Product(product.getProductor(), product.getImage(), product.getNombreProducto(), product.getCantidad(), product.getPrecio(), product.getDescripcionProducto()));
+
+                        myProducts.add(new Product(product.getProductor(), product.getImagen(), product.getNombreProducto(), product.getCantidad(), product.getPrecio(), product.getDescripcionProducto()));
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
-                    } else {
-                        //textoNoHay.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -367,7 +392,7 @@ public class ProductosFragment extends Fragment {
 
             //LLenar el View
             ImageView imageView = (ImageView) productsView.findViewById(R.id.imageProduct);
-            imageView.setImageResource(currentProduct.getImage());
+            imageView.setImageBitmap(currentProduct.getImagen());
 
             //Nombre:
             TextView nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);

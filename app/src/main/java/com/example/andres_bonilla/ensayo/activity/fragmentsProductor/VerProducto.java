@@ -93,7 +93,7 @@ public class VerProducto extends Fragment {
 
                     //Si el nombre del productor coincide con el que inicio sesión entonces...
                     if (product.getNombreProducto().equals(nombreDelProducto)) {
-                        imagenProducto.setImageResource(product.getImage());
+                        imagenProducto.setImageBitmap(product.getImagen());
                         descripcionProducto.setText(product.getDescripcionProducto());
                         cantidadDisponible.setText(" " + product.getCantidad() + " lb");
                     } else {

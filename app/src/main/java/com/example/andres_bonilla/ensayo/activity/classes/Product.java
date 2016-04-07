@@ -1,12 +1,14 @@
 package com.example.andres_bonilla.ensayo.activity.classes;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by ANDRES_BONILLA on 31/03/16.
  */
 public class Product {
 
     private String productor;
-    private int image;
+    private Bitmap imagen;
     private String nombreProducto;
     private double cantidad;
     private int precio;
@@ -14,9 +16,9 @@ public class Product {
 
     public Product() {}
 
-    public Product(String productor, int image, String nombreProducto, double cantidad, int precio, String descripcionProducto) {
+    public Product(String productor, Bitmap imagen, String nombreProducto, double cantidad, int precio, String descripcionProducto) {
         this.productor = productor;
-        this.image = image;
+        this.imagen = imagen;
         this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;
         this.precio = precio;
@@ -27,8 +29,8 @@ public class Product {
         return productor;
     }
 
-    public int getImage() {
-        return image;
+    public Bitmap getImagen() {
+        return imagen;
     }
 
     public String getNombreProducto() {
