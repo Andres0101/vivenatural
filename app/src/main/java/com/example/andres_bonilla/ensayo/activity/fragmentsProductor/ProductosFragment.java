@@ -163,13 +163,6 @@ public class ProductosFragment extends Fragment {
             return null;
         }
     }
-    public String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b=baos.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
-    }
 
     public void addProduct(View view) {
 
@@ -231,8 +224,6 @@ public class ProductosFragment extends Fragment {
 
                             if (marketProduct.getNombre().equals(nombreProductoSpinner)) {
                                 stringImagenFirebase = marketProduct.getImagen();
-                                //imagenProducto = StringToBitMap(stringImagenFirebase);
-
                                 precioProducto = marketProduct.getPrecio();
                             }
                         }

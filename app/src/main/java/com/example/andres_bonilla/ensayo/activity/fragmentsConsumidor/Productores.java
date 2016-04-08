@@ -1,7 +1,10 @@
 package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,6 +109,17 @@ public class Productores extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    public Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte= Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
     private class MyListAdapter extends ArrayAdapter<User> {
         public MyListAdapter(){
             super(getActivity(), R.layout.producers_view, productores);
@@ -123,8 +137,10 @@ public class Productores extends Fragment {
             currentProducer = productores.get(position);
 
             //LLenar el View
-            /*ImageView imageView = (ImageView) productsView.findViewById(R.id.imageProduct);
-            imageView.setImageResource(currentProducer.getImage());*/
+            ImageView imageView = (ImageView) producersView.findViewById(R.id.imageProducer);
+            String imageProduct = currentProducer.getImagen();
+            Bitmap imagenProducto = StringToBitMap(imageProduct);
+            imageView.setImageBitmap(imagenProducto);
 
             //Nombre:
             nombreProductor = (TextView) producersView.findViewById(R.id.textNameProducer);

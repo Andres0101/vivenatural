@@ -6,7 +6,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/imageProduct"
+        android:id="@+id/imageProducer"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@drawable/frijoles"
@@ -19,9 +19,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:paddingTop="4dp"
-        android:layout_alignTop="@+id/imageProduct"
-        android:layout_toRightOf="@+id/imageProduct"
-        android:layout_toEndOf="@+id/imageProduct" />
+        android:layout_alignTop="@+id/imageProducer"
+        android:layout_toRightOf="@+id/imageProducer"
+        android:layout_toEndOf="@+id/imageProducer" />
 
     <TextView
         android:id="@+id/textViewCantidad"
@@ -30,7 +30,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/calificacion"
         android:layout_below="@+id/textNameProducer"
-        android:layout_toRightOf="@+id/imageProduct"
-        android:layout_toEndOf="@+id/imageProduct"/>
+        android:layout_toRightOf="@+id/imageProducer"
+        android:layout_toEndOf="@+id/imageProducer"/>
 
 </RelativeLayout>
