@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColorPrimary"
-                android:password="true"
+                android:inputType="textPassword"
                 android:hint="@string/contrasena" />
 
         </android.support.design.widget.TextInputLayout>

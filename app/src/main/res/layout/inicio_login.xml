@@ -43,7 +43,6 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="user@user.com"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/textColorPrimary"
                 android:hint="@string/email" />
@@ -63,9 +62,8 @@
                 android:id="@+id/userpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="user"
                 android:textColor="@color/textColorPrimary"
-                android:password="true"
+                android:inputType="textPassword"
                 android:hint="@string/contrasena" />
 
         </android.support.design.widget.TextInputLayout>
