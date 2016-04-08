@@ -1,28 +1,29 @@
 package com.example.andres_bonilla.ensayo.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.PerfilConsumidor;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.PerfilConsumidorCheck;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.Productores;
-import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.EstadisticasFragment;
-import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.PerfilFragment;
-import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.PerfilFragmentCheck;
-import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ProductosFragment;
-import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ReservasFragment;
-import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.VerProductoCheck;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -116,8 +117,33 @@ public class HomeConsumidor extends AppCompatActivity {
                         fragmentUno = new PerfilConsumidor();
                         fragmentUno.setUserString(dataNombre);
 
+                        // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
+                        Firebase userImage = myRef.child("users");
+                        userImage.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(DataSnapshot snapshot) {
+                                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                    User user = postSnapshot.getValue(User.class);
+
+                                    if (user.getNombre().equals(dataNombre)) {
+                                        String imageFile = user.getImagen();
+                                        Bitmap imagenProducto = StringToBitMap(imageFile);
+
+                                        fragmentUno.setImageBitmap(imagenProducto);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        });
+
                         if (save == true) {
                             fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
+                            fragmentUno.setImageBitmap(fragmentUnoCheck.getImageBitmap());
                         }
 
                         // Setea el texto de descripción con la descripción que existe en la base de datos
@@ -136,11 +162,6 @@ public class HomeConsumidor extends AppCompatActivity {
                         fragmentDos = new Productores();
                         android.support.v4.app.FragmentTransaction fragmentTransactionDos = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionDos.replace(R.id.container_body, fragmentDos);
-
-                        /*Bundle bundle = new Bundle();
-                        bundle.putString("nombreDelProductor", dataNombre);
-                        // set Fragmentclass Arguments
-                        fragmentDos.setArguments(bundle);*/
 
                         //Setea el nombre del label
                         setTitle(R.string.title_productores);
@@ -186,6 +207,19 @@ public class HomeConsumidor extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
     }
 
+    private Bitmap StringToBitMap(String encodedString) {
+        try {
+            System.out.println("Comenzando StringToBitMap");
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            System.out.println("Retornando: " + bitmap);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -217,10 +251,37 @@ public class HomeConsumidor extends AppCompatActivity {
                     Firebase textoDescripcion = myRef.child("users").child(dataNombre);
                     Map<String, Object> descripcion = new HashMap<String, Object>();
                     descripcion.put("descripcion", fragmentUnoCheck.getTextoCapturadoDelEditText());
+                    descripcion.put("imagen", fragmentUnoCheck.getImageFile());
                     textoDescripcion.updateChildren(descripcion);
 
                     fragmentUno = new PerfilConsumidor();
                     fragmentUno.setUserString(dataNombre);
+
+                    // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
+                    Firebase userImage = myRef.child("users");
+                    userImage.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                User user = postSnapshot.getValue(User.class);
+
+                                if (user.getNombre().equals(dataNombre)) {
+                                    String imageFile = user.getImagen();
+                                    Bitmap imagenProducto = StringToBitMap(imageFile);
+
+                                    fragmentUno.setImageBitmap(imagenProducto);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
+
+                    fragmentUno.setImageBitmap(fragmentUnoCheck.getImageBitmap());
                     fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
                     android.support.v4.app.FragmentTransaction fragmentTransactionUno = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionUno.replace(R.id.container_body, fragmentUno);

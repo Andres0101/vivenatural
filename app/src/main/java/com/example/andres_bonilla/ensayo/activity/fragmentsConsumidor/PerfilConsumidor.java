@@ -1,6 +1,7 @@
 package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
@@ -20,9 +22,11 @@ public class PerfilConsumidor extends Fragment {
     public Activity activity;
 
     private String userString;
+    private Bitmap imageBitmap;
     private Boolean editText;
     private String textDescription;
 
+    private ImageView imageConsumer;
     private TextView userName;
     private EditText textoEditable;
 
@@ -45,6 +49,7 @@ public class PerfilConsumidor extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_perfil_consumidor, container, false);
         setHasOptionsMenu(true);
 
+        imageConsumer = (ImageView) rootView.findViewById(R.id.imageConsumer);
         userName = (TextView) rootView.findViewById(R.id.nombreUsuario);
         textoEditable = (EditText) rootView.findViewById(R.id.textDescription);
         textoEditable.setBackground(null);
@@ -53,6 +58,7 @@ public class PerfilConsumidor extends Fragment {
         textEditable(editText);
 
         changeDescription(textDescription);
+        changeImage(imageBitmap);
 
         // Inflate the layout for this fragment
         return rootView;
@@ -74,12 +80,17 @@ public class PerfilConsumidor extends Fragment {
         this.textDescription = textDescription;
     }
 
+    // Setea la imagen de perfil
+    private void changeImage(Bitmap image) {
+        imageConsumer.setImageBitmap(image);
+    }
+    public void setImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
+    }
+
     // Vuelve el editText editable para que el usuario pueda escribir
     public void textEditable(Boolean editable){
         textoEditable.setEnabled(editable);
-    }
-    public void setEditText(Boolean editText) {
-        this.editText = editText;
     }
 
     @Override
