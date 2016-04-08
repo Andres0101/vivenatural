@@ -231,7 +231,7 @@ public class ProductosFragment extends Fragment {
 
                             if (marketProduct.getNombre().equals(nombreProductoSpinner)) {
                                 stringImagenFirebase = marketProduct.getImagen();
-                                imagenProducto = StringToBitMap(stringImagenFirebase);
+                                //imagenProducto = StringToBitMap(stringImagenFirebase);
 
                                 precioProducto = marketProduct.getPrecio();
                             }
@@ -275,11 +275,11 @@ public class ProductosFragment extends Fragment {
                             if (snapshot.hasChild(nombreDelProductor+": "+nombreProducto)) {
                                 Toast.makeText(getContext(), "El producto que intenta agregar ya existe.", Toast.LENGTH_SHORT).show();
                             } else {
-                                myProducts.add(new Product(nombreDelProductor, imagenProducto, nombreProducto, cantidad, precioProducto, info));
+                                myProducts.add(new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info));
 
                                 // Agrega producto a la base de datos
                                 Firebase productRef = myRef.child("products").child(nombreDelProductor+": "+nombreProducto);
-                                Product newProduct = new Product(nombreDelProductor, imagenProducto, nombreProducto, cantidad, precioProducto, info);
+                                Product newProduct = new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info);
                                 productRef.setValue(newProduct);
 
                                 // We notify the data model is changed
@@ -393,7 +393,9 @@ public class ProductosFragment extends Fragment {
 
             //LLenar el View
             ImageView imageView = (ImageView) productsView.findViewById(R.id.imageProduct);
-            imageView.setImageBitmap(currentProduct.getImagen());
+            String imageProduct = currentProduct.getImagen();
+            Bitmap imagenProducto = StringToBitMap(imageProduct);
+            imageView.setImageBitmap(imagenProducto);
 
             //Nombre:
             TextView nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);

@@ -1,9 +1,12 @@
 package com.example.andres_bonilla.ensayo.activity.fragmentsProductor;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -93,7 +96,11 @@ public class VerProducto extends Fragment {
 
                     //Si el nombre del productor coincide con el que inicio sesión entonces...
                     if (product.getNombreProducto().equals(nombreDelProducto)) {
-                        imagenProducto.setImageBitmap(product.getImagen());
+
+                        String imageProduct = product.getImagen();
+                        Bitmap imagenBitmap = StringToBitMap(imageProduct);
+                        imagenProducto.setImageBitmap(imagenBitmap);
+
                         descripcionProducto.setText(product.getDescripcionProducto());
                         cantidadDisponible.setText(" " + product.getCantidad() + " lb");
                     } else {
@@ -109,6 +116,17 @@ public class VerProducto extends Fragment {
 
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    public Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte= Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap =BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
     @Override
