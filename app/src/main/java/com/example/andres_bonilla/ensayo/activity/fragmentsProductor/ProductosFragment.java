@@ -33,7 +33,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +71,6 @@ public class ProductosFragment extends Fragment {
 
     private ArrayList<String> list = new ArrayList<String>();
 
-    private Bitmap imagenProducto;
     private int precioProducto;
     String stringImagenFirebase;
 

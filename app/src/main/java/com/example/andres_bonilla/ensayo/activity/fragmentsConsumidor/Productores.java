@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by estudiantebiblio4 on 4/04/16.
+ * Created by ANDRES_BONILLA on 4/04/16.
  */
 public class Productores extends Fragment {
 
@@ -40,7 +40,6 @@ public class Productores extends Fragment {
     private TextView textoNoHay;
 
     private List<User> productores = new ArrayList<User>();
-    private User currentProducer;
 
     public Productores() {
         // Required empty public constructor
@@ -88,8 +87,6 @@ public class Productores extends Fragment {
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
-                    } else {
-                        //textoNoHay.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -104,7 +101,6 @@ public class Productores extends Fragment {
         adapter = new MyListAdapter();
         ListView list = (ListView) rootView.findViewById(R.id.producersListView);
         list.setAdapter(adapter);
-        //list.setOnClickListener(onListClick);
         adapter.notifyDataSetChanged();
     }
 
@@ -133,7 +129,7 @@ public class Productores extends Fragment {
             }
 
             //Encontrar el producto
-            currentProducer = productores.get(position);
+            User currentProducer = productores.get(position);
 
             //LLenar el View
             ImageView imageView = (ImageView) producersView.findViewById(R.id.imageProducer);
@@ -144,7 +140,6 @@ public class Productores extends Fragment {
             //Nombre:
             nombreProductor = (TextView) producersView.findViewById(R.id.textNameProducer);
             nombreProductor.setText(currentProducer.getNombre());
-            //changeProducto(textProducto);
 
             //Precio:
             /*priceProducto = (TextView) productsView.findViewById(R.id.textPrecio);
