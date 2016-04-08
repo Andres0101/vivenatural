@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +38,11 @@ import java.util.Map;
 public class HomeProductor extends AppCompatActivity {
 
     private Firebase myRef;
+    private Firebase userImage;
 
     private DrawerLayout drawerLayout;
+
+    private ImageView imageUserHeader;
 
     private PerfilFragment fragmentUno;
     private PerfilFragmentCheck fragmentUnoCheck;
@@ -64,15 +68,40 @@ public class HomeProductor extends AppCompatActivity {
         save = false;
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        userImage = myRef.child("users");
 
         //Initializing NavigationView
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         View vi =  navigationView.getHeaderView(0);
-        TextView tv = (TextView)vi.findViewById(R.id.usernameHeader);
+        TextView tv = (TextView) vi.findViewById(R.id.usernameHeader);
+        imageUserHeader = (ImageView) vi.findViewById(R.id.profile_image);
 
         //Setea el texto donde va el nombre de usuario en el header.xml por el puExtra que llega del MainActivity
         dataNombre = getIntent().getExtras().getString("NombreUsuario");
         tv.setText(dataNombre);
+
+        // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
+        userImage.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    User user = postSnapshot.getValue(User.class);
+
+                    if (user.getNombre().equals(dataNombre)) {
+                        String imageFile = user.getImagen();
+                        Bitmap imagenProducto = StringToBitMap(imageFile);
+
+                        imageUserHeader.setImageBitmap(imagenProducto);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
 
         //Setea el texto donde va el nombre de usuario en el header.xml por el puExtra que llega del MainActivity
         datadescripcion = getIntent().getExtras().getString("DescripcionUsuario");
@@ -81,11 +110,11 @@ public class HomeProductor extends AppCompatActivity {
 
         //Empieza con el primer item del navigationView
         //Si se registró entonces va al fragment de perfil
-        if (accion == false) {
+        if (!accion) {
             fragmentUno = new PerfilFragment();
             fragmentUno.setUserString(dataNombre);
 
-            if (save == true) {
+            if (save) {
                 fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
             }
 
@@ -135,7 +164,6 @@ public class HomeProductor extends AppCompatActivity {
                         fragmentUno.setUserString(dataNombre);
 
                         // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
-                        Firebase userImage = myRef.child("users");
                         userImage.addListenerForSingleValueEvent(new ValueEventListener() {
 
                             @Override
@@ -311,7 +339,6 @@ public class HomeProductor extends AppCompatActivity {
                     fragmentUno.setUserString(dataNombre);
 
                     // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
-                    Firebase userImage = myRef.child("users");
                     userImage.addListenerForSingleValueEvent(new ValueEventListener() {
 
                         @Override

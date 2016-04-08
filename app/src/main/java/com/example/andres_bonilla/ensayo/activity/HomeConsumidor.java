@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +35,11 @@ import java.util.Map;
 public class HomeConsumidor extends AppCompatActivity {
 
     private Firebase myRef;
+    private Firebase userImage;
 
-    private Toolbar mToolbar;
-
-    private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+
+    private ImageView imageUserHeader;
 
     private PerfilConsumidor fragmentUno;
     private PerfilConsumidorCheck fragmentUnoCheck;
@@ -54,7 +55,7 @@ public class HomeConsumidor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_consumidor);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -62,15 +63,40 @@ public class HomeConsumidor extends AppCompatActivity {
         save = false;
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        userImage = myRef.child("users");
 
         //Initializing NavigationView
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         View vi =  navigationView.getHeaderView(0);
         TextView tv = (TextView)vi.findViewById(R.id.usernameHeader);
+        imageUserHeader = (ImageView) vi.findViewById(R.id.profile_image);
 
         //Setea el texto donde va el nombre de usuario en el header.xml por el puExtra que llega del MainActivity
         dataNombre = getIntent().getExtras().getString("NombreUsuario");
         tv.setText(dataNombre);
+
+        // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
+        userImage.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    User user = postSnapshot.getValue(User.class);
+
+                    if (user.getNombre().equals(dataNombre)) {
+                        String imageFile = user.getImagen();
+                        Bitmap imagenProducto = StringToBitMap(imageFile);
+
+                        imageUserHeader.setImageBitmap(imagenProducto);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
 
         //Setea el texto donde va el nombre de usuario en el header.xml por el puExtra que llega del MainActivity
         datadescripcion = getIntent().getExtras().getString("DescripcionUsuario");
@@ -118,7 +144,6 @@ public class HomeConsumidor extends AppCompatActivity {
                         fragmentUno.setUserString(dataNombre);
 
                         // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
-                        Firebase userImage = myRef.child("users");
                         userImage.addListenerForSingleValueEvent(new ValueEventListener() {
 
                             @Override
@@ -184,7 +209,7 @@ public class HomeConsumidor extends AppCompatActivity {
 
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,mToolbar,R.string.drawer_open, R.string.drawer_close){
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout, mToolbar,R.string.drawer_open, R.string.drawer_close){
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -258,7 +283,6 @@ public class HomeConsumidor extends AppCompatActivity {
                     fragmentUno.setUserString(dataNombre);
 
                     // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
-                    Firebase userImage = myRef.child("users");
                     userImage.addListenerForSingleValueEvent(new ValueEventListener() {
 
                         @Override
