@@ -16,22 +16,16 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.classes.MarketProduct;
-import com.example.andres_bonilla.ensayo.activity.classes.User;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import at.markushi.ui.CircleButton;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by ANDRES_BONILLA on 3/14/16.
@@ -40,17 +34,12 @@ public class PerfilFragmentCheck extends Fragment {
 
     public Activity activity;
 
-    private View rootView;
-
-    private String picturePath;
     private String userString;
     private Boolean editText;
     private String textoCapturadoDelEditText;
 
-    private CircleImageView imageProducer;
-    private CircleButton addImage;
+    private ImageView imageProducer;
     private TextView userName;
-    private TextView textDescriptionTittle;
     private EditText textoEditable;
 
     private String imageFile;
@@ -74,7 +63,7 @@ public class PerfilFragmentCheck extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
         setHasOptionsMenu(true);
 
         Typeface textView = Typeface.createFromAsset(
@@ -87,15 +76,15 @@ public class PerfilFragmentCheck extends Fragment {
 
         userName = (TextView) rootView.findViewById(R.id.nombreUsuario);
         userName.setTypeface(textView);
-        textDescriptionTittle = (TextView) rootView.findViewById(R.id.descriptionTittle);
+        TextView textDescriptionTittle = (TextView) rootView.findViewById(R.id.descriptionTittle);
         textDescriptionTittle.setTypeface(textView);
         textoEditable = (EditText) rootView.findViewById(R.id.textDescription);
         textoEditable.setTypeface(editTextD);
 
-        imageProducer = (CircleImageView) rootView.findViewById(R.id.imageProducer);
-        addImage = (CircleButton) rootView.findViewById(R.id.iv_camera);
+        imageProducer = (ImageView) rootView.findViewById(R.id.imageProducer);
+        CircleButton addImage = (CircleButton) rootView.findViewById(R.id.iv_camera);
         addImage.setVisibility(View.VISIBLE);
-        addImage.setOnClickListener(new View.OnClickListener(){
+        addImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
@@ -128,11 +117,11 @@ public class PerfilFragmentCheck extends Fragment {
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            picturePath = cursor.getString(columnIndex);
+            String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
+            imageProducer.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             imageFile = BitMapToString(BitmapFactory.decodeFile(picturePath));
-            imageProducer.setImageBitmap(BitmapFactory.decodeFile(imageFile));
         }
     }
 
@@ -140,12 +129,28 @@ public class PerfilFragmentCheck extends Fragment {
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
         byte [] b=baos.toByteArray();
-        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
 
     public String getImageFile(){
         return imageFile;
+    }
+    public Bitmap getImageBitmap(){
+        Bitmap imageBitmap = StringToBitMap(imageFile);
+        return imageBitmap;
+    }
+    private Bitmap StringToBitMap(String encodedString) {
+        try {
+            System.out.println("Comenzando StringToBitMap");
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            System.out.println("Retornando: " + bitmap);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
     public String getTextoCapturadoDelEditText() {

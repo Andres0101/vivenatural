@@ -38,9 +38,6 @@ public class HomeProductor extends AppCompatActivity {
 
     private Firebase myRef;
 
-    private Toolbar mToolbar;
-
-    private NavigationView navigationView;
     private DrawerLayout drawerLayout;
 
     private PerfilFragment fragmentUno;
@@ -51,7 +48,6 @@ public class HomeProductor extends AppCompatActivity {
 
     private String dataNombre;
     private String datadescripcion;
-    private Boolean accion;
 
     private Boolean save;
 
@@ -60,7 +56,7 @@ public class HomeProductor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_productor);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -70,7 +66,7 @@ public class HomeProductor extends AppCompatActivity {
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
 
         //Initializing NavigationView
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         View vi =  navigationView.getHeaderView(0);
         TextView tv = (TextView)vi.findViewById(R.id.usernameHeader);
 
@@ -81,10 +77,10 @@ public class HomeProductor extends AppCompatActivity {
         //Setea el texto donde va el nombre de usuario en el header.xml por el puExtra que llega del MainActivity
         datadescripcion = getIntent().getExtras().getString("DescripcionUsuario");
 
-        accion = getIntent().getExtras().getBoolean("accion");
+        Boolean accion = getIntent().getExtras().getBoolean("accion");
 
         //Empieza con el primer item del navigationView
-        //Si se registro entonces va al fragment de perfil
+        //Si se registró entonces va al fragment de perfil
         if (accion == false) {
             fragmentUno = new PerfilFragment();
             fragmentUno.setUserString(dataNombre);
@@ -124,60 +120,47 @@ public class HomeProductor extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                 //Checking if the item is in checked state or not, if not make it in checked state
-                if(menuItem.isChecked()) menuItem.setChecked(false);
+                if (menuItem.isChecked()) menuItem.setChecked(false);
                 else menuItem.setChecked(true);
 
                 //Closing drawer on item click
                 drawerLayout.closeDrawers();
 
                 //Check to see which item was being clicked and perform appropriate action
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
 
                     //Replacing the main content with Fragment Which is our Inbox View;
                     case R.id.profile:
                         fragmentUno = new PerfilFragment();
                         fragmentUno.setUserString(dataNombre);
 
+                        // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
+                        Firebase userImage = myRef.child("users");
+                        userImage.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(DataSnapshot snapshot) {
+                                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                    User user = postSnapshot.getValue(User.class);
+
+                                    if (user.getNombre().equals(dataNombre)) {
+                                        String imageFile = user.getImagen();
+                                        Bitmap imagenProducto = StringToBitMap(imageFile);
+
+                                        fragmentUno.setImageBitmap(imagenProducto);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        });
+
                         if (save == true) {
                             fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
-                            //fragmentUno.setImageBitmap(fragmentUnoCheck.getImagenProducto());
-
-                            // Lee los datos de los productos del mercado
-                            /*Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
-                            Firebase marketProducts = myRef.child("users");
-                            marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                                @Override
-                                public void onDataChange(DataSnapshot snapshot) {
-                                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                                        User user = postSnapshot.getValue(User.class);
-
-                                        if (user.getNombre().equals(dataNombre)) {
-                                            String imageFile = user.getImagen();
-                                            System.out.println("--------------" + imageFile);
-                                            Bitmap imagenProducto = StringToBitMap(imageFile);
-
-                                            fragmentUno.setImageBitmap(imagenProducto);
-                                        }
-                                    }
-                                }
-
-                                private Bitmap StringToBitMap(String encodedString){
-                                    try {
-                                        byte [] encodeByte= Base64.decode(encodedString, Base64.DEFAULT);
-                                        Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-                                        return bitmap;
-                                    } catch(Exception e) {
-                                        e.getMessage();
-                                        return null;
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(FirebaseError firebaseError) {
-
-                                }
-                            });*/
+                            fragmentUno.setImageBitmap(fragmentUnoCheck.getImageBitmap());
                         }
 
                         // Setea el texto de descripción con la descripción que existe en la base de datos
@@ -234,7 +217,7 @@ public class HomeProductor extends AppCompatActivity {
                         startActivity(intent);
                         return true;
                     default:
-                        Toast.makeText(getApplicationContext(),"Somethings Wrong",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
                         return true;
 
                 }
@@ -243,7 +226,7 @@ public class HomeProductor extends AppCompatActivity {
 
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,mToolbar,R.string.drawer_open, R.string.drawer_close){
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout, mToolbar,R.string.drawer_open, R.string.drawer_close){
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -264,6 +247,19 @@ public class HomeProductor extends AppCompatActivity {
 
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+    }
+
+    private Bitmap StringToBitMap(String encodedString) {
+        try {
+            System.out.println("Comenzando StringToBitMap");
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            System.out.println("Retornando: " + bitmap);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
     @Override
@@ -313,6 +309,32 @@ public class HomeProductor extends AppCompatActivity {
 
                     fragmentUno = new PerfilFragment();
                     fragmentUno.setUserString(dataNombre);
+
+                    // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
+                    Firebase userImage = myRef.child("users");
+                    userImage.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                User user = postSnapshot.getValue(User.class);
+
+                                if (user.getNombre().equals(dataNombre)) {
+                                    String imageFile = user.getImagen();
+                                    Bitmap imagenProducto = StringToBitMap(imageFile);
+
+                                    fragmentUno.setImageBitmap(imagenProducto);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
+
+                    fragmentUno.setImageBitmap(fragmentUnoCheck.getImageBitmap());
                     fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
                     android.support.v4.app.FragmentTransaction fragmentTransactionUno = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionUno.replace(R.id.container_body, fragmentUno);

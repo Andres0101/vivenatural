@@ -2,7 +2,6 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsProductor;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,11 +10,10 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by ANDRES_BONILLA on 19/02/2016.
@@ -25,20 +23,17 @@ public class PerfilFragment extends Fragment {
     public Activity activity;
 
     private String userString;
-    private String imageString;
     private Bitmap imageBitmap;
     private Boolean editText;
     private String textDescription;
 
-    private CircleImageView imageProducer;
+    private ImageView imageProducer;
     private TextView userName;
-    private TextView textDescriptionTittle;
     private EditText textoEditable;
 
     public PerfilFragment() {
         // Required empty public constructor
         userString = "none";
-        imageString = "";
         editText = false;
         textDescription = "No hay información.";
     }
@@ -63,10 +58,10 @@ public class PerfilFragment extends Fragment {
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        imageProducer = (CircleImageView) rootView.findViewById(R.id.imageProducer);
+        imageProducer = (ImageView) rootView.findViewById(R.id.imageProducer);
         userName = (TextView) rootView.findViewById(R.id.nombreUsuario);
         userName.setTypeface(textView);
-        textDescriptionTittle = (TextView) rootView.findViewById(R.id.descriptionTittle);
+        TextView textDescriptionTittle = (TextView) rootView.findViewById(R.id.descriptionTittle);
         textDescriptionTittle.setTypeface(textView);
         textoEditable = (EditText) rootView.findViewById(R.id.textDescription);
         textoEditable.setTypeface(editTextD);
@@ -98,11 +93,9 @@ public class PerfilFragment extends Fragment {
         this.textDescription = textDescription;
     }
 
+    // Setea la imagen de perfil
     private void changeImage(Bitmap image) {
         imageProducer.setImageBitmap(image);
-    }
-    public void setImageString(String imageString) {
-        this.imageString = imageString;
     }
     public void setImageBitmap(Bitmap imageBitmap) {
         this.imageBitmap = imageBitmap;
@@ -111,9 +104,6 @@ public class PerfilFragment extends Fragment {
     // Vuelve el editText editable para que el usuario pueda escribir
     private void textEditable(Boolean editable){
         textoEditable.setEnabled(editable);
-    }
-    public void setEditText(Boolean editText) {
-        this.editText = editText;
     }
 
     @Override
