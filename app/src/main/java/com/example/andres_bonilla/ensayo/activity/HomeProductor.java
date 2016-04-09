@@ -7,7 +7,6 @@ import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.PerfilFragm
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.PerfilFragmentCheck;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ProductosFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ReservasFragment;
-import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.VerProductoCheck;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -48,7 +47,6 @@ public class HomeProductor extends AppCompatActivity {
     private PerfilFragmentCheck fragmentUnoCheck;
 
     private ProductosFragment fragmentCuatro;
-    private VerProductoCheck fragmentCuatroCheck;
 
     private String dataNombre;
     private String datadescripcion;
@@ -312,17 +310,6 @@ public class HomeProductor extends AppCompatActivity {
                 fragmentTransactionUnoCheck.commit();
                 return true;
 
-            /*case R.id.action_edit_product:
-                // User chose the "Settings" item, show the app settings UI...
-                fragmentCuatroCheck = new VerProductoCheck();
-                fragmentCuatroCheck.setEditText(true);
-                fragmentCuatroCheck.setEditTextCant(true);
-                android.support.v4.app.FragmentTransaction fragmentTransactionCuatroCheck = getSupportFragmentManager().beginTransaction();
-                fragmentTransactionCuatroCheck.replace(R.id.container_body, fragmentCuatroCheck);
-
-                fragmentTransactionCuatroCheck.commit();
-                return true;*/
-
             case R.id.action_save:
 
                 if (!fragmentUnoCheck.getTextoCapturadoDelEditText().equals("")){
@@ -375,36 +362,6 @@ public class HomeProductor extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Debes llenar el campo.", Toast.LENGTH_SHORT).show();
                 }
                 return true;
-
-            /*case R.id.action_save_product:
-
-                if (!fragmentCuatroCheck.getTextDescripcion().equals("") && !fragmentCuatroCheck.getTextCantidad().equals("")){
-
-                    //Agrega el texto de descripción al productor(Base de datos)
-                    Firebase textoDescripcion = myRef.child("products").child(dataNombre+": "+fragmentCuatro.getNombreProductoBase());
-                    Map<String, Object> descripcion = new HashMap<>();
-                    descripcion.put("descripcionProducto", fragmentCuatroCheck.getTextDescripcion());
-                    descripcion.put("cantidad", fragmentCuatroCheck.getTextCantidad());
-                    textoDescripcion.updateChildren(descripcion);
-
-                    fragmentCuatro = new ProductosFragment();
-                    android.support.v4.app.FragmentTransaction fragmentTransactionCuatro = getSupportFragmentManager().beginTransaction();
-                    fragmentTransactionCuatro.replace(R.id.container_body, fragmentCuatro);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("nombreDelProductor", dataNombre);
-                    // set Fragmentclass Arguments
-                    fragmentCuatro.setArguments(bundle);
-
-                    //Setea el nombre del label
-                    setTitle(R.string.title_products);
-
-                    fragmentTransactionCuatro.commit();
-                    Toast.makeText(getApplicationContext(), "Cambios realizados con éxito!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Debes llenar el campo.", Toast.LENGTH_SHORT).show();
-                }
-                return true;*/
 
             case R.id.action_settings:
                 // User chose the "Favorite" action, mark the current item

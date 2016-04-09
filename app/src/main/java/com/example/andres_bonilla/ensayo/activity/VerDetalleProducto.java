@@ -1,5 +1,6 @@
 package com.example.andres_bonilla.ensayo.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -43,6 +44,8 @@ public class VerDetalleProducto extends AppCompatActivity {
 
     private VerProductoCheck fragmentCuatroCheck;
 
+    private Boolean guardeProducto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +64,8 @@ public class VerDetalleProducto extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
+
+        guardeProducto = false;
 
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelProductor = getIntent().getExtras().getString("nombreProductor");
@@ -128,12 +133,12 @@ public class VerDetalleProducto extends AppCompatActivity {
         return true;
     }
 
-    /*@Override
+    @Override
     public void onBackPressed() {
         Intent intent = new Intent(VerDetalleProducto.this, HomeProductor.class);
         intent.putExtra("NombreUsuario", nombreDelProductor);
         startActivity(intent);
-    }*/
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -143,7 +148,11 @@ public class VerDetalleProducto extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
+                if (guardeProducto) { //Si editó y guardó los datos del producto, entonces se regresa al perfil
+                    onBackPressed();
+                } else { //De lo contrario se regresa al frament anterior.
+                    super.onBackPressed();
+                }
                 return true;
 
             case R.id.action_edit_product:
@@ -158,6 +167,9 @@ public class VerDetalleProducto extends AppCompatActivity {
                 return true;
 
             case R.id.action_save_product:
+                //Si edita un producto vuelva el dibujar el icono de regresar.
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                guardeProducto = true; //Booleano para validar en la acción de goBack.
 
                 if (!fragmentCuatroCheck.getTextDescripcion().equals("") && !fragmentCuatroCheck.getTextCantidad().equals("")){
 

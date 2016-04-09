@@ -65,8 +65,6 @@ public class ProductosFragment extends Fragment {
     private String nombreProductoBase;
     private String nombreProductoSpinner;
 
-    private VerProducto verProducto;
-
     private Typeface texto;
     private Typeface textCantidad;
     private Typeface infoName;
@@ -353,21 +351,6 @@ public class ProductosFragment extends Fragment {
                 Intent i = new Intent(getActivity(), VerDetalleProducto.class);
                 i.putExtras(bundle);
                 startActivity(i);
-
-                /*verProducto = new VerProducto();
-                android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.container_body, verProducto);
-                //ft.addToBackStack(null);
-
-                Bundle bundle = new Bundle();
-                //Manda el nombre del producto seleccionado
-                bundle.putString("nombreProducto", clickedProduct.getNombreProducto());
-                // set Fragmentclass Arguments
-                verProducto.setArguments(bundle);*/
-
-                //nombreProductoBase = clickedProduct.getNombreProducto();
-
-                //ft.commit();
             }
         });
     }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -41,6 +42,10 @@ public class VerProductoCheck extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.ver_productos, container, false);
         setHasOptionsMenu(true);
+
+        //Utilizado para remover el icono de regresar.
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         Typeface editTextCheck = Typeface.createFromAsset(
                 getActivity().getAssets(),
