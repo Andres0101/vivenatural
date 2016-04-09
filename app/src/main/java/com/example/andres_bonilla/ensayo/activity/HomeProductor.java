@@ -186,7 +186,7 @@ public class HomeProductor extends AppCompatActivity {
                             }
                         });
 
-                        if (save == true) {
+                        if (save) {
                             fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
                             fragmentUno.setImageBitmap(fragmentUnoCheck.getImageBitmap());
                         }
@@ -330,7 +330,7 @@ public class HomeProductor extends AppCompatActivity {
 
                     //Agrega el texto de descripción al productor(Base de datos)
                     Firebase textoDescripcion = myRef.child("users").child(dataNombre);
-                    Map<String, Object> descripcion = new HashMap<String, Object>();
+                    Map<String, Object> descripcion = new HashMap<>();
                     descripcion.put("descripcion", fragmentUnoCheck.getTextoCapturadoDelEditText());
                     descripcion.put("imagen", fragmentUnoCheck.getImageFile());
                     textoDescripcion.updateChildren(descripcion);
@@ -382,7 +382,7 @@ public class HomeProductor extends AppCompatActivity {
 
                     //Agrega el texto de descripción al productor(Base de datos)
                     Firebase textoDescripcion = myRef.child("products").child(dataNombre+": "+fragmentCuatro.getNombreProductoBase());
-                    Map<String, Object> descripcion = new HashMap<String, Object>();
+                    Map<String, Object> descripcion = new HashMap<>();
                     descripcion.put("descripcionProducto", fragmentCuatroCheck.getTextDescripcion());
                     descripcion.put("cantidad", fragmentCuatroCheck.getTextCantidad());
                     textoDescripcion.updateChildren(descripcion);
@@ -390,6 +390,11 @@ public class HomeProductor extends AppCompatActivity {
                     fragmentCuatro = new ProductosFragment();
                     android.support.v4.app.FragmentTransaction fragmentTransactionCuatro = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionCuatro.replace(R.id.container_body, fragmentCuatro);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("nombreDelProductor", dataNombre);
+                    // set Fragmentclass Arguments
+                    fragmentCuatro.setArguments(bundle);
 
                     //Setea el nombre del label
                     setTitle(R.string.title_products);

@@ -49,7 +49,7 @@ public class ProductosFragment extends Fragment {
 
     MyListAdapter adapter;
 
-    private List<Product> myProducts = new ArrayList<Product>();
+    private List<Product> myProducts = new ArrayList<>();
 
     private Product clickedProduct;
 
@@ -69,7 +69,7 @@ public class ProductosFragment extends Fragment {
     private Typeface textCantidad;
     private Typeface infoName;
 
-    private ArrayList<String> list = new ArrayList<String>();
+    private ArrayList<String> list = new ArrayList<>();
 
     private int precioProducto;
     String stringImagenFirebase;
@@ -154,7 +154,7 @@ public class ProductosFragment extends Fragment {
     public Bitmap StringToBitMap(String encodedString){
         try {
             byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap =BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
         } catch(Exception e) {
             e.getMessage();
@@ -346,6 +346,7 @@ public class ProductosFragment extends Fragment {
                 verProducto = new VerProducto();
                 android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.container_body, verProducto);
+                //ft.addToBackStack(null);
 
                 Bundle bundle = new Bundle();
                 //Manda el nombre del producto seleccionado

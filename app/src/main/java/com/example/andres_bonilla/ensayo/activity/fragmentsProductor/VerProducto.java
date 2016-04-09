@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -103,8 +104,6 @@ public class VerProducto extends Fragment {
 
                         descripcionProducto.setText(product.getDescripcionProducto());
                         cantidadDisponible.setText(" " + product.getCantidad() + " lb");
-                    } else {
-                        //textoNoHay.setVisibility(View.VISIBLE);
                     }
                 }
             }
