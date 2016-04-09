@@ -2,6 +2,7 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsProductor;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.VerDetalleProducto;
 import com.example.andres_bonilla.ensayo.activity.classes.MarketProduct;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.firebase.client.DataSnapshot;
@@ -342,8 +344,17 @@ public class ProductosFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 clickedProduct = myProducts.get(position);
+                nombreProductoBase = clickedProduct.getNombreProducto();
 
-                verProducto = new VerProducto();
+                Bundle bundle = new Bundle();
+                bundle.putString("nombreProducto", clickedProduct.getNombreProducto());
+                bundle.putString("nombreProductor", nombreDelProductor);
+                bundle.putString("nombreProductoSpinner", nombreProductoBase);
+                Intent i = new Intent(getActivity(), VerDetalleProducto.class);
+                i.putExtras(bundle);
+                startActivity(i);
+
+                /*verProducto = new VerProducto();
                 android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.container_body, verProducto);
                 //ft.addToBackStack(null);
@@ -352,11 +363,11 @@ public class ProductosFragment extends Fragment {
                 //Manda el nombre del producto seleccionado
                 bundle.putString("nombreProducto", clickedProduct.getNombreProducto());
                 // set Fragmentclass Arguments
-                verProducto.setArguments(bundle);
+                verProducto.setArguments(bundle);*/
 
-                nombreProductoBase = clickedProduct.getNombreProducto();
+                //nombreProductoBase = clickedProduct.getNombreProducto();
 
-                ft.commit();
+                //ft.commit();
             }
         });
     }

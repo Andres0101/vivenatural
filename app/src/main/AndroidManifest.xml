@@ -29,6 +29,7 @@
                 android:resource="@xml/searchable"/>
         </activity>
 
+        <activity android:name=".activity.VerDetalleProducto" />
         <activity android:name=".activity.HomeConsumidor" />
     </application>
 

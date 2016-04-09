@@ -312,7 +312,7 @@ public class HomeProductor extends AppCompatActivity {
                 fragmentTransactionUnoCheck.commit();
                 return true;
 
-            case R.id.action_edit_product:
+            /*case R.id.action_edit_product:
                 // User chose the "Settings" item, show the app settings UI...
                 fragmentCuatroCheck = new VerProductoCheck();
                 fragmentCuatroCheck.setEditText(true);
@@ -321,7 +321,7 @@ public class HomeProductor extends AppCompatActivity {
                 fragmentTransactionCuatroCheck.replace(R.id.container_body, fragmentCuatroCheck);
 
                 fragmentTransactionCuatroCheck.commit();
-                return true;
+                return true;*/
 
             case R.id.action_save:
 
@@ -376,7 +376,7 @@ public class HomeProductor extends AppCompatActivity {
                 }
                 return true;
 
-            case R.id.action_save_product:
+            /*case R.id.action_save_product:
 
                 if (!fragmentCuatroCheck.getTextDescripcion().equals("") && !fragmentCuatroCheck.getTextCantidad().equals("")){
 
@@ -404,7 +404,7 @@ public class HomeProductor extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Debes llenar el campo.", Toast.LENGTH_SHORT).show();
                 }
-                return true;
+                return true;*/
 
             case R.id.action_settings:
                 // User chose the "Favorite" action, mark the current item

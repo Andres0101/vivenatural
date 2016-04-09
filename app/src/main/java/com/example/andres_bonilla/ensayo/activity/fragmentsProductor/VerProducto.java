@@ -6,13 +6,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,13 +60,6 @@ public class VerProducto extends Fragment {
         Typeface textView = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Bold.ttf");
-
-        /*Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-
-        //for crate home button
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelProducto = getArguments().getString("nombreProducto");

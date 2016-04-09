@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
@@ -51,7 +50,6 @@ public class VerProductoCheck extends Fragment {
                 getActivity().getAssets(),
                 "fonts/Roboto-Bold.ttf");
 
-        ImageView imagenProducto = (ImageView) rootView.findViewById(R.id.imageProduct);
         TextView textDescription = (TextView) rootView.findViewById(R.id.textViewDescripcion);
         textDescription.setTypeface(textView);
         TextView textViewCantidadDisponible = (TextView) rootView.findViewById(R.id.textViewCantidadDisponible);
@@ -64,28 +62,6 @@ public class VerProductoCheck extends Fragment {
 
         textEditable(editText);
         textEditableCantidad(editTextCant);
-
-        // Lee los datos de los productos
-        /*productos = myRef.child("products");
-        productos.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    Product product = postSnapshot.getValue(Product.class);
-
-                    //Si el nombre del productor coincide con el que inicio sesión entonces...
-                    if (product.getNombreProducto().equals(nombreDelProducto)) {
-                        imagenProducto.setImageResource(product.getImage());
-                    } else {
-                        //textoNoHay.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            }
-        });*/
 
         // Inflate the layout for this fragment
         return rootView;
