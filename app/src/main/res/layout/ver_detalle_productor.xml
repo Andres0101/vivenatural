@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/textColorPrimary">
+
+    <LinearLayout
+        android:id="@+id/container_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <FrameLayout
+            android:id="@+id/container_body"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageProducer"
+        android:layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/container_toolbar"
+        android:layout_marginTop="25dp" />
+
+    <TextView
+        android:id="@+id/textViewDescripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/imageProducer"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/description" />
+
+    <EditText
+        android:id="@+id/editTextDescriProducer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="160"
+        android:enabled="false"
+        android:hint="@string/addDescription"
+        android:layout_below="@+id/textViewDescripcion"
+        android:layout_alignLeft="@+id/textViewDescripcion"
+        android:layout_alignStart="@+id/textViewDescripcion"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <View
+        android:id="@+id/divisor"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="25dp"
+        android:layout_height="1dip"
+        android:background="#B6B6B6"
+        android:layout_below="@+id/editTextDescriProducer" />
+
+    <TextView
+        android:id="@+id/textViewProducts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/divisor"
+        android:textColor="#CCCCCC"
+        android:layout_alignLeft="@+id/textViewDescripcion"
+        android:layout_alignStart="@+id/textViewDescripcion"
+        android:text="@string/productos" />
+
+    <TextView
+        android:id="@+id/textViewCantidadProductos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/divisor"
+        android:layout_toRightOf="@id/textViewComentarios"
+        android:layout_toEndOf="@id/textViewComentarios"
+        android:textColor="#CCCCCC" />
+
+    <ListView
+        android:id="@+id/commentsListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewProducts"
+        android:layout_marginTop="15dp"/>
+
+</RelativeLayout>

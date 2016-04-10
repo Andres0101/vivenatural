@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.VerDetalleProducto;
+import com.example.andres_bonilla.ensayo.activity.VerDetalleProductor;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -38,13 +38,11 @@ public class Productores extends Fragment {
     private Firebase myRef;
     private Firebase usuarios;
 
-    private TextView nombreProductor;
-
     MyListAdapter adapter;
 
     private TextView textoNoHay;
 
-    private List<User> productores = new ArrayList<User>();
+    private List<User> productores = new ArrayList<>();
 
     public Productores() {
         // Required empty public constructor
@@ -129,8 +127,7 @@ public class Productores extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("nombreProductor", clickedProducer.getNombre());
-                //bundle.putString("nombreProductoSpinner", nombreProductoBase);
-                Intent i = new Intent(getActivity(), VerDetalleProducto.class);
+                Intent i = new Intent(getActivity(), VerDetalleProductor.class);
                 i.putExtras(bundle);
                 startActivity(i);
             }
@@ -160,7 +157,7 @@ public class Productores extends Fragment {
             imageView.setImageBitmap(imagenProducto);
 
             //Nombre:
-            nombreProductor = (TextView) producersView.findViewById(R.id.textNameProducer);
+            TextView nombreProductor = (TextView) producersView.findViewById(R.id.textNameProducer);
             nombreProductor.setText(currentProducer.getNombre());
 
             return producersView;
