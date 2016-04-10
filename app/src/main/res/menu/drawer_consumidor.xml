@@ -15,17 +15,23 @@
             android:icon="@drawable/ic_producers"
             android:title="@string/title_productores" />
 
-        <!--<item
-            android:id="@+id/reservas"
-            android:checked="false"
-            android:icon="@drawable/ic_reservas"
-            android:title="@string/title_reservas" />
-
         <item
             android:id="@+id/products"
             android:checked="false"
             android:icon="@drawable/ic_productos"
-            android:title="@string/title_products" />-->
+            android:title="@string/title_products" />
+
+        <item
+            android:id="@+id/listaMercado"
+            android:checked="false"
+            android:icon="@drawable/ic_shopping_basket"
+            android:title="@string/title_lista_mercado" />
+
+        <item
+            android:id="@+id/procesos"
+            android:checked="false"
+            android:icon="@drawable/ic_process"
+            android:title="@string/title_procesos" />
 
         <!-- Sección de configuración -->
         <item

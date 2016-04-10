@@ -41,7 +41,7 @@
             android:visibility="gone"
             app:cb_color="#CDDC39"
             app:cb_pressedRingWidth="8dip"
-            android:src="@drawable/ic_photo" />
+            android:src="@drawable/ic_photo_camara" />
     </FrameLayout>
 
     <TextView

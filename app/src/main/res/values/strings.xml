@@ -43,6 +43,8 @@
 
     <!-- Drawer Consumidor -->
     <string name="title_productores">Productores</string>
+    <string name="title_lista_mercado">Lista de mercado</string>
+    <string name="title_procesos">Procesos</string>
 
     <string name="title_cuenta">Cuenta</string>
     <string name="title_log_out">Cerrar sesión</string>
