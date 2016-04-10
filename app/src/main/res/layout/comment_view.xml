@@ -5,21 +5,22 @@
     android:background="@color/textColorPrimary">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageProducer"
+        android:id="@+id/imageConsumer"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:src="@drawable/frijoles"
         android:layout_margin="16dp"/>
 
     <TextView
-        android:id="@+id/textNameProducer"
+        android:id="@+id/textNameConsumer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:paddingTop="4dp"
-        android:layout_alignTop="@+id/imageProducer"
-        android:layout_toRightOf="@+id/imageProducer"
-        android:layout_toEndOf="@+id/imageProducer" />
+        android:layout_alignTop="@+id/imageConsumer"
+        android:layout_toRightOf="@+id/imageConsumer"
+        android:layout_toEndOf="@+id/imageConsumer" />
 
     <TextView
         android:id="@+id/textViewCantidad"
@@ -27,8 +28,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/calificacion"
-        android:layout_below="@+id/textNameProducer"
-        android:layout_toRightOf="@+id/imageProducer"
-        android:layout_toEndOf="@+id/imageProducer"/>
+        android:layout_below="@+id/textNameConsumer"
+        android:layout_toRightOf="@+id/imageConsumer"
+        android:layout_toEndOf="@+id/imageConsumer"/>
 
 </RelativeLayout>

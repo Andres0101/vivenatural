@@ -8,7 +8,6 @@
         android:id="@+id/imageProduct"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/frijoles"
         android:layout_margin="16dp"/>
 
     <TextView

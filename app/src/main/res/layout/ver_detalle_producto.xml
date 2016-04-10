@@ -32,7 +32,6 @@
         android:id="@+id/textViewDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
         android:textSize="20sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@+id/imageProduct"
@@ -58,7 +57,6 @@
         android:id="@+id/textViewCantidadDisponible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
         android:textSize="20sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@+id/editTextDescriProduct"
@@ -83,5 +81,44 @@
         android:layout_marginStart="10dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp" />
+
+    <View
+        android:id="@+id/divisor"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/textViewCantidadDisponible"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="25dp"
+        android:layout_height="1dip"
+        android:background="#B6B6B6" />
+
+    <TextView
+        android:id="@+id/textViewComentarios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/divisor"
+        android:textColor="#CCCCCC"
+        android:layout_alignLeft="@+id/textViewDescripcion"
+        android:layout_alignStart="@+id/textViewDescripcion"
+        android:text="@string/comentarios" />
+
+    <TextView
+        android:id="@+id/textViewCantidadComentarios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/divisor"
+        android:layout_toRightOf="@id/textViewComentarios"
+        android:layout_toEndOf="@id/textViewComentarios"
+        android:textColor="#CCCCCC" />
+
+    <ListView
+        android:id="@+id/commentsListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewComentarios"
+        android:layout_marginTop="15dp"/>
 
 </RelativeLayout>
