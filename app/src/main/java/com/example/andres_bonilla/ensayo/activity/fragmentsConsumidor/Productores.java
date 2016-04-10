@@ -1,5 +1,6 @@
 package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -8,12 +9,14 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.VerDetalleProducto;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -29,6 +32,8 @@ import java.util.List;
 public class Productores extends Fragment {
 
     private View rootView;
+
+    private User clickedProducer;
 
     private Firebase myRef;
     private Firebase usuarios;
@@ -64,7 +69,7 @@ public class Productores extends Fragment {
         listaBaseDatos();
 
         listView();
-        //clickSobreItem();
+        clickSobreItem();
 
         // Inflate the layout for this fragment
         return rootView;
@@ -115,6 +120,23 @@ public class Productores extends Fragment {
         }
     }
 
+    private void clickSobreItem() {
+        ListView list = (ListView) rootView.findViewById(R.id.producersListView);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                clickedProducer = productores.get(position);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("nombreProductor", clickedProducer.getNombre());
+                //bundle.putString("nombreProductoSpinner", nombreProductoBase);
+                Intent i = new Intent(getActivity(), VerDetalleProducto.class);
+                i.putExtras(bundle);
+                startActivity(i);
+            }
+        });
+    }
+
     private class MyListAdapter extends ArrayAdapter<User> {
         public MyListAdapter(){
             super(getActivity(), R.layout.producers_view, productores);
@@ -140,15 +162,6 @@ public class Productores extends Fragment {
             //Nombre:
             nombreProductor = (TextView) producersView.findViewById(R.id.textNameProducer);
             nombreProductor.setText(currentProducer.getNombre());
-
-            //Precio:
-            /*priceProducto = (TextView) productsView.findViewById(R.id.textPrecio);
-            priceProducto.setText("$" + currentProducer.getPrecio());
-
-            //Cantidad:
-            cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
-            cantidadProducto.setText(" " + currentProducer.getCantidad() + " lb");*/
-            //changeCantidad(" " + textCantidad);
 
             return producersView;
         }

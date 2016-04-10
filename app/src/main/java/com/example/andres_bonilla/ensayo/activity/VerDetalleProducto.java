@@ -36,7 +36,6 @@ public class VerDetalleProducto extends AppCompatActivity {
 
     private String nombreDelProductor;
     private String nombreDelProducto;
-    private String nombreDelProductoSpinner;
 
     private ImageView imagenProducto;
     private EditText descripcionProducto;
@@ -70,7 +69,6 @@ public class VerDetalleProducto extends AppCompatActivity {
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelProductor = getIntent().getExtras().getString("nombreProductor");
         nombreDelProducto = getIntent().getExtras().getString("nombreProducto");
-        nombreDelProductoSpinner = getIntent().getExtras().getString("nombreProductoSpinner");
         setTitle(nombreDelProducto);
 
         imagenProducto = (ImageView) findViewById(R.id.imageProduct);
@@ -94,8 +92,7 @@ public class VerDetalleProducto extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Product product = postSnapshot.getValue(Product.class);
 
-                    //Si el nombre del productor coincide con el que inicio sesión entonces...
-                    if (product.getNombreProducto().equals(nombreDelProducto)) {
+                    if (product.getNombreProducto().equals(nombreDelProducto) && product.getProductor().equals(nombreDelProductor)) {
 
                         String imageProduct = product.getImagen();
                         Bitmap imagenBitmap = StringToBitMap(imageProduct);
@@ -174,7 +171,7 @@ public class VerDetalleProducto extends AppCompatActivity {
                 if (!fragmentCuatroCheck.getTextDescripcion().equals("") && !fragmentCuatroCheck.getTextCantidad().equals("")){
 
                     //Agrega el texto de descripción al productor(Base de datos)
-                    Firebase textoDescripcion = myRef.child("products").child(nombreDelProductor+": "+nombreDelProductoSpinner);
+                    Firebase textoDescripcion = myRef.child("products").child(nombreDelProductor+": "+nombreDelProducto);
                     Map<String, Object> descripcion = new HashMap<>();
                     descripcion.put("descripcionProducto", fragmentCuatroCheck.getTextDescripcion());
                     descripcion.put("cantidad", fragmentCuatroCheck.getTextCantidad());

@@ -62,7 +62,6 @@ public class ProductosFragment extends Fragment {
     private EditText productInfo;
 
     private String nombreDelProductor;
-    private String nombreProductoBase;
     private String nombreProductoSpinner;
 
     private Typeface texto;
@@ -311,7 +310,6 @@ public class ProductosFragment extends Fragment {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Product product = postSnapshot.getValue(Product.class);
 
-                    //Si el nombre del productor coincide con el que inicio sesión entonces...
                     if (product.getProductor().equals(nombreDelProductor)) {
                         textoNoHay.setVisibility(View.GONE);
 
@@ -342,21 +340,15 @@ public class ProductosFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 clickedProduct = myProducts.get(position);
-                nombreProductoBase = clickedProduct.getNombreProducto();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("nombreProducto", clickedProduct.getNombreProducto());
                 bundle.putString("nombreProductor", nombreDelProductor);
-                bundle.putString("nombreProductoSpinner", nombreProductoBase);
                 Intent i = new Intent(getActivity(), VerDetalleProducto.class);
                 i.putExtras(bundle);
                 startActivity(i);
             }
         });
-    }
-
-    public String getNombreProductoBase() {
-        return nombreProductoBase;
     }
 
     private class MyListAdapter extends ArrayAdapter<Product> {
