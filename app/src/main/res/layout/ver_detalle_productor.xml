@@ -89,7 +89,7 @@
         android:textColor="#CCCCCC" />
 
     <ListView
-        android:id="@+id/commentsListView"
+        android:id="@+id/productsListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewProducts"

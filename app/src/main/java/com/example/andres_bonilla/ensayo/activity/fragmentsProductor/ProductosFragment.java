@@ -310,6 +310,7 @@ public class ProductosFragment extends Fragment {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Product product = postSnapshot.getValue(Product.class);
 
+                    //Si el nombre del productor coincide con el que inicio sesión entonces...
                     if (product.getProductor().equals(nombreDelProductor)) {
                         textoNoHay.setVisibility(View.GONE);
 
