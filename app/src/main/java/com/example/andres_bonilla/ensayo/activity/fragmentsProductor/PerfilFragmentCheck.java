@@ -80,10 +80,6 @@ public class PerfilFragmentCheck extends Fragment {
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        activity.getSupportActionBar().setHomeButtonEnabled(false);
-
         userName = (TextView) rootView.findViewById(R.id.nombreUsuario);
         userName.setTypeface(textView);
         TextView textDescriptionTittle = (TextView) rootView.findViewById(R.id.descriptionTittle);
@@ -106,12 +102,7 @@ public class PerfilFragmentCheck extends Fragment {
                 startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
 
                 /*Intent intent = new Intent();
-                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                String pictureDirectoryPath = pictureDirectory.getPath();
-
-                Uri data = Uri.parse(pictureDirectoryPath);
-
-                intent.setDataAndType(data, "image/*");
+                intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent,
                         "Select Picture"), SELECT_PICTURE);*/
