@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,9 +43,14 @@ public class PerfilFragmentCheck extends Fragment {
     private TextView userName;
     private EditText textoEditable;
 
+    private String selectedImagePath;
+    //ADDED
+    private String filemanagerstring;
+
     private String imageFile;
 
-    private static int RESULT_LOAD_IMAGE = 1;
+    private static final int RESULT_LOAD_IMAGE = 1;
+    private static final int SELECT_PICTURE = 1;
 
     public PerfilFragmentCheck() {
         // Required empty public constructor
@@ -74,6 +80,10 @@ public class PerfilFragmentCheck extends Fragment {
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
 
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        activity.getSupportActionBar().setHomeButtonEnabled(false);
+
         userName = (TextView) rootView.findViewById(R.id.nombreUsuario);
         userName.setTypeface(textView);
         TextView textDescriptionTittle = (TextView) rootView.findViewById(R.id.descriptionTittle);
@@ -94,6 +104,17 @@ public class PerfilFragmentCheck extends Fragment {
 
                 photoPickerIntent.setDataAndType(data, "image/*");
                 startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+
+                /*Intent intent = new Intent();
+                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                String pictureDirectoryPath = pictureDirectory.getPath();
+
+                Uri data = Uri.parse(pictureDirectoryPath);
+
+                intent.setDataAndType(data, "image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,
+                        "Select Picture"), SELECT_PICTURE);*/
             }
         });
 
@@ -104,7 +125,7 @@ public class PerfilFragmentCheck extends Fragment {
         return rootView;
     }
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -120,14 +141,70 @@ public class PerfilFragmentCheck extends Fragment {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
+            System.out.println("----------" + picturePath);
+
             imageProducer.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             imageFile = BitMapToString(BitmapFactory.decodeFile(picturePath));
         }
+    }*/
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == getActivity().RESULT_OK) {
+            if (requestCode == SELECT_PICTURE) {
+                Uri selectedImageUri = data.getData();
+
+                //OI FILE Manager
+                filemanagerstring = selectedImageUri.getPath();
+
+                //MEDIA GALLERY
+                selectedImagePath = getPath(selectedImageUri);
+
+                //DEBUG PURPOSE - you can delete this if you want
+                if(selectedImagePath!=null)
+                    System.out.println(selectedImagePath);
+                else System.out.println("selectedImagePath is null");
+                if(filemanagerstring!=null)
+                    System.out.println(filemanagerstring);
+                else System.out.println("filemanagerstring is null");
+
+                //NOW WE HAVE OUR WANTED STRING
+                if(selectedImagePath!=null)
+                    System.out.println("selectedImagePath is the right one for you!");
+                else
+                    System.out.println("filemanagerstring is the right one for you!");
+
+
+                /*imagenB = BitmapFactory.decodeFile(selectedImagePath);
+                v.setImageBitmap(imagenB);*/
+                imageProducer.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
+                //imageFile = BitMapToString(BitmapFactory.decodeFile(selectedImagePath));
+            }
+        }
+    }
+
+    /**
+     * helper to retrieve the path of an image URI
+     */
+    //UPDATED!
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
+        if(cursor!=null)
+        {
+            //HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
+            //THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        else return null;
     }
 
     public String BitMapToString(Bitmap bitmap){
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
         byte [] b=baos.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
