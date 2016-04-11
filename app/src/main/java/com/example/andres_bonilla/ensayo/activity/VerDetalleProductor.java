@@ -26,12 +26,12 @@ import com.firebase.client.ValueEventListener;
  */
 public class VerDetalleProductor extends AppCompatActivity {
 
-    private Firebase myRef;
-
     private String nombreDelProductor;
+    private String nombreProducto;
 
     private ImageView imagenProductor;
     private EditText descripcionProductor;
+    private TextView cantidadProducto;
 
     private Boolean guardeProducto;
 
@@ -56,7 +56,7 @@ public class VerDetalleProductor extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
 
         guardeProducto = false;
 
@@ -67,8 +67,10 @@ public class VerDetalleProductor extends AppCompatActivity {
         imagenProductor = (ImageView) findViewById(R.id.imageProducer);
         TextView textDescription = (TextView) findViewById(R.id.textViewDescripcion);
         textDescription.setTypeface(textView);
-        TextView textCantidadProductos = (TextView) findViewById(R.id.textViewCantidadProductos);
+        TextView textCantidadProductos = (TextView) findViewById(R.id.textViewProducts);
         textCantidadProductos.setTypeface(textCantidad);
+        cantidadProducto = (TextView) findViewById(R.id.textViewCantidadProductos);
+        cantidadProducto.setTypeface(textCantidad);
 
         descripcionProductor = (EditText) findViewById(R.id.editTextDescriProducer);
         descripcionProductor.setTypeface(editText);
@@ -105,10 +107,10 @@ public class VerDetalleProductor extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Product product = postSnapshot.getValue(Product.class);
+                    System.out.println("-------------------" + product);
 
-                    if (snapshot.hasChild(nombreDelProductor + ": " + product.getNombreProducto())){
-                        System.out.println(nombreDelProductor + " tiene: " + snapshot.getChildrenCount() + " productos");
-                    }
+                    int title = (int) snapshot.child(nombreDelProductor + ": " + product.getNombreProducto()).getChildrenCount();
+                    System.out.println("La cantidad es: " + title);
                 }
             }
 

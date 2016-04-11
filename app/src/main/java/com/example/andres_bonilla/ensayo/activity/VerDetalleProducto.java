@@ -40,6 +40,7 @@ public class VerDetalleProducto extends AppCompatActivity {
     private ImageView imagenProducto;
     private EditText descripcionProducto;
     private EditText cantidadDisponible;
+    private TextView cantidadComentario;
 
     private VerProductoCheck fragmentCuatroCheck;
 
@@ -53,6 +54,10 @@ public class VerDetalleProducto extends AppCompatActivity {
         Typeface editText = Typeface.createFromAsset(
                 this.getAssets(),
                 "fonts/Roboto-Light.ttf");
+
+        Typeface text = Typeface.createFromAsset(
+                this.getAssets(),
+                "fonts/Roboto-Regular.ttf");
 
         Typeface textView = Typeface.createFromAsset(
                 this.getAssets(),
@@ -76,6 +81,10 @@ public class VerDetalleProducto extends AppCompatActivity {
         textDescription.setTypeface(textView);
         TextView textViewCantidadDisponible = (TextView) findViewById(R.id.textViewCantidadDisponible);
         textViewCantidadDisponible.setTypeface(textView);
+        TextView textCantidadComentarios = (TextView) findViewById(R.id.textViewComentarios);
+        textCantidadComentarios.setTypeface(text);
+        cantidadComentario = (TextView) findViewById(R.id.textViewCantidadComentarios);
+        cantidadComentario.setTypeface(text);
 
         descripcionProducto = (EditText) findViewById(R.id.editTextDescriProduct);
         descripcionProducto.setTypeface(editText);

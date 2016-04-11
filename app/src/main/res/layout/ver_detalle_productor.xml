@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:maxLength="160"
         android:enabled="false"
-        android:hint="@string/addDescription"
+        android:hint="@string/cargandoDescrip"
         android:layout_below="@+id/textViewDescripcion"
         android:layout_alignLeft="@+id/textViewDescripcion"
         android:layout_alignStart="@+id/textViewDescripcion"
@@ -81,10 +81,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
+        android:text=" 0"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@+id/divisor"
-        android:layout_toRightOf="@id/textViewComentarios"
-        android:layout_toEndOf="@id/textViewComentarios"
+        android:layout_toRightOf="@+id/textViewProducts"
+        android:layout_toEndOf="@+id/textViewProducts"
         android:textColor="#CCCCCC" />
 
     <ListView

@@ -108,6 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
+        android:text=" 0"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@+id/divisor"
         android:layout_toRightOf="@id/textViewComentarios"
