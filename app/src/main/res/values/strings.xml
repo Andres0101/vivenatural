@@ -70,6 +70,7 @@
     <string name="addCantidad">0.0</string>
     <string name="libra">lb</string>
     <string name="comentarios">COMENTARIOS •</string>
+    <string name="addComentario">Agregar un comentario.</string>
 
     <!-- Productores -->
     <string name="cargandoDescrip">Cargando descripción...</string>

@@ -22,6 +22,16 @@
             android:layout_weight="1" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imagenFondo"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:scaleType="centerCrop"
+        android:layout_below="@+id/container_toolbar"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/limon"
+        android:tint="#F1F1F1" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageProducer"
         android:layout_centerHorizontal="true"
