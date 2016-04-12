@@ -51,15 +51,6 @@ public class VerProductoCheck extends Fragment {
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        Typeface textView = Typeface.createFromAsset(
-                getActivity().getAssets(),
-                "fonts/Roboto-Bold.ttf");
-
-        TextView textDescription = (TextView) rootView.findViewById(R.id.textViewDescripcion);
-        textDescription.setTypeface(textView);
-        TextView textViewCantidadDisponible = (TextView) rootView.findViewById(R.id.textViewCantidadDisponible);
-        textViewCantidadDisponible.setTypeface(textView);
-
         descripcionProducto = (EditText) rootView.findViewById(R.id.editTextDescriProduct);
         descripcionProducto.setTypeface(editTextCheck);
         cantidadDisponible = (EditText) rootView.findViewById(R.id.editTextCantidadDisponible);

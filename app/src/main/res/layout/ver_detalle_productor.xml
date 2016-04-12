@@ -28,19 +28,19 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_below="@+id/container_toolbar"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
 
-    <TextView
-        android:id="@+id/textViewDescripcion"
+    <ImageView
+        android:id="@+id/iconDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:src="@drawable/ic_description"
         android:layout_below="@+id/imageProducer"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:text="@string/description" />
+        android:tint="#B6B6B6" />
 
     <EditText
         android:id="@+id/editTextDescriProducer"
@@ -48,10 +48,16 @@
         android:layout_height="wrap_content"
         android:maxLength="160"
         android:enabled="false"
+        android:textSize="14sp"
         android:hint="@string/cargandoDescrip"
-        android:layout_below="@+id/textViewDescripcion"
-        android:layout_alignLeft="@+id/textViewDescripcion"
-        android:layout_alignStart="@+id/textViewDescripcion"
+        android:paddingTop="5dp"
+        android:paddingBottom="0dp"
+        android:layout_alignTop="@+id/iconDescription"
+        android:layout_toRightOf="@+id/iconDescription"
+        android:layout_toEndOf="@+id/iconDescription"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp" />
 
@@ -59,7 +65,7 @@
         android:id="@+id/divisor"
         android:layout_width="fill_parent"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="15dp"
         android:layout_height="1dip"
         android:background="#B6B6B6"
         android:layout_below="@+id/editTextDescriProducer" />
@@ -72,8 +78,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@+id/divisor"
         android:textColor="#CCCCCC"
-        android:layout_alignLeft="@+id/textViewDescripcion"
-        android:layout_alignStart="@+id/textViewDescripcion"
+        android:layout_alignLeft="@+id/iconDescription"
+        android:layout_alignStart="@+id/iconDescription"
         android:text="@string/productos" />
 
     <TextView
@@ -93,6 +99,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewProducts"
-        android:layout_marginTop="15dp"/>
+        android:layout_alignLeft="@+id/iconDescription"
+        android:layout_alignStart="@+id/iconDescription"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
 
 </RelativeLayout>

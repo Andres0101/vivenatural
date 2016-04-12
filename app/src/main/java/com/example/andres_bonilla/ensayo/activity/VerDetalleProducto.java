@@ -59,10 +59,6 @@ public class VerDetalleProducto extends AppCompatActivity {
                 this.getAssets(),
                 "fonts/Roboto-Regular.ttf");
 
-        Typeface textView = Typeface.createFromAsset(
-                this.getAssets(),
-                "fonts/Roboto-Bold.ttf");
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,10 +73,6 @@ public class VerDetalleProducto extends AppCompatActivity {
         setTitle(nombreDelProducto);
 
         imagenProducto = (ImageView) findViewById(R.id.imageProduct);
-        TextView textDescription = (TextView) findViewById(R.id.textViewDescripcion);
-        textDescription.setTypeface(textView);
-        TextView textViewCantidadDisponible = (TextView) findViewById(R.id.textViewCantidadDisponible);
-        textViewCantidadDisponible.setTypeface(textView);
         TextView textCantidadComentarios = (TextView) findViewById(R.id.textViewComentarios);
         textCantidadComentarios.setTypeface(text);
         cantidadComentario = (TextView) findViewById(R.id.textViewCantidadComentarios);

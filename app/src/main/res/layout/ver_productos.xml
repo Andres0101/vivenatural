@@ -10,17 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 
-    <TextView
-        android:id="@+id/textViewDescripcion"
+    <ImageView
+        android:id="@+id/iconDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:src="@drawable/ic_description"
         android:layout_below="@+id/imageProduct"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:text="@string/description" />
+        android:tint="#B6B6B6"/>
 
     <EditText
         android:id="@+id/editTextDescriProduct"
@@ -28,24 +27,29 @@
         android:layout_height="wrap_content"
         android:maxLength="160"
         android:enabled="false"
+        android:textSize="14sp"
         android:hint="@string/addDescription"
-        android:layout_below="@+id/textViewDescripcion"
-        android:layout_alignLeft="@+id/textViewDescripcion"
-        android:layout_alignStart="@+id/textViewDescripcion"
+        android:layout_below="@+id/imageProduct"
+        android:paddingTop="3dp"
+        android:layout_alignTop="@+id/iconDescription"
+        android:layout_toRightOf="@+id/iconDescription"
+        android:layout_toEndOf="@+id/iconDescription"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp" />
 
-    <TextView
-        android:id="@+id/textViewCantidadDisponible"
+    <ImageView
+        android:id="@+id/iconAvailable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/editTextDescriProduct"
-        android:layout_marginTop="20dp"
-        android:layout_alignLeft="@+id/textViewDescripcion"
-        android:layout_alignStart="@+id/textViewDescripcion"
-        android:text="@string/cantidad" />
+        android:src="@drawable/ic_description"
+        android:layout_below="@+id/iconDescription"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:tint="#B6B6B6"/>
 
     <EditText
         android:id="@+id/editTextCantidadDisponible"
@@ -54,13 +58,15 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:enabled="false"
+        android:textSize="14sp"
         android:hint="@string/addCantidad"
-        android:paddingBottom="2dp"
-        android:layout_alignBottom="@+id/textViewCantidadDisponible"
-        android:layout_toRightOf="@+id/textViewCantidadDisponible"
-        android:layout_toEndOf="@+id/textViewCantidadDisponible"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
+        android:paddingTop="3dp"
+        android:layout_alignTop="@+id/iconAvailable"
+        android:layout_toRightOf="@+id/iconAvailable"
+        android:layout_toEndOf="@+id/iconAvailable"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp" />
 

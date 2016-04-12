@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,10 +49,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 this.getAssets(),
                 "fonts/Roboto-Regular.ttf");
 
-        Typeface textView = Typeface.createFromAsset(
-                this.getAssets(),
-                "fonts/Roboto-Bold.ttf");
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,8 +65,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
         imagenProducto = (ImageView) findViewById(R.id.imageProduct);
         imageConsumer = (ImageView) findViewById(R.id.profile_image);
-        TextView textViewCantidadDisponible = (TextView) findViewById(R.id.textViewCantidadDisponible);
-        textViewCantidadDisponible.setTypeface(textView);
         TextView textCantidadComentarios = (TextView) findViewById(R.id.textViewComentarios);
         textCantidadComentarios.setTypeface(text);
         cantidadComentario = (TextView) findViewById(R.id.textViewCantidadComentarios);
@@ -91,7 +86,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                     Product product = postSnapshot.getValue(Product.class);
 
                     if (product.getNombreProducto().equals(nombreDelProducto) && product.getProductor().equals(nombreDelProductor)) {
-
                         String imageProduct = product.getImagen();
                         Bitmap imagenBitmap = StringToBitMap(imageProduct);
                         imagenProducto.setImageBitmap(imagenBitmap);
@@ -116,7 +110,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                     User user = postSnapshot.getValue(User.class);
 
                     if (user.getNombre().equals(nombreDelConsumidor)) {
-
                         String imageProduct = user.getImagen();
                         Bitmap imagenBitmap = StringToBitMap(imageProduct);
                         imageConsumer.setImageBitmap(imagenBitmap);
@@ -128,6 +121,14 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //TODO cambian icono menu por carrito de compras con el "+"
+        getMenuInflater().inflate(R.menu.menu_reservar, menu);
+        return true;
     }
 
     private Bitmap StringToBitMap(String encodedString) {

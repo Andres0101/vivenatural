@@ -69,10 +69,6 @@ public class VerDetalleProductor extends AppCompatActivity {
                 this.getAssets(),
                 "fonts/Roboto-Regular.ttf");
 
-        Typeface textView = Typeface.createFromAsset(
-                this.getAssets(),
-                "fonts/Roboto-Bold.ttf");
-
         infoName = Typeface.createFromAsset(
                 this.getAssets(),
                 "fonts/Roboto-Medium.ttf");
@@ -108,8 +104,6 @@ public class VerDetalleProductor extends AppCompatActivity {
         setTitle(nombreDelProductor);
 
         imagenProductor = (ImageView) findViewById(R.id.imageProducer);
-        TextView textDescription = (TextView) findViewById(R.id.textViewDescripcion);
-        textDescription.setTypeface(textView);
         TextView textCantidadProductos = (TextView) findViewById(R.id.textViewProducts);
         textCantidadProductos.setTypeface(textCantidad);
         cantidadProducto = (TextView) findViewById(R.id.textViewCantidadProductos);

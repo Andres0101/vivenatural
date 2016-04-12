@@ -30,7 +30,8 @@
         android:layout_below="@+id/contenedor"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="50dp"
+        android:tint="#B6B6B6" />
 
     <Spinner
         android:id="@+id/spinnerProducts"
@@ -56,7 +57,8 @@
         android:layout_below="@+id/productsIcon"
         android:layout_alignLeft="@+id/productsIcon"
         android:layout_alignStart="@+id/productsIcon"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:tint="#B6B6B6" />
 
     <EditText
         android:id="@+id/editTextCant"
@@ -92,7 +94,8 @@
         android:layout_below="@+id/productsCant"
         android:layout_alignLeft="@+id/productsCant"
         android:layout_alignStart="@+id/productsCant"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:tint="#B6B6B6" />
 
     <EditText
         android:id="@+id/editTextInfo"

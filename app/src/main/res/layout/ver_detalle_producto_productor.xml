@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#E6E5E4">
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:id="@+id/container_toolbar"
@@ -28,72 +27,76 @@
         android:layout_below="@+id/container_toolbar"
         android:layout_height="200dp" />
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_gravity="center"
-        card_view:cardBackgroundColor="@color/textColorPrimary"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/iconDescription"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_description"
         android:layout_below="@+id/imageProduct"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:tint="#B6B6B6"/>
+
+    <EditText
+        android:id="@+id/editTextDescriProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="160"
+        android:enabled="false"
+        android:textSize="14sp"
+        android:hint="@string/cargandoDescrip"
+        android:layout_below="@+id/imageProduct"
+        android:paddingTop="5dp"
+        android:paddingBottom="0dp"
+        android:layout_alignTop="@+id/iconDescription"
+        android:layout_toRightOf="@+id/iconDescription"
+        android:layout_toEndOf="@+id/iconDescription"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp" >
+        android:layout_marginEnd="16dp" />
 
-        <EditText
-            android:id="@+id/editTextDescriProduct"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLength="160"
-            android:enabled="false"
-            android:hint="@string/addDescription"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp" />
+    <ImageView
+        android:id="@+id/iconAvailable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_description"
+        android:layout_below="@+id/iconDescription"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:tint="#B6B6B6"/>
 
-        <TextView
-            android:id="@+id/textViewCantidadDisponible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_marginTop="62dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/cantidad" />
+    <EditText
+        android:id="@+id/editTextCantidadDisponible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:enabled="false"
+        android:textSize="14sp"
+        android:hint="@string/addCantidad"
+        android:paddingTop="5dp"
+        android:paddingBottom="0dp"
+        android:layout_alignTop="@+id/iconAvailable"
+        android:layout_toRightOf="@+id/iconAvailable"
+        android:layout_toEndOf="@+id/iconAvailable"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
 
-        <EditText
-            android:id="@+id/editTextCantidadDisponible"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:enabled="false"
-            android:hint="@string/addCantidad"
-            android:paddingBottom="2dp"
-            android:layout_marginTop="52dp"
-            android:layout_marginLeft="125dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"/>
-
-    </android.support.v7.widget.CardView>
-
-    <!--<View
+    <View
         android:id="@+id/divisor"
         android:layout_width="fill_parent"
-        android:layout_below="@+id/card_view"
+        android:layout_below="@+id/iconAvailable"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="15dp"
         android:layout_height="1dip"
-        android:background="#B6B6B6" />-->
+        android:background="#B6B6B6" />
 
     <TextView
         android:id="@+id/textViewComentarios"
@@ -101,11 +104,10 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/card_view"
-        android:layout_marginTop="15dp"
+        android:layout_below="@+id/divisor"
         android:textColor="#CCCCCC"
-        android:layout_alignLeft="@+id/card_view"
-        android:layout_alignStart="@+id/card_view"
+        android:layout_alignLeft="@+id/iconDescription"
+        android:layout_alignStart="@+id/iconDescription"
         android:text="@string/comentarios" />
 
     <TextView
@@ -115,8 +117,7 @@
         android:textSize="12sp"
         android:text=" 0"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/card_view"
-        android:layout_marginTop="15dp"
+        android:layout_below="@+id/divisor"
         android:layout_toRightOf="@id/textViewComentarios"
         android:layout_toEndOf="@id/textViewComentarios"
         android:textColor="#CCCCCC" />
@@ -125,8 +126,8 @@
         android:id="@+id/profile_image"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_alignLeft="@+id/card_view"
-        android:layout_alignStart="@+id/card_view"
+        android:layout_alignLeft="@+id/iconDescription"
+        android:layout_alignStart="@+id/iconDescription"
         android:layout_below="@+id/textViewComentarios"
         android:layout_marginTop="15dp" />
 
@@ -135,9 +136,8 @@
         android:layout_width="fill_parent"
         android:layout_below="@+id/profile_image"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="25dp"
-        android:layout_alignLeft="@+id/card_view"
-        android:layout_alignStart="@+id/card_view"
+        android:layout_alignLeft="@+id/iconDescription"
+        android:layout_alignStart="@+id/iconDescription"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
         android:layout_height="1dip"
@@ -147,6 +147,10 @@
         android:id="@+id/commentsListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/divisorDos" />
+        android:layout_below="@+id/divisorDos"
+        android:layout_alignLeft="@+id/iconDescription"
+        android:layout_alignStart="@+id/iconDescription"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
 
 </RelativeLayout>

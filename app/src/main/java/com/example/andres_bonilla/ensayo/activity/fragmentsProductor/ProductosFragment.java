@@ -176,15 +176,6 @@ public class ProductosFragment extends Fragment {
         productInfo = (EditText) d.findViewById(R.id.editTextInfo);
         productInfo.setTypeface(texto);
 
-        ImageView productColorIcon = (ImageView) d.findViewById(R.id.productsIcon);
-        ImageView cantColorIcon = (ImageView) d.findViewById(R.id.productsCant);
-        ImageView infoColorIcon = (ImageView) d.findViewById(R.id.productsInfo);
-        //Cambia el color de los iconos
-        int color = Color.parseColor("#B6B6B6");
-        productColorIcon.setColorFilter(color);
-        infoColorIcon.setColorFilter(color);
-        cantColorIcon.setColorFilter(color);
-
         spinnerProduct = (Spinner) d.findViewById(R.id.spinnerProducts);
         //Agrega al spinner los nombres de los productos en la base de datos.
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, list)
