@@ -165,11 +165,8 @@ public class PerfilFragmentCheck extends Fragment {
                 else
                     System.out.println("filemanagerstring is the right one for you!");
 
-
-                /*imagenB = BitmapFactory.decodeFile(selectedImagePath);
-                v.setImageBitmap(imagenB);*/
                 imageProducer.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
-                //imageFile = BitMapToString(BitmapFactory.decodeFile(selectedImagePath));
+                imageFile = BitMapToString(BitmapFactory.decodeFile(selectedImagePath));
             }
         }
     }
@@ -194,9 +191,9 @@ public class PerfilFragmentCheck extends Fragment {
     }
 
     public String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
-        byte [] b=baos.toByteArray();
+        ByteArrayOutputStream baos = new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte [] b = baos.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
