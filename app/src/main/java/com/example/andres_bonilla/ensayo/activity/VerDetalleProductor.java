@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,10 +36,12 @@ import java.util.List;
  */
 public class VerDetalleProductor extends AppCompatActivity {
 
-    Firebase myRef;
-    Firebase products;
+    private Firebase products;
+
+    private Product clickedProduct;
 
     private String nombreDelProductor;
+    private String nombreDelConsumidor;
 
     private ImageView imagenProductor;
     private EditText descripcionProductor;
@@ -49,7 +52,6 @@ public class VerDetalleProductor extends AppCompatActivity {
     MyListAdapter adapter;
 
     private Typeface editText;
-    private Typeface textCantidad;
     private Typeface infoName;
 
     private List<Product> myProducts = new ArrayList<>();
@@ -63,7 +65,7 @@ public class VerDetalleProductor extends AppCompatActivity {
                 this.getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        textCantidad = Typeface.createFromAsset(
+        Typeface textCantidad = Typeface.createFromAsset(
                 this.getAssets(),
                 "fonts/Roboto-Regular.ttf");
 
@@ -79,7 +81,7 @@ public class VerDetalleProductor extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
         products = myRef.child("products");
 
         guardeProducto = false;
@@ -97,8 +99,11 @@ public class VerDetalleProductor extends AppCompatActivity {
 
         listaBaseDatos();
         listView();
+        clickSobreItem();
 
-        // Obtiene el nombre de la persona que inicia sesión.
+        // Obtiene el nombre de la persona que inicia sesión y la del productor del
+        // producto a quien el usuario le dio click.
+        nombreDelConsumidor = getIntent().getExtras().getString("nombreConsumidor");
         nombreDelProductor = getIntent().getExtras().getString("nombreProductor");
         setTitle(nombreDelProductor);
 
@@ -205,6 +210,24 @@ public class VerDetalleProductor extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    private void clickSobreItem() {
+        ListView list = (ListView) findViewById(R.id.productsListView);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                clickedProduct = myProducts.get(position);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("nombreProducto", clickedProduct.getNombreProducto());
+                bundle.putString("nombreProductor", nombreDelProductor);
+                bundle.putString("nombreConsumidor", nombreDelConsumidor);
+                Intent i = new Intent(VerDetalleProductor.this, VerDetalleProductoProductor.class);
+                i.putExtras(bundle);
+                startActivity(i);
+            }
+        });
+    }
+
     private class MyListAdapter extends ArrayAdapter<Product> {
         public MyListAdapter(){
             super(VerDetalleProductor.this, R.layout.products_view, myProducts);
@@ -239,11 +262,11 @@ public class VerDetalleProductor extends AppCompatActivity {
 
             //Cantidad:
             TextView textViewCantidad = (TextView) productsView.findViewById(R.id.textViewCantidad);
-            textViewCantidad.setTypeface(textCantidad);
+            textViewCantidad.setTypeface(editText);
             TextView cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
             cantidadProducto.setTypeface(editText);
             priceProducto.setTypeface(editText);
-            cantidadProducto.setText(" " + currentProduct.getCantidad() + " lb");
+            cantidadProducto.setText(currentProduct.getCantidad() + " lb");
 
             return productsView;
         }

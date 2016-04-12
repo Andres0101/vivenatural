@@ -33,6 +33,8 @@ public class Productores extends Fragment {
 
     private View rootView;
 
+    private String nombreDelConsumidor;
+
     private User clickedProducer;
 
     private Firebase myRef;
@@ -61,6 +63,9 @@ public class Productores extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_productores, container, false);
         setHasOptionsMenu(true);
+
+        // Obtiene el nombre de la persona que inicia sesión.
+        nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
 
         textoNoHay = (TextView) rootView.findViewById(R.id.textoInfoProductores);
 
@@ -127,6 +132,7 @@ public class Productores extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("nombreProductor", clickedProducer.getNombre());
+                bundle.putString("nombreConsumidor", nombreDelConsumidor);
                 Intent i = new Intent(getActivity(), VerDetalleProductor.class);
                 i.putExtras(bundle);
                 startActivity(i);

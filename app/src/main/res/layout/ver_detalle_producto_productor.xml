@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E6E5E4">
+
+    <LinearLayout
+        android:id="@+id/container_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <FrameLayout
+            android:id="@+id/container_body"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageProduct"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/container_toolbar"
+        android:layout_height="200dp" />
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        card_view:cardBackgroundColor="@color/textColorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageProduct"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" >
+
+        <EditText
+            android:id="@+id/editTextDescriProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="160"
+            android:enabled="false"
+            android:hint="@string/addDescription"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:id="@+id/textViewCantidadDisponible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginTop="62dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/cantidad" />
+
+        <EditText
+            android:id="@+id/editTextCantidadDisponible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="@string/addCantidad"
+            android:paddingBottom="2dp"
+            android:layout_marginTop="52dp"
+            android:layout_marginLeft="125dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"/>
+
+    </android.support.v7.widget.CardView>
+
+    <!--<View
+        android:id="@+id/divisor"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/card_view"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="25dp"
+        android:layout_height="1dip"
+        android:background="#B6B6B6" />-->
+
+    <TextView
+        android:id="@+id/textViewComentarios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/card_view"
+        android:layout_marginTop="15dp"
+        android:textColor="#CCCCCC"
+        android:layout_alignLeft="@+id/card_view"
+        android:layout_alignStart="@+id/card_view"
+        android:text="@string/comentarios" />
+
+    <TextView
+        android:id="@+id/textViewCantidadComentarios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text=" 0"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/card_view"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/textViewComentarios"
+        android:layout_toEndOf="@id/textViewComentarios"
+        android:textColor="#CCCCCC" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignLeft="@+id/card_view"
+        android:layout_alignStart="@+id/card_view"
+        android:layout_below="@+id/textViewComentarios"
+        android:layout_marginTop="15dp" />
+
+    <View
+        android:id="@+id/divisorDos"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/profile_image"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="25dp"
+        android:layout_alignLeft="@+id/card_view"
+        android:layout_alignStart="@+id/card_view"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="1dip"
+        android:background="#B6B6B6" />
+
+    <ListView
+        android:id="@+id/commentsListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divisorDos" />
+
+</RelativeLayout>

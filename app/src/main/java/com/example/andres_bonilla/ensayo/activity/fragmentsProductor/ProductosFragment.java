@@ -386,11 +386,11 @@ public class ProductosFragment extends Fragment {
 
             //Cantidad:
             TextView textViewCantidad = (TextView) productsView.findViewById(R.id.textViewCantidad);
-            textViewCantidad.setTypeface(textCantidad);
+            textViewCantidad.setTypeface(texto);
             TextView cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
             cantidadProducto.setTypeface(texto);
             priceProducto.setTypeface(texto);
-            cantidadProducto.setText(" " + currentProduct.getCantidad() + " lb");
+            cantidadProducto.setText(currentProduct.getCantidad() + " lb");
 
             return productsView;
         }

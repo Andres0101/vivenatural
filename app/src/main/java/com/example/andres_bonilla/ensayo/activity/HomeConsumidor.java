@@ -188,6 +188,11 @@ public class HomeConsumidor extends AppCompatActivity {
                         android.support.v4.app.FragmentTransaction fragmentTransactionDos = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionDos.replace(R.id.container_body, fragmentDos);
 
+                        Bundle bundle = new Bundle();
+                        bundle.putString("nombreDelConsumidor", dataNombre);
+                        // set Fragmentclass Arguments
+                        fragmentDos.setArguments(bundle);
+
                         //Setea el nombre del label
                         setTitle(R.string.title_productores);
 

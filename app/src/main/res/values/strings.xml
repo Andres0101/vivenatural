@@ -63,6 +63,7 @@
     <string name="agregar">Agregar</string>
     <string name="cancelar">Cancelar</string>
     <string name="cantidad">Disponible:</string>
+    <string name="disponible">DISPONIBLES</string>
     <string name="cantidadOfrecida">Cantidad a ofrecer</string>
     <string name="info">Información</string>
     <string name="addDescription">Ingresa descripción.</string>
