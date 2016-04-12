@@ -58,6 +58,7 @@
         android:layout_height="wrap_content"
         android:maxLength="160"
         android:enabled="false"
+        android:focusable="false"
         android:textSize="14sp"
         android:hint="@string/cargandoDescrip"
         android:paddingTop="5dp"
