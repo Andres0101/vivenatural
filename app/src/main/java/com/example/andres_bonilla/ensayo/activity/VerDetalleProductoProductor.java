@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -40,6 +41,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     private TextView cantidadComentario;
     private EditText agregarComentario;
 
+    private ImageView button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +70,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         nombreDelProducto = getIntent().getExtras().getString("nombreProducto");
         setTitle(nombreDelProducto);
 
-        ImageButton button = (ImageButton) findViewById(R.id.addButton);
-        button.setColorFilter(Color.argb(255, 0, 0, 0)); // White Tint
+        button = (ImageView) findViewById(R.id.addButton);
 
         imagenProducto = (ImageView) findViewById(R.id.imageProduct);
         imageConsumer = (ImageView) findViewById(R.id.profile_image);
@@ -85,6 +87,18 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         cantidadDisponible.setBackground(null);
         agregarComentario = (EditText) findViewById(R.id.addComment);
         agregarComentario.setTypeface(editText);
+
+        agregarComentario.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                //Cuando el editText es presionado muestra la imagen del botón send.
+                if (hasFocus) {
+                    button.setVisibility(View.VISIBLE);
+                } else {
+                    button.setVisibility(View.GONE);
+                }
+            }
+        });
 
         // Lee los datos de los productos
         Firebase productos = myRef.child("products");

@@ -146,10 +146,12 @@
         android:imeOptions="actionDone"
         android:hint="@string/addComentario" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
+        android:src="@drawable/ic_send"
+        android:visibility="gone"
         android:layout_below="@+id/textViewComentarios"
         android:layout_toRightOf="@+id/addComment"
         android:layout_toEndOf="@+id/addComment"
@@ -159,7 +161,7 @@
         android:layout_marginStart="-50dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/ic_info" />
+        android:tint="#B6B6B6" />
 
     <View
         android:id="@+id/divisorDos"
