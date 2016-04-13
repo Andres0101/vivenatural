@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -35,6 +36,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     private EditText descripcionProducto;
     private EditText cantidadDisponible;
     private TextView cantidadComentario;
+    private EditText agregarComentario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,11 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         cantidadDisponible = (EditText) findViewById(R.id.editTextCantidadDisponible);
         cantidadDisponible.setTypeface(editText);
         cantidadDisponible.setBackground(null);
+        agregarComentario = (EditText) findViewById(R.id.addComment);
+        agregarComentario.setTypeface(editText);
+
+        TextInputLayout inputLayoutAddComment = (TextInputLayout) findViewById(R.id.input_layout_addComment);
+        inputLayoutAddComment.setTypeface(editText);
 
         // Lee los datos de los productos
         Firebase productos = myRef.child("products");
@@ -126,7 +133,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //TODO cambian icono menu por carrito de compras con el "+"
         getMenuInflater().inflate(R.menu.menu_reservar, menu);
         return true;
     }

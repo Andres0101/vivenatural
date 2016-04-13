@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/textColorPrimary" >
 
     <LinearLayout
         android:id="@+id/container_toolbar"
@@ -13,12 +14,6 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
-
-        <FrameLayout
-            android:id="@+id/container_body"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
     </LinearLayout>
 
     <ImageView
@@ -134,20 +129,29 @@
         android:layout_below="@+id/textViewComentarios"
         android:layout_marginTop="15dp" />
 
-    <EditText
-        android:id="@+id/addComment"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_addComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:focusable="false"
         android:layout_below="@+id/textViewComentarios"
         android:layout_toRightOf="@+id/profile_image"
         android:layout_toEndOf="@+id/profile_image"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/addComentario" />
+        android:theme="@style/EditTextHintDos" >
+
+        <EditText
+            android:id="@+id/addComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:focusableInTouchMode="true"
+            android:hint="@string/addComentario" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <View
         android:id="@+id/divisorDos"

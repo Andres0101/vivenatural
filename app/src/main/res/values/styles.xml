@@ -20,6 +20,14 @@
         <item name="colorControlHighlight">#FFFFFF</item>
     </style>
 
+    <style name="EditTextHintDos" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorAccent">#CCCCCC</item>
+        <item name="android:textColorHint">#CCCCCC</item>
+        <item name="colorControlNormal">#CCCCCC</item>
+        <item name="colorControlActivated">#CCCCCC</item>
+        <item name="colorControlHighlight">#CCCCCC</item>
+    </style>
+
     <style name="ErrorAppearance" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textColor">@color/colorError</item>
     </style>

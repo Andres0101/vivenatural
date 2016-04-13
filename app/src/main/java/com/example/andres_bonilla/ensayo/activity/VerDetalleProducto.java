@@ -69,6 +69,7 @@ public class VerDetalleProducto extends AppCompatActivity {
         nombreDelProducto = getIntent().getExtras().getString("nombreProducto");
         setTitle(nombreDelProducto);
 
+        // Inicia en el fragment de VerDetalleProductoFragment
         VerDetalleProductoFragment fragmentUno = new VerDetalleProductoFragment();
         android.support.v4.app.FragmentTransaction fragmentInicio = getSupportFragmentManager().beginTransaction();
         fragmentInicio.add(R.id.container_body, fragmentUno);
@@ -173,6 +174,7 @@ public class VerDetalleProducto extends AppCompatActivity {
                     descripcion.put("cantidad", fragmentCuatroCheck.getTextCantidad());
                     textoDescripcion.updateChildren(descripcion);
 
+                    // "Borra" imagen del producto.
                     imagenProducto.setVisibility(View.GONE);
 
                     ProductosFragment fragmentCuatro = new ProductosFragment();
