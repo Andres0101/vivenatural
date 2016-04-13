@@ -2,6 +2,7 @@ package com.example.andres_bonilla.ensayo.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -11,6 +12,7 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,6 +66,9 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         nombreDelProductor = getIntent().getExtras().getString("nombreProductor");
         nombreDelProducto = getIntent().getExtras().getString("nombreProducto");
         setTitle(nombreDelProducto);
+
+        ImageButton button = (ImageButton) findViewById(R.id.addButton);
+        button.setColorFilter(Color.argb(255, 0, 0, 0)); // White Tint
 
         imagenProducto = (ImageView) findViewById(R.id.imageProduct);
         imageConsumer = (ImageView) findViewById(R.id.profile_image);
