@@ -2,10 +2,8 @@ package com.example.andres_bonilla.ensayo.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -13,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,7 +38,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     private TextView cantidadComentario;
     private EditText agregarComentario;
 
-    private ImageView button;
+    private ImageView buttonSend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +67,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         nombreDelProducto = getIntent().getExtras().getString("nombreProducto");
         setTitle(nombreDelProducto);
 
-        button = (ImageView) findViewById(R.id.addButton);
+        buttonSend = (ImageView) findViewById(R.id.addButton);
 
         imagenProducto = (ImageView) findViewById(R.id.imageProduct);
         imageConsumer = (ImageView) findViewById(R.id.profile_image);
@@ -93,10 +90,18 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 //Cuando el editText es presionado muestra la imagen del botón send.
                 if (hasFocus) {
-                    button.setVisibility(View.VISIBLE);
+                    buttonSend.setVisibility(View.VISIBLE);
                 } else {
-                    button.setVisibility(View.GONE);
+                    buttonSend.setVisibility(View.GONE);
                 }
+            }
+        });
+
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Cuando presiona el botón de send lo agrega a la base de datos.
+                System.out.println("Comentario: " + agregarComentario.getText().toString());
             }
         });
 
