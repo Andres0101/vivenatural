@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
 
@@ -40,7 +39,7 @@ public class VerProductoCheck extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.ver_productos, container, false);
+        View rootView = inflater.inflate(R.layout.ver_producto_check, container, false);
         setHasOptionsMenu(true);
 
         //Utilizado para remover el icono de regresar.

@@ -6,17 +6,10 @@
     android:background="@color/textColorPrimary">
 
     <ImageView
-        android:id="@+id/imageProduct"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop" />
-
-    <ImageView
         android:id="@+id/iconDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_description"
-        android:layout_below="@+id/imageProduct"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
@@ -30,7 +23,6 @@
         android:enabled="false"
         android:textSize="14sp"
         android:hint="@string/addDescription"
-        android:layout_below="@+id/imageProduct"
         android:paddingTop="3dp"
         android:layout_alignTop="@+id/iconDescription"
         android:layout_toRightOf="@+id/iconDescription"

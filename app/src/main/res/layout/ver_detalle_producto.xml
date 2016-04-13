@@ -15,125 +15,17 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
+        <ImageView
+            android:id="@+id/imageProduct"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop" />
+
         <FrameLayout
             android:id="@+id/container_body"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageProduct"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/container_toolbar"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop" />
-
-    <ImageView
-        android:id="@+id/iconDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_description"
-        android:layout_below="@+id/imageProduct"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:tint="#B6B6B6"/>
-
-    <EditText
-        android:id="@+id/editTextDescriProduct"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLength="160"
-        android:enabled="false"
-        android:focusable="false"
-        android:textSize="14sp"
-        android:hint="@string/cargandoDescrip"
-        android:layout_below="@+id/imageProduct"
-        android:paddingTop="5dp"
-        android:paddingBottom="0dp"
-        android:layout_alignTop="@+id/iconDescription"
-        android:layout_toRightOf="@+id/iconDescription"
-        android:layout_toEndOf="@+id/iconDescription"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp" />
-
-    <ImageView
-        android:id="@+id/iconAvailable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_description"
-        android:layout_below="@+id/iconDescription"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:tint="#B6B6B6"/>
-
-    <EditText
-        android:id="@+id/editTextCantidadDisponible"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:enabled="false"
-        android:focusable="false"
-        android:textSize="14sp"
-        android:hint="@string/addCantidad"
-        android:paddingTop="5dp"
-        android:paddingBottom="0dp"
-        android:layout_alignTop="@+id/iconAvailable"
-        android:layout_toRightOf="@+id/iconAvailable"
-        android:layout_toEndOf="@+id/iconAvailable"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp" />
-
-    <View
-        android:id="@+id/divisor"
-        android:layout_width="fill_parent"
-        android:layout_below="@+id/iconAvailable"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_height="1dip"
-        android:background="#B6B6B6" />
-
-    <TextView
-        android:id="@+id/textViewComentarios"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/divisor"
-        android:textColor="#CCCCCC"
-        android:layout_alignLeft="@+id/iconDescription"
-        android:layout_alignStart="@+id/iconDescription"
-        android:text="@string/comentarios" />
-
-    <TextView
-        android:id="@+id/textViewCantidadComentarios"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:text=" 0"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/divisor"
-        android:layout_toRightOf="@id/textViewComentarios"
-        android:layout_toEndOf="@id/textViewComentarios"
-        android:textColor="#CCCCCC" />
-
-    <ListView
-        android:id="@+id/commentsListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewComentarios"
-        android:layout_alignLeft="@+id/iconDescription"
-        android:layout_alignStart="@+id/iconDescription"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp" />
 
 </RelativeLayout>

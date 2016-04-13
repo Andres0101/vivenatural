@@ -32,7 +32,11 @@
         </activity>
 
         <activity android:name=".activity.VerDetalleProducto" />
-        <activity android:name=".activity.VerDetalleProductoProductor" />
+
+        <activity android:name=".activity.VerDetalleProductoProductor"
+            android:windowSoftInputMode="stateVisible|adjustPan">
+        </activity>
+
         <activity android:name=".activity.VerDetalleProductor" />
         <activity android:name=".activity.HomeConsumidor" />
     </application>

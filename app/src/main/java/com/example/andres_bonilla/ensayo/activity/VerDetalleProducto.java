@@ -10,14 +10,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ProductosFragment;
+import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.VerDetalleProductoFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.VerProductoCheck;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -38,9 +38,6 @@ public class VerDetalleProducto extends AppCompatActivity {
     private String nombreDelProducto;
 
     private ImageView imagenProducto;
-    private EditText descripcionProducto;
-    private EditText cantidadDisponible;
-    private TextView cantidadComentario;
 
     private VerProductoCheck fragmentCuatroCheck;
 
@@ -72,18 +69,19 @@ public class VerDetalleProducto extends AppCompatActivity {
         nombreDelProducto = getIntent().getExtras().getString("nombreProducto");
         setTitle(nombreDelProducto);
 
-        imagenProducto = (ImageView) findViewById(R.id.imageProduct);
-        TextView textCantidadComentarios = (TextView) findViewById(R.id.textViewComentarios);
-        textCantidadComentarios.setTypeface(text);
-        cantidadComentario = (TextView) findViewById(R.id.textViewCantidadComentarios);
-        cantidadComentario.setTypeface(text);
+        VerDetalleProductoFragment fragmentUno = new VerDetalleProductoFragment();
+        android.support.v4.app.FragmentTransaction fragmentInicio = getSupportFragmentManager().beginTransaction();
+        fragmentInicio.add(R.id.container_body, fragmentUno);
 
-        descripcionProducto = (EditText) findViewById(R.id.editTextDescriProduct);
-        descripcionProducto.setTypeface(editText);
-        descripcionProducto.setBackground(null);
-        cantidadDisponible = (EditText) findViewById(R.id.editTextCantidadDisponible);
-        cantidadDisponible.setTypeface(editText);
-        cantidadDisponible.setBackground(null);
+        Bundle bundle = new Bundle();
+        bundle.putString("nombreDelProductor", nombreDelProductor);
+        bundle.putString("nombreDelProducto", nombreDelProducto);
+        // set Fragmentclass Arguments
+        fragmentUno.setArguments(bundle);
+
+        fragmentInicio.commit();
+
+        imagenProducto = (ImageView) findViewById(R.id.imageProduct);
 
         // Lee los datos de los productos
         Firebase productos = myRef.child("products");
@@ -98,9 +96,6 @@ public class VerDetalleProducto extends AppCompatActivity {
                         String imageProduct = product.getImagen();
                         Bitmap imagenBitmap = StringToBitMap(imageProduct);
                         imagenProducto.setImageBitmap(imagenBitmap);
-
-                        descripcionProducto.setText(product.getDescripcionProducto());
-                        cantidadDisponible.setText(" " + product.getCantidad() + " lb");
                     }
                 }
             }
@@ -165,11 +160,11 @@ public class VerDetalleProducto extends AppCompatActivity {
                 return true;
 
             case R.id.action_save_product:
-                //Si edita un producto vuelva el dibujar el icono de regresar.
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                guardeProducto = true; //Booleano para validar en la acción de goBack.
 
                 if (!fragmentCuatroCheck.getTextDescripcion().equals("") && !fragmentCuatroCheck.getTextCantidad().equals("")){
+                    //Si edita un producto vuelva el dibujar el icono de regresar.
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    guardeProducto = true; //Booleano para validar en la acción de goBack.
 
                     //Agrega el texto de descripción al productor(Base de datos)
                     Firebase textoDescripcion = myRef.child("products").child(nombreDelProductor+": "+nombreDelProducto);
@@ -177,6 +172,8 @@ public class VerDetalleProducto extends AppCompatActivity {
                     descripcion.put("descripcionProducto", fragmentCuatroCheck.getTextDescripcion());
                     descripcion.put("cantidad", fragmentCuatroCheck.getTextCantidad());
                     textoDescripcion.updateChildren(descripcion);
+
+                    imagenProducto.setVisibility(View.GONE);
 
                     ProductosFragment fragmentCuatro = new ProductosFragment();
                     android.support.v4.app.FragmentTransaction fragmentTransactionCuatro = getSupportFragmentManager().beginTransaction();
