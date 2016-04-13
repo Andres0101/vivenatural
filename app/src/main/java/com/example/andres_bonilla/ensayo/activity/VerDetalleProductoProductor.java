@@ -81,9 +81,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         agregarComentario = (EditText) findViewById(R.id.addComment);
         agregarComentario.setTypeface(editText);
 
-        TextInputLayout inputLayoutAddComment = (TextInputLayout) findViewById(R.id.input_layout_addComment);
-        inputLayoutAddComment.setTypeface(editText);
-
         // Lee los datos de los productos
         Firebase productos = myRef.child("products");
         productos.addListenerForSingleValueEvent(new ValueEventListener() {
