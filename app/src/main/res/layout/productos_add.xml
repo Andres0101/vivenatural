@@ -106,7 +106,7 @@
         android:layout_alignTop="@+id/productsInfo"
         android:layout_alignLeft="@+id/spinnerProducts"
         android:layout_alignStart="@+id/spinnerProducts"
-        android:maxLength="160"
+        android:maxLength="140"
         android:hint="@string/info"/>
 
     <Button

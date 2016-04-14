@@ -39,7 +39,7 @@
         android:id="@+id/editTextDescriProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLength="160"
+        android:maxLength="140"
         android:enabled="false"
         android:focusable="false"
         android:textSize="14sp"
@@ -134,6 +134,7 @@
         android:id="@+id/addComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxLength="140"
         android:textSize="14sp"
         android:layout_below="@+id/textViewComentarios"
         android:layout_toRightOf="@+id/profile_image"
@@ -161,7 +162,7 @@
         android:layout_marginStart="-50dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
-        android:tint="#B6B6B6" />
+        android:tint="#03A9F4" />
 
     <View
         android:id="@+id/divisorDos"

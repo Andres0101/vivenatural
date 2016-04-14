@@ -50,7 +50,7 @@
         android:id="@+id/editTextDescriProducer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLength="160"
+        android:maxLength="140"
         android:enabled="false"
         android:focusable="false"
         android:textSize="14sp"
