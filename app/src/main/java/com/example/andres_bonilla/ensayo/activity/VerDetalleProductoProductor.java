@@ -10,11 +10,15 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.firebase.client.DataSnapshot;
@@ -22,14 +26,25 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by ANDRES_BONILLA on 11/04/2016.
  */
 public class VerDetalleProductoProductor extends AppCompatActivity {
 
+    private Firebase myRef;
+    private Firebase comments;
+    private Firebase usuarios;
+
+    private Typeface editText;
+    private Typeface infoName;
+
     private String nombreDelConsumidor;
     private String nombreDelProductor;
     private String nombreDelProducto;
+    private String imageConsumidor;
 
     private ImageView imagenProducto;
     private ImageView imageConsumer;
@@ -40,12 +55,16 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
     private ImageView buttonSend;
 
+    MyListAdapter adapter;
+
+    private List<Comment> myComments = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ver_detalle_producto_productor);
 
-        Typeface editText = Typeface.createFromAsset(
+        editText = Typeface.createFromAsset(
                 this.getAssets(),
                 "fonts/Roboto-Light.ttf");
 
@@ -53,11 +72,20 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 this.getAssets(),
                 "fonts/Roboto-Regular.ttf");
 
+        infoName = Typeface.createFromAsset(
+                this.getAssets(),
+                "fonts/Roboto-Medium.ttf");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        usuarios = myRef.child("users");
+        comments = myRef.child("comments");
+
+        listaBaseDatos();
+        listView();
 
         // Obtiene el nombre de la persona que inicia sesión, la del productor a
         // quien el usuario entro a ver sus productos y la del producto del productor
@@ -100,8 +128,10 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Cuando presiona el botón de send lo agrega a la base de datos.
-                System.out.println("Comentario: " + agregarComentario.getText().toString());
+                // Agrega comentario a la base de datos
+                Firebase productComment = myRef.child("comments").child(nombreDelConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
+                Comment comment = new Comment(nombreDelProductor, nombreDelConsumidor, agregarComentario.getText().toString(), nombreDelProducto, imageConsumidor);
+                productComment.setValue(comment);
             }
         });
 
@@ -130,7 +160,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         });
 
         // Lee los datos de los usuarios
-        Firebase usuarios = myRef.child("users");
         usuarios.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -138,8 +167,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                     User user = postSnapshot.getValue(User.class);
 
                     if (user.getNombre().equals(nombreDelConsumidor)) {
-                        String imageProduct = user.getImagen();
-                        Bitmap imagenBitmap = StringToBitMap(imageProduct);
+                        imageConsumidor = user.getImagen();
+                        Bitmap imagenBitmap = StringToBitMap(imageConsumidor);
                         imageConsumer.setImageBitmap(imagenBitmap);
                     }
                 }
@@ -149,6 +178,78 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
+    }
+
+    private void listaBaseDatos(){
+        // Lee los datos de los productos
+        comments.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Comment comment = postSnapshot.getValue(Comment.class);
+
+                    if (comment.getDirigidoA().equals(nombreDelProductor) && comment.getProductoComentado().equals(nombreDelProducto)) {
+                        myComments.add(new Comment(comment.getDirigidoA(), comment.getHechoPor(), comment.getComentario(), comment.getProductoComentado(), comment.getImagenConsumidor()));
+                        cantidadComentario.setText(" " + myComments.size());
+
+                        // We notify the data model is changed
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+    }
+
+    private void listView() {
+        adapter = new MyListAdapter();
+        ListView list = (ListView) findViewById(R.id.commentsListView);
+        list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    private class MyListAdapter extends ArrayAdapter<Comment> {
+        public MyListAdapter(){
+            super(VerDetalleProductoProductor.this, R.layout.comment_view, myComments);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent){
+            //Se asegura que existe un View con el que se pueda trabajar
+            View productsView = convertView;
+            if (productsView == null) {
+                productsView = VerDetalleProductoProductor.this.getLayoutInflater().inflate(R.layout.comment_view, parent, false);
+            }
+
+            //Encontrar el comentario
+            Comment currentProduct = myComments.get(position);
+
+            //LLenar el View
+            ImageView imageView = (ImageView) productsView.findViewById(R.id.imageConsumer);
+            String imagenConsumerComment = currentProduct.getImagenConsumidor();
+            Bitmap imagenConsumidor = StringToBitMap(imagenConsumerComment);
+            imageView.setImageBitmap(imagenConsumidor);
+
+            //Nombre:
+            TextView nombreConsumidor = (TextView) productsView.findViewById(R.id.textNameConsumer);
+            nombreConsumidor.setTypeface(infoName);
+            //Si el consumidor que puso el comentario es el mismo que está en sesión, entonces...
+            if (currentProduct.getHechoPor().equals(nombreDelConsumidor)) {
+                nombreConsumidor.setText("Tu");
+            } else {
+                nombreConsumidor.setText(currentProduct.getHechoPor());
+            }
+
+            //Comentario:
+            TextView priceProducto = (TextView) productsView.findViewById(R.id.textViewComentario);
+            priceProducto.setTypeface(editText);
+            priceProducto.setText(currentProduct.getComentario());
+
+            return productsView;
+        }
     }
 
     @Override

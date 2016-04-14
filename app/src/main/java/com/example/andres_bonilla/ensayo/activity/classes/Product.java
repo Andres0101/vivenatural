@@ -11,16 +11,18 @@ public class Product {
     private double cantidad;
     private int precio;
     private String descripcionProducto;
+    private Comment comentario;
 
     public Product() {}
 
-    public Product(String productor, String imagen, String nombreProducto, double cantidad, int precio, String descripcionProducto) {
+    public Product(String productor, String imagen, String nombreProducto, double cantidad, int precio, String descripcionProducto/*, Comment comentario*/) {
         this.productor = productor;
         this.imagen = imagen;
         this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;
         this.precio = precio;
         this.descripcionProducto = descripcionProducto;
+        //this.comentario = comentario;
     }
 
     public String getProductor() {

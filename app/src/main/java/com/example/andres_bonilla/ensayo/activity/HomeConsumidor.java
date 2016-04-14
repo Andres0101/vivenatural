@@ -279,7 +279,7 @@ public class HomeConsumidor extends AppCompatActivity {
 
                     //Agrega el texto de descripción al productor(Base de datos)
                     Firebase textoDescripcion = myRef.child("users").child(dataNombre);
-                    Map<String, Object> descripcion = new HashMap<String, Object>();
+                    Map<String, Object> descripcion = new HashMap<>();
                     descripcion.put("descripcion", fragmentUnoCheck.getTextoCapturadoDelEditText());
                     descripcion.put("imagen", fragmentUnoCheck.getImageFile());
                     textoDescripcion.updateChildren(descripcion);
