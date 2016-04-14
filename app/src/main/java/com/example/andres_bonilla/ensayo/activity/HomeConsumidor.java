@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.PerfilConsumidor;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.PerfilConsumidorCheck;
@@ -277,7 +278,7 @@ public class HomeConsumidor extends AppCompatActivity {
                 if (!fragmentUnoCheck.getTextoCapturadoDelEditText().equals("")){
                     save = true;
 
-                    //Agrega el texto de descripción al productor(Base de datos)
+                    //Agrega el texto de descripción y la imagen al productor(Base de datos)
                     Firebase textoDescripcion = myRef.child("users").child(dataNombre);
                     Map<String, Object> descripcion = new HashMap<>();
                     descripcion.put("descripcion", fragmentUnoCheck.getTextoCapturadoDelEditText());

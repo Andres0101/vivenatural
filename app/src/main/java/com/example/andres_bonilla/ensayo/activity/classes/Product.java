@@ -11,7 +11,7 @@ public class Product {
     private double cantidad;
     private int precio;
     private String descripcionProducto;
-    private Comment comentario;
+    private Comment comentario = new Comment();
 
     public Product() {}
 
@@ -22,7 +22,7 @@ public class Product {
         this.cantidad = cantidad;
         this.precio = precio;
         this.descripcionProducto = descripcionProducto;
-        //this.comentario = comentario;
+        this.comentario = comentario;
     }
 
     public String getProductor() {

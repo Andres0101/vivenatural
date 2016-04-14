@@ -109,4 +109,17 @@
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp" />
 
+    <TextView
+        android:id="@+id/textoInfoProductos"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginTop="53dp"
+        android:gravity="center_horizontal"
+        android:text="@string/emptyProducts"
+        android:visibility="visible"
+        android:layout_alignTop="@+id/productsListView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

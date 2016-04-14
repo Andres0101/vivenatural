@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.VerDetalleProducto;
+import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.MarketProduct;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.firebase.client.DataSnapshot;
@@ -254,11 +255,11 @@ public class ProductosFragment extends Fragment {
                             if (snapshot.hasChild(nombreDelProductor+": "+nombreProducto)) {
                                 Toast.makeText(getContext(), "El producto que intenta agregar ya existe.", Toast.LENGTH_SHORT).show();
                             } else {
-                                myProducts.add(new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info));
+                                myProducts.add(new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info/*, new Comment()*/));
 
                                 // Agrega producto a la base de datos
                                 Firebase productRef = myRef.child("products").child(nombreDelProductor+": "+nombreProducto);
-                                Product newProduct = new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info);
+                                Product newProduct = new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info/*, new Comment()*/);
                                 productRef.setValue(newProduct);
 
                                 // We notify the data model is changed
@@ -305,7 +306,8 @@ public class ProductosFragment extends Fragment {
                     if (product.getProductor().equals(nombreDelProductor)) {
                         textoNoHay.setVisibility(View.GONE);
 
-                        myProducts.add(new Product(product.getProductor(), product.getImagen(), product.getNombreProducto(), product.getCantidad(), product.getPrecio(), product.getDescripcionProducto()));
+                        //myProducts.add(new Product(product.getProductor(), product.getImagen(), product.getNombreProducto(), product.getCantidad(), product.getPrecio(), product.getDescripcionProducto()/*R, new Comment()*/));
+                        myProducts.add(postSnapshot.getValue(Product.class));
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();

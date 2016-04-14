@@ -51,6 +51,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     private EditText descripcionProducto;
     private EditText cantidadDisponible;
     private TextView cantidadComentario;
+    private TextView nohayComentarios;
     private EditText agregarComentario;
 
     private ImageView buttonSend;
@@ -112,6 +113,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         cantidadDisponible.setBackground(null);
         agregarComentario = (EditText) findViewById(R.id.addComment);
         agregarComentario.setTypeface(editText);
+        nohayComentarios = (TextView) findViewById(R.id.textoInfoComentarios);
+        nohayComentarios.setTypeface(editText);
 
         agregarComentario.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -129,9 +132,12 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Agrega comentario a la base de datos
+                //Firebase productComment = myRef.child("products").child(nombreDelProductor + ": " + nombreDelProducto).child("comments").child(nombreDelConsumidor);
                 Firebase productComment = myRef.child("comments").child(nombreDelConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
                 Comment comment = new Comment(nombreDelProductor, nombreDelConsumidor, agregarComentario.getText().toString(), nombreDelProducto, imageConsumidor);
                 productComment.setValue(comment);
+
+                agregarComentario.setText("");
             }
         });
 
@@ -189,8 +195,9 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                     Comment comment = postSnapshot.getValue(Comment.class);
 
                     if (comment.getDirigidoA().equals(nombreDelProductor) && comment.getProductoComentado().equals(nombreDelProducto)) {
-                        myComments.add(new Comment(comment.getDirigidoA(), comment.getHechoPor(), comment.getComentario(), comment.getProductoComentado(), comment.getImagenConsumidor()));
+                        myComments.add(postSnapshot.getValue(Comment.class));
                         cantidadComentario.setText(" " + myComments.size());
+                        nohayComentarios.setVisibility(View.GONE);
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
@@ -238,7 +245,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
             nombreConsumidor.setTypeface(infoName);
             //Si el consumidor que puso el comentario es el mismo que está en sesión, entonces...
             if (currentProduct.getHechoPor().equals(nombreDelConsumidor)) {
-                nombreConsumidor.setText("Tu");
+                nombreConsumidor.setText("Tú");
             } else {
                 nombreConsumidor.setText(currentProduct.getHechoPor());
             }

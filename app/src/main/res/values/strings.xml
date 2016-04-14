@@ -54,11 +54,11 @@
     <string name="text_description">No hay información.</string>
 
     <!-- Productores -->
-    <string name="emptyProducers">No hay productores.</string>
+    <string name="emptyProducers">No hay productores para mostrar.</string>
     <string name="calificacion">Las estrellas de una.</string>
 
     <!-- Productos -->
-    <string name="emptyProducts">No hay productos en tu lista.</string>
+    <string name="emptyProducts">No hay productos para mostrar.</string>
     <string name="addProducts">Agregar Producto</string>
     <string name="agregar">Agregar</string>
     <string name="cancelar">Cancelar</string>
@@ -76,5 +76,6 @@
     <!-- Productores -->
     <string name="cargandoDescrip">Cargando descripción...</string>
     <string name="productos">PRODUCTOS •</string>
+    <string name="noComments">No hay comentarios para mostrar.</string>
 
 </resources>

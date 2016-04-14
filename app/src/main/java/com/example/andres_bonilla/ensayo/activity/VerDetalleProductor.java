@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.firebase.client.DataSnapshot;
@@ -45,6 +46,7 @@ public class VerDetalleProductor extends AppCompatActivity {
     private ImageView imagenProductor;
     private EditText descripcionProductor;
     private TextView cantidadProducto;
+    private TextView nohayProductos;
 
     private Boolean guardeProducto;
 
@@ -107,6 +109,8 @@ public class VerDetalleProductor extends AppCompatActivity {
         textCantidadProductos.setTypeface(textCantidad);
         cantidadProducto = (TextView) findViewById(R.id.textViewCantidadProductos);
         cantidadProducto.setTypeface(textCantidad);
+        nohayProductos = (TextView) findViewById(R.id.textoInfoProductos);
+        nohayProductos.setTypeface(editText);
 
         descripcionProductor = (EditText) findViewById(R.id.editTextDescriProducer);
         descripcionProductor.setTypeface(editText);
@@ -160,8 +164,9 @@ public class VerDetalleProductor extends AppCompatActivity {
                     Product product = postSnapshot.getValue(Product.class);
 
                     if (product.getProductor().equals(nombreDelProductor)) {
-                        myProducts.add(new Product(product.getProductor(), product.getImagen(), product.getNombreProducto(), product.getCantidad(), product.getPrecio(), product.getDescripcionProducto()));
+                        myProducts.add(postSnapshot.getValue(Product.class));
                         cantidadProducto.setText(" " + myProducts.size());
+                        nohayProductos.setVisibility(View.GONE);
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
