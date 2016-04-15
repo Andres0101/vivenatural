@@ -31,6 +31,7 @@ import com.example.andres_bonilla.ensayo.activity.VerDetalleProducto;
 import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.MarketProduct;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -295,6 +296,32 @@ public class ProductosFragment extends Fragment {
     private void listaBaseDatos(){
         // Lee los datos de los productos
         productos = myRef.child("products");
+        productos.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            //Elimina el producto de la lista en tiempo real.
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String key = dataSnapshot.getKey();
+                for (Product product : myProducts) {
+                    if (key.equals(product.getProductor() + ": " + product.getNombreProducto())){
+                        myProducts.remove(product);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {}
+        });
 
         productos.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -306,7 +333,6 @@ public class ProductosFragment extends Fragment {
                     if (product.getProductor().equals(nombreDelProductor)) {
                         textoNoHay.setVisibility(View.GONE);
 
-                        //myProducts.add(new Product(product.getProductor(), product.getImagen(), product.getNombreProducto(), product.getCantidad(), product.getPrecio(), product.getDescripcionProducto()/*R, new Comment()*/));
                         myProducts.add(postSnapshot.getValue(Product.class));
 
                         // We notify the data model is changed

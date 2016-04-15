@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.firebase.client.DataSnapshot;
@@ -115,7 +114,6 @@ public class VerDetalleProductor extends AppCompatActivity {
         descripcionProductor = (EditText) findViewById(R.id.editTextDescriProducer);
         descripcionProductor.setTypeface(editText);
         descripcionProductor.setBackground(null);
-
 
         // Lee los datos de los productos
         Firebase users = myRef.child("users");

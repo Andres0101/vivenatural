@@ -196,6 +196,12 @@ public class VerDetalleProducto extends AppCompatActivity {
                 }
                 return true;
 
+            case R.id.action_delete:
+                Firebase deleteProduct = myRef.child("products").child(nombreDelProductor + ": " + nombreDelProducto);
+                deleteProduct.removeValue();
+
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.

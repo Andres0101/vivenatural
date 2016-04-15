@@ -38,8 +38,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_libra"
-        android:layout_below="@+id/iconDescription"
-        android:layout_marginTop="5dp"
+        android:layout_below="@+id/editTextDescriProduct"
+        android:layout_marginTop="3dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:tint="#B6B6B6"/>

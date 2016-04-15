@@ -23,6 +23,7 @@ import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -133,6 +134,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Agrega comentario a la base de datos
+                //Firebase productComment = myRef.child("products").child(nombreDelProductor + ": " + nombreDelProducto).child("comments").child(nombreDelConsumidor);
                 Firebase productComment = myRef.child("comments").child(nombreDelConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
                 Comment comment = new Comment(nombreDelProductor, nombreDelConsumidor, agregarComentario.getText().toString(), nombreDelProducto, imageConsumidor);
                 productComment.setValue(comment);
@@ -171,6 +173,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         });
 
         // Lee los datos de los usuarios
+        //Pinta la imagen del consumidor en la parte de agregar comentario
         usuarios.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

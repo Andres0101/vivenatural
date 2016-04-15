@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Vive Natural</string>
     <string name="action_settings">Ajustes</string>
+    <string name="action_delete">Eliminar</string>
     <string name="action_search">Buscar</string>
     <string name="action_edit">Editar</string>
     <string name="action_edit_product">Editar</string>
