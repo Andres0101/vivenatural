@@ -7,7 +7,6 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageConsumer"
         android:layout_width="28dp"
-        android:src="@drawable/frijoles"
         android:layout_height="28dp"
         android:layout_margin="16dp"/>
 

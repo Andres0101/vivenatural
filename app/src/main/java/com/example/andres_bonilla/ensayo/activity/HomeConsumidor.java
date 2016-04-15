@@ -37,6 +37,7 @@ public class HomeConsumidor extends AppCompatActivity {
 
     private Firebase myRef;
     private Firebase userImage;
+    private Firebase comments;
 
     private DrawerLayout drawerLayout;
 
@@ -65,6 +66,7 @@ public class HomeConsumidor extends AppCompatActivity {
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
         userImage = myRef.child("users");
+        comments = myRef.child("comments");
 
         //Initializing NavigationView
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -284,6 +286,28 @@ public class HomeConsumidor extends AppCompatActivity {
                     descripcion.put("descripcion", fragmentUnoCheck.getTextoCapturadoDelEditText());
                     descripcion.put("imagen", fragmentUnoCheck.getImageFile());
                     textoDescripcion.updateChildren(descripcion);
+
+                    //Actualiza la imagen del consumidor del comentario con la que puso en su perfil.
+                    comments.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                Comment comment = postSnapshot.getValue(Comment.class);
+
+                                if (comment.getHechoPor().equals(dataNombre)) {
+                                    Firebase imagenConsumidor = myRef.child("comments").child(dataNombre + ": " + comment.getProductoComentado() + " de " + comment.getDirigidoA());
+                                    Map<String, Object> imagen = new HashMap<>();
+                                    imagen.put("imagenConsumidor", fragmentUnoCheck.getImageFile());
+                                    imagenConsumidor.updateChildren(imagen);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
 
                     fragmentUno = new PerfilConsumidor();
                     fragmentUno.setUserString(dataNombre);
