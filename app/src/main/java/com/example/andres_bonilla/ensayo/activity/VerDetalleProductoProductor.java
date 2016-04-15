@@ -1,5 +1,6 @@
 package com.example.andres_bonilla.ensayo.activity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,7 +38,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
     private Firebase myRef;
     private Firebase comments;
-    private Firebase usuarios;
 
     private Typeface editText;
     private Typeface infoName;
@@ -82,7 +83,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
-        usuarios = myRef.child("users");
+        Firebase usuarios = myRef.child("users");
         comments = myRef.child("comments");
 
         listaBaseDatos();
@@ -132,12 +133,16 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Agrega comentario a la base de datos
-                //Firebase productComment = myRef.child("products").child(nombreDelProductor + ": " + nombreDelProducto).child("comments").child(nombreDelConsumidor);
                 Firebase productComment = myRef.child("comments").child(nombreDelConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
                 Comment comment = new Comment(nombreDelProductor, nombreDelConsumidor, agregarComentario.getText().toString(), nombreDelProducto, imageConsumidor);
                 productComment.setValue(comment);
 
+                //Vacia el editText
                 agregarComentario.setText("");
+                //Esconde el teclado
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(buttonSend.getWindowToken(),
+                        InputMethodManager.RESULT_UNCHANGED_SHOWN);
             }
         });
 
@@ -251,9 +256,9 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
             }
 
             //Comentario:
-            TextView priceProducto = (TextView) productsView.findViewById(R.id.textViewComentario);
-            priceProducto.setTypeface(editText);
-            priceProducto.setText(currentProduct.getComentario());
+            TextView textoComentario = (TextView) productsView.findViewById(R.id.textViewComentario);
+            textoComentario.setTypeface(editText);
+            textoComentario.setText(currentProduct.getComentario());
 
             return productsView;
         }
