@@ -1,5 +1,6 @@
 package com.example.andres_bonilla.ensayo.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,18 +13,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -42,6 +45,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
     private Typeface editText;
     private Typeface infoName;
+    private Typeface text;
 
     private String nombreDelConsumidor;
     private String nombreDelProductor;
@@ -55,6 +59,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     private TextView cantidadComentario;
     private TextView nohayComentarios;
     private EditText agregarComentario;
+
+    private EditText productCant;
 
     private ImageView buttonSend;
 
@@ -71,7 +77,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 this.getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        Typeface text = Typeface.createFromAsset(
+        text = Typeface.createFromAsset(
                 this.getAssets(),
                 "fonts/Roboto-Regular.ttf");
 
@@ -296,6 +302,42 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 super.onBackPressed();
+                return true;
+
+            case R.id.action_reservar:
+
+                final Dialog d = new Dialog(VerDetalleProductoProductor.this);
+
+                d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                d.setContentView(R.layout.productos_reservar);
+                d.setCancelable(true);
+
+                TextView textViewDialog = (TextView) d.findViewById(R.id.textViewDialog);
+                textViewDialog.setTypeface(infoName);
+                productCant = (EditText) d.findViewById(R.id.editTextCant);
+                productCant.setTypeface(editText);
+
+                Button reservar = (Button) d.findViewById(R.id.done);
+                reservar.setTypeface(text);
+                reservar.setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        Toast.makeText(VerDetalleProductoProductor.this, "Jodiña reservaste " + nombreDelProducto, Toast.LENGTH_SHORT).show();
+                        d.dismiss();
+                    }
+                });
+
+                Button cancel = (Button) d.findViewById(R.id.cancel);
+                cancel.setTypeface(text);
+                cancel.setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        d.dismiss();
+                    }
+                });
+
+                d.show();
+
                 return true;
 
             default:

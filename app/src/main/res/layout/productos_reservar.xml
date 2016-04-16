@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/textColorPrimary">
+
+    <LinearLayout
+        android:id="@+id/contenedor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+        <TextView
+            android:id="@+id/textViewDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/reservarProducto"
+            android:textColor="@color/textColorPrimary"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/productsCant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_libra"
+        android:layout_below="@+id/contenedor"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="50dp"
+        android:tint="#B6B6B6" />
+
+    <EditText
+        android:id="@+id/editTextCant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:layout_marginRight="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_toRightOf="@+id/productsCant"
+        android:layout_toEndOf="@+id/productsCant"
+        android:layout_alignTop="@+id/productsCant"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:hint="@string/cantidadReservar"/>
+
+    <TextView
+        android:id="@+id/text_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/editTextCant"
+        android:layout_marginBottom="10dp"
+        android:text="@string/libra"
+        android:textSize="18sp"
+        android:layout_marginRight="22dp"
+        android:layout_marginEnd="22dp"
+        android:textColor="#808080" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancelar"
+        android:textColor="@color/colorGris"
+        android:background="@null"
+        android:layout_below="@+id/editTextCant"
+        android:layout_marginTop="40dp"
+        android:layout_toLeftOf="@+id/done"
+        android:layout_toStartOf="@+id/done" />
+
+    <Button
+        android:id="@+id/done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reservar"
+        android:textColor="@color/colorPrimary"
+        android:background="@null"
+        android:layout_alignTop="@+id/cancel"
+        android:layout_alignRight="@+id/editTextCant"
+        android:layout_alignEnd="@+id/editTextCant" />
+
+</RelativeLayout>

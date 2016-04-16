@@ -232,6 +232,7 @@ public class VerDetalleProducto extends AppCompatActivity {
                                                 nombreConsumidor = comment.getHechoPor();
                                                 System.out.println("Y este fue el consumidor que hizo el comentario: " + nombreConsumidor);
 
+                                                //Elimina los comentarios que tiene el producto a eliminar
                                                 Firebase deleteComments = myRef.child("comments").child(nombreConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
                                                 deleteComments.removeValue();
                                             }
@@ -243,6 +244,7 @@ public class VerDetalleProducto extends AppCompatActivity {
                                     }
                                 });
 
+                                //Elimina el producto
                                 Firebase deleteProduct = myRef.child("products").child(nombreDelProductor + ": " + nombreDelProducto);
                                 deleteProduct.removeValue();
 

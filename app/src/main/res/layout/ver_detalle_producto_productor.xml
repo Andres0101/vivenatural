@@ -143,8 +143,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginEnd="45dp"
         android:imeOptions="actionDone"
         android:hint="@string/addComentario" />
 

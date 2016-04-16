@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -28,7 +27,6 @@ import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.VerDetalleProducto;
-import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.MarketProduct;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.firebase.client.ChildEventListener;
