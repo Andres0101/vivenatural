@@ -3,6 +3,7 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
@@ -158,9 +159,13 @@ public class Productores extends Fragment {
 
             //LLenar el View
             ImageView imageView = (ImageView) producersView.findViewById(R.id.imageProducer);
-            String imageProduct = currentProducer.getImagen();
-            Bitmap imagenProducto = StringToBitMap(imageProduct);
-            imageView.setImageBitmap(imagenProducto);
+            if (!currentProducer.getImagen().equals("")) {
+                String imageProduct = currentProducer.getImagen();
+                Bitmap imagenProducto = StringToBitMap(imageProduct);
+                imageView.setImageBitmap(imagenProducto);
+            } else {
+                imageView.setImageResource(R.drawable.ic_no_profile_image);
+            }
 
             //Nombre:
             TextView nombreProductor = (TextView) producersView.findViewById(R.id.textNameProducer);

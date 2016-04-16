@@ -87,10 +87,14 @@ public class HomeConsumidor extends AppCompatActivity {
                     User user = postSnapshot.getValue(User.class);
 
                     if (user.getNombre().equals(dataNombre)) {
-                        String imageFile = user.getImagen();
-                        Bitmap imagenProducto = StringToBitMap(imageFile);
+                        if (!user.getImagen().equals("")) {
+                            String imageFile = user.getImagen();
+                            Bitmap imagenProducto = StringToBitMap(imageFile);
 
-                        imageUserHeader.setImageBitmap(imagenProducto);
+                            imageUserHeader.setImageBitmap(imagenProducto);
+                        } else {
+                            imageUserHeader.setImageResource(R.drawable.ic_no_profile_image_header);
+                        }
                     }
                 }
             }
@@ -155,10 +159,14 @@ public class HomeConsumidor extends AppCompatActivity {
                                     User user = postSnapshot.getValue(User.class);
 
                                     if (user.getNombre().equals(dataNombre)) {
-                                        String imageFile = user.getImagen();
-                                        Bitmap imagenProducto = StringToBitMap(imageFile);
+                                        if (!user.getImagen().equals("")) {
+                                            String imageFile = user.getImagen();
+                                            Bitmap imagenProducto = StringToBitMap(imageFile);
 
-                                        fragmentUno.setImageBitmap(imagenProducto);
+                                            fragmentUno.setImageBitmap(imagenProducto);
+                                        } else {
+                                            fragmentUno.setImageInt(R.drawable.ic_no_profile_image);
+                                        }
                                     }
                                 }
                             }
@@ -169,7 +177,7 @@ public class HomeConsumidor extends AppCompatActivity {
                             }
                         });
 
-                        if (save == true) {
+                        if (save) {
                             fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
                             fragmentUno.setImageBitmap(fragmentUnoCheck.getImageBitmap());
                         }

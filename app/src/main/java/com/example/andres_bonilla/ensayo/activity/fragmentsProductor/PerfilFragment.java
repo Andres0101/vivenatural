@@ -27,6 +27,8 @@ public class PerfilFragment extends Fragment {
     private Boolean editText;
     private String textDescription;
 
+    private int imageInt;
+
     private ImageView imageProducer;
     private TextView userName;
     private EditText textoEditable;
@@ -72,6 +74,7 @@ public class PerfilFragment extends Fragment {
 
         changeDescription(textDescription);
         changeImage(imageBitmap);
+        changeImageNoImage(imageInt);
 
         // Inflate the layout for this fragment
         return rootView;
@@ -99,6 +102,14 @@ public class PerfilFragment extends Fragment {
     }
     public void setImageBitmap(Bitmap imageBitmap) {
         this.imageBitmap = imageBitmap;
+    }
+
+    // Setea la imagen de perfil cuando no tiene imagen
+    private void changeImageNoImage(int image) {
+        imageProducer.setImageResource(image);
+    }
+    public void setImageInt(int imageInt) {
+        this.imageInt = imageInt;
     }
 
     // Vuelve el editText editable para que el usuario pueda escribir

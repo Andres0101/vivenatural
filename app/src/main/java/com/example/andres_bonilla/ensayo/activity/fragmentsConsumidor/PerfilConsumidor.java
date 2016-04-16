@@ -30,6 +30,8 @@ public class PerfilConsumidor extends Fragment {
     private TextView userName;
     private EditText textoEditable;
 
+    private int imageInt;
+
     public PerfilConsumidor() {
         // Required empty public constructor
         userString = "none";
@@ -59,6 +61,7 @@ public class PerfilConsumidor extends Fragment {
 
         changeDescription(textDescription);
         changeImage(imageBitmap);
+        changeImageNoImage(imageInt);
 
         // Inflate the layout for this fragment
         return rootView;
@@ -86,6 +89,14 @@ public class PerfilConsumidor extends Fragment {
     }
     public void setImageBitmap(Bitmap imageBitmap) {
         this.imageBitmap = imageBitmap;
+    }
+
+    // Setea la imagen de perfil cuando no tiene imagen
+    private void changeImageNoImage(int image) {
+        imageConsumer.setImageResource(image);
+    }
+    public void setImageInt(int imageInt) {
+        this.imageInt = imageInt;
     }
 
     // Vuelve el editText editable para que el usuario pueda escribir

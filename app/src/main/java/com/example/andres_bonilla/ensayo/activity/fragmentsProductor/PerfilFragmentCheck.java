@@ -98,6 +98,8 @@ public class PerfilFragmentCheck extends Fragment {
             }
         });
 
+        imageFile = "";
+
         changeText(userString);
         textEditable(editText);
 

@@ -124,10 +124,12 @@ public class VerDetalleProductor extends AppCompatActivity {
                     User user = postSnapshot.getValue(User.class);
 
                     if (user.getNombre().equals(nombreDelProductor)) {
-
-                        String imageProduct = user.getImagen();
-                        Bitmap imagenBitmap = StringToBitMap(imageProduct);
-                        imagenProductor.setImageBitmap(imagenBitmap);
+                        if (!user.getImagen().equals("")) {String imageProduct = user.getImagen();
+                            Bitmap imagenBitmap = StringToBitMap(imageProduct);
+                            imagenProductor.setImageBitmap(imagenBitmap);
+                        } else {
+                            imagenProductor.setImageResource(R.drawable.ic_no_profile_image);
+                        }
 
                         descripcionProductor.setText(user.getDescripcion());
                     }

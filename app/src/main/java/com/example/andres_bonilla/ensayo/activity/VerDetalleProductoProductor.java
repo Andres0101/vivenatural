@@ -187,9 +187,13 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                     User user = postSnapshot.getValue(User.class);
 
                     if (user.getNombre().equals(nombreDelConsumidor)) {
-                        imageConsumidor = user.getImagen();
-                        Bitmap imagenBitmap = StringToBitMap(imageConsumidor);
-                        imageConsumer.setImageBitmap(imagenBitmap);
+                        if (!user.getImagen().equals("")) {
+                            imageConsumidor = user.getImagen();
+                            Bitmap imagenBitmap = StringToBitMap(imageConsumidor);
+                            imageConsumer.setImageBitmap(imagenBitmap);
+                        } else {
+                            imageConsumer.setImageResource(R.drawable.ic_no_profile_image);
+                        }
                     }
                 }
             }
@@ -246,28 +250,32 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
             }
 
             //Encontrar el comentario
-            Comment currentProduct = myComments.get(position);
+            Comment currentComment = myComments.get(position);
 
             //LLenar el View
             ImageView imageView = (ImageView) productsView.findViewById(R.id.imageConsumer);
-            String imagenConsumerComment = currentProduct.getImagenConsumidor();
-            Bitmap imagenConsumidor = StringToBitMap(imagenConsumerComment);
-            imageView.setImageBitmap(imagenConsumidor);
+            if (!currentComment.getImagenConsumidor().equals("")) {
+                String imagenConsumerComment = currentComment.getImagenConsumidor();
+                Bitmap imagenConsumidor = StringToBitMap(imagenConsumerComment);
+                imageView.setImageBitmap(imagenConsumidor);
+            } else {
+                imageView.setImageResource(R.drawable.ic_no_profile_image);
+            }
 
             //Nombre:
             TextView nombreConsumidor = (TextView) productsView.findViewById(R.id.textNameConsumer);
             nombreConsumidor.setTypeface(infoName);
             //Si el consumidor que puso el comentario es el mismo que está en sesión, entonces...
-            if (currentProduct.getHechoPor().equals(nombreDelConsumidor)) {
+            if (currentComment.getHechoPor().equals(nombreDelConsumidor)) {
                 nombreConsumidor.setText("Tú");
             } else {
-                nombreConsumidor.setText(currentProduct.getHechoPor());
+                nombreConsumidor.setText(currentComment.getHechoPor());
             }
 
             //Comentario:
             TextView textoComentario = (TextView) productsView.findViewById(R.id.textViewComentario);
             textoComentario.setTypeface(editText);
-            textoComentario.setText(currentProduct.getComentario());
+            textoComentario.setText(currentComment.getComentario());
 
             return productsView;
         }

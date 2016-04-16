@@ -98,6 +98,8 @@ public class PerfilConsumidorCheck extends Fragment {
             }
         });
 
+        imageFile = "";
+
         changeText(userString);
         textEditable(editText);
 

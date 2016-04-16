@@ -173,23 +173,27 @@ public class VerDetalleProductoFragment extends Fragment {
             }
 
             //Encontrar el comentario
-            Comment currentProduct = myComments.get(position);
+            Comment currentComment = myComments.get(position);
 
             //LLenar el View
             ImageView imageView = (ImageView) productsView.findViewById(R.id.imageConsumer);
-            String imagenConsumerComment = currentProduct.getImagenConsumidor();
-            Bitmap imagenConsumidor = StringToBitMap(imagenConsumerComment);
-            imageView.setImageBitmap(imagenConsumidor);
+            if (!currentComment.getImagenConsumidor().equals("")) {
+                String imagenConsumerComment = currentComment.getImagenConsumidor();
+                Bitmap imagenConsumidor = StringToBitMap(imagenConsumerComment);
+                imageView.setImageBitmap(imagenConsumidor);
+            } else {
+                imageView.setImageResource(R.drawable.ic_no_profile_image);
+            }
 
             //Nombre:
             TextView nombreConsumidor = (TextView) productsView.findViewById(R.id.textNameConsumer);
             nombreConsumidor.setTypeface(infoName);
-            nombreConsumidor.setText(currentProduct.getHechoPor());
+            nombreConsumidor.setText(currentComment.getHechoPor());
 
             //Comentario:
             TextView priceProducto = (TextView) productsView.findViewById(R.id.textViewComentario);
             priceProducto.setTypeface(editText);
-            priceProducto.setText(currentProduct.getComentario());
+            priceProducto.setText(currentComment.getComentario());
 
             return productsView;
         }
