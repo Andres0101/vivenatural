@@ -134,6 +134,7 @@
         android:id="@+id/addComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="text"
         android:maxLength="140"
         android:textSize="14sp"
         android:layout_below="@+id/textViewComentarios"

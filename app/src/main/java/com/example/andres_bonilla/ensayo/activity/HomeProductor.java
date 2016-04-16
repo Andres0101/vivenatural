@@ -363,12 +363,6 @@ public class HomeProductor extends AppCompatActivity {
                 }
                 return true;
 
-            case R.id.action_settings:
-                // User chose the "Favorite" action, mark the current item
-                // as a favorite...
-                Toast.makeText(getApplicationContext(), "Ajustes fue seleccionada!", Toast.LENGTH_SHORT).show();
-                return true;
-
             case R.id.action_search:
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...

@@ -45,6 +45,7 @@ public class PerfilConsumidorCheck extends Fragment {
     private String imageFile;
 
     private static int RESULT_LOAD_IMAGE = 1;
+    private static final int SELECT_PICTURE = 1;
 
     public PerfilConsumidorCheck() {
         // Required empty public constructor
@@ -106,23 +107,53 @@ public class PerfilConsumidorCheck extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_OK) {
+            if (requestCode == SELECT_PICTURE) {
+                Uri selectedImageUri = data.getData();
 
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == getActivity().RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                //OI FILE Manager
+                String filemanagerstring = selectedImageUri.getPath();
 
-            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
+                //MEDIA GALLERY
+                String selectedImagePath = getPath(selectedImageUri);
 
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
+                //DEBUG PURPOSE - you can delete this if you want
+                if(selectedImagePath != null)
+                    System.out.println(selectedImagePath);
+                else System.out.println("selectedImagePath is null");
+                if(filemanagerstring != null)
+                    System.out.println(filemanagerstring);
+                else System.out.println("filemanagerstring is null");
 
-            imageConsumer.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            imageFile = BitMapToString(BitmapFactory.decodeFile(picturePath));
+                //NOW WE HAVE OUR WANTED STRING
+                if(selectedImagePath != null)
+                    System.out.println("selectedImagePath is the right one for you!");
+                else
+                    System.out.println("filemanagerstring is the right one for you!");
+
+                imageConsumer.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
+                imageFile = BitMapToString(BitmapFactory.decodeFile(selectedImagePath));
+            }
         }
+    }
+
+    /**
+     * helper to retrieve the path of an image URI
+     */
+    //UPDATED!
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
+        if(cursor!=null)
+        {
+            //HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
+            //THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        else return null;
     }
 
     public String BitMapToString(Bitmap bitmap){

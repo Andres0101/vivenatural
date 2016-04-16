@@ -1,10 +1,14 @@
 package com.example.andres_bonilla.ensayo.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -12,9 +16,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ProductosFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.VerDetalleProductoFragment;
@@ -33,9 +39,14 @@ import java.util.Map;
 public class VerDetalleProducto extends AppCompatActivity {
 
     private Firebase myRef;
+    private Firebase comments;
+
+    private Typeface message;
+    private Typeface button;
 
     private String nombreDelProductor;
     private String nombreDelProducto;
+    private String nombreConsumidor;
 
     private ImageView imagenProducto;
 
@@ -48,19 +59,20 @@ public class VerDetalleProducto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ver_detalle_producto);
 
-        Typeface editText = Typeface.createFromAsset(
+        message = Typeface.createFromAsset(
                 this.getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        Typeface text = Typeface.createFromAsset(
+        button = Typeface.createFromAsset(
                 this.getAssets(),
-                "fonts/Roboto-Regular.ttf");
+                "fonts/Roboto-Medium.ttf");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        comments = myRef.child("comments");
 
         guardeProducto = false;
 
@@ -197,8 +209,71 @@ public class VerDetalleProducto extends AppCompatActivity {
                 return true;
 
             case R.id.action_delete:
-                Firebase deleteProduct = myRef.child("products").child(nombreDelProductor + ": " + nombreDelProducto);
-                deleteProduct.removeValue();
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(VerDetalleProducto.this);
+                // Setting Dialog Title
+                builder1.setTitle("Eliminar");
+                builder1.setIcon(R.drawable.ic_delete);
+                //builder1.setIconAttribute(android.R.attr.alertDialogIcon);
+                builder1.setMessage("¿Estás seguro que deseas elminar el producto " + nombreDelProducto + "?");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Confirmar",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                comments.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshot) {
+                                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                            Comment comment = postSnapshot.getValue(Comment.class);
+
+                                            if (comment.getDirigidoA().equals(nombreDelProductor) && comment.getProductoComentado().equals(nombreDelProducto)) {
+                                                System.out.println("Si entro a buscar en la base de datos");
+                                                nombreConsumidor = comment.getHechoPor();
+                                                System.out.println("Y este fue el consumidor que hizo el comentario: " + nombreConsumidor);
+
+                                                Firebase deleteComments = myRef.child("comments").child(nombreConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
+                                                deleteComments.removeValue();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+                                    }
+                                });
+
+                                Firebase deleteProduct = myRef.child("products").child(nombreDelProductor + ": " + nombreDelProducto);
+                                deleteProduct.removeValue();
+
+                                Toast.makeText(VerDetalleProducto.this, "El producto " + nombreDelProducto + " fue eliminado con éxito!", Toast.LENGTH_LONG).show();
+                                onBackPressed();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "Cancelar",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                Dialog alert11 = builder1.create();
+                alert11.show();
+
+                //Change message text font
+                TextView content = ((TextView) alert11.findViewById(android.R.id.message));
+                content.setTypeface(message);
+                //Change dialog button text font
+                TextView textButtonUno = ((TextView) alert11.findViewById(android.R.id.button1));
+                textButtonUno.setTypeface(button);
+                TextView textButtonDos = ((TextView) alert11.findViewById(android.R.id.button2));
+                textButtonDos.setTypeface(button);
+                //Change dialog icon color
+                ImageView icon = ((ImageView) alert11.findViewById(android.R.id.icon));
+                int color = Color.parseColor("#B6B6B6");
+                icon.setColorFilter(color);
 
                 return true;
 
