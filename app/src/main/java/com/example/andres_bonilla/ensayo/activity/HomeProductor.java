@@ -116,6 +116,11 @@ public class HomeProductor extends AppCompatActivity {
             fragmentUno = new PerfilFragment();
             fragmentUno.setUserString(dataNombre);
 
+            Bundle bundlee = new Bundle();
+            bundlee.putString("nombreDelProductor", dataNombre);
+            // set Fragmentclass Arguments
+            fragmentUno.setArguments(bundlee);
+
             if (save) {
                 fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
             }
@@ -165,36 +170,13 @@ public class HomeProductor extends AppCompatActivity {
                         fragmentUno = new PerfilFragment();
                         fragmentUno.setUserString(dataNombre);
 
-                        // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
-                        userImage.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                            @Override
-                            public void onDataChange(DataSnapshot snapshot) {
-                                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                                    User user = postSnapshot.getValue(User.class);
-
-                                    if (user.getNombre().equals(dataNombre)) {
-                                        if (!user.getImagen().equals("")) {
-                                            String imageFile = user.getImagen();
-                                            Bitmap imagenProducto = StringToBitMap(imageFile);
-
-                                            fragmentUno.setImageBitmap(imagenProducto);
-                                        } else {
-                                            fragmentUno.setImageInt(R.drawable.ic_no_profile_image);
-                                        }
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(FirebaseError firebaseError) {
-
-                            }
-                        });
+                        Bundle bundlee = new Bundle();
+                        bundlee.putString("nombreDelProductor", dataNombre);
+                        // set Fragmentclass Arguments
+                        fragmentUno.setArguments(bundlee);
 
                         if (save) {
                             fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
-                            fragmentUno.setImageBitmap(fragmentUnoCheck.getImageBitmap());
                         }
 
                         // Setea el texto de descripción con la descripción que existe en la base de datos
@@ -333,30 +315,11 @@ public class HomeProductor extends AppCompatActivity {
                     fragmentUno = new PerfilFragment();
                     fragmentUno.setUserString(dataNombre);
 
-                    // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
-                    userImage.addListenerForSingleValueEvent(new ValueEventListener() {
+                    Bundle bundlee = new Bundle();
+                    bundlee.putString("nombreDelProductor", dataNombre);
+                    // set Fragmentclass Arguments
+                    fragmentUno.setArguments(bundlee);
 
-                        @Override
-                        public void onDataChange(DataSnapshot snapshot) {
-                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                                User user = postSnapshot.getValue(User.class);
-
-                                if (user.getNombre().equals(dataNombre)) {
-                                    String imageFile = user.getImagen();
-                                    Bitmap imagenProducto = StringToBitMap(imageFile);
-
-                                    fragmentUno.setImageBitmap(imagenProducto);
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(FirebaseError firebaseError) {
-
-                        }
-                    });
-
-                    fragmentUno.setImageBitmap(fragmentUnoCheck.getImageBitmap());
                     fragmentUno.setTextDescription(fragmentUnoCheck.getTextoCapturadoDelEditText());
                     android.support.v4.app.FragmentTransaction fragmentTransactionUno = getSupportFragmentManager().beginTransaction();
                     fragmentTransactionUno.replace(R.id.container_body, fragmentUno);

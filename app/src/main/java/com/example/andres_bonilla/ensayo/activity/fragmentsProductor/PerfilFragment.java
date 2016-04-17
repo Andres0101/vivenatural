@@ -2,9 +2,11 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsProductor;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -14,6 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.User;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 /**
  * Created by ANDRES_BONILLA on 19/02/2016.
@@ -23,15 +30,14 @@ public class PerfilFragment extends Fragment {
     public Activity activity;
 
     private String userString;
-    private Bitmap imageBitmap;
     private Boolean editText;
     private String textDescription;
-
-    private int imageInt;
 
     private ImageView imageProducer;
     private TextView userName;
     private EditText textoEditable;
+
+    private String nombreDelProductor;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -60,6 +66,9 @@ public class PerfilFragment extends Fragment {
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
 
+        // Obtiene el nombre de la persona que inicia sesión.
+        nombreDelProductor = getArguments().getString("nombreDelProductor");
+
         imageProducer = (ImageView) rootView.findViewById(R.id.imageProducer);
         userName = (TextView) rootView.findViewById(R.id.nombreUsuario);
         userName.setTypeface(textView);
@@ -73,8 +82,35 @@ public class PerfilFragment extends Fragment {
         textEditable(editText);
 
         changeDescription(textDescription);
-        changeImage(imageBitmap);
-        changeImageNoImage(imageInt);
+
+        // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
+        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        Firebase user = myRef.child("users");
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    User user = postSnapshot.getValue(User.class);
+
+                    if (user.getNombre().equals(nombreDelProductor)) {
+                        if (!user.getImagen().equals("")) {
+                            String imageFile = user.getImagen();
+                            Bitmap imagenProducto = StringToBitMap(imageFile);
+
+                            imageProducer.setImageBitmap(imagenProducto);
+                        } else {
+                            imageProducer.setImageResource(R.drawable.defaultimage);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
 
         // Inflate the layout for this fragment
         return rootView;
@@ -96,20 +132,17 @@ public class PerfilFragment extends Fragment {
         this.textDescription = textDescription;
     }
 
-    // Setea la imagen de perfil
-    private void changeImage(Bitmap image) {
-        imageProducer.setImageBitmap(image);
-    }
-    public void setImageBitmap(Bitmap imageBitmap) {
-        this.imageBitmap = imageBitmap;
-    }
-
-    // Setea la imagen de perfil cuando no tiene imagen
-    private void changeImageNoImage(int image) {
-        imageProducer.setImageResource(image);
-    }
-    public void setImageInt(int imageInt) {
-        this.imageInt = imageInt;
+    private Bitmap StringToBitMap(String encodedString) {
+        try {
+            System.out.println("Comenzando StringToBitMap");
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            System.out.println("Retornando: " + bitmap);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
     // Vuelve el editText editable para que el usuario pueda escribir
