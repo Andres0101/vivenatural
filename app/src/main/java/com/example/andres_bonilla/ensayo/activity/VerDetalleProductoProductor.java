@@ -42,6 +42,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
     private Firebase myRef;
     private Firebase comments;
+    private Firebase products;
 
     private Typeface editText;
     private Typeface infoName;
@@ -92,6 +93,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
         Firebase usuarios = myRef.child("users");
         comments = myRef.child("comments");
+        products = myRef.child("products");
 
         listaBaseDatos();
         listView();
@@ -330,8 +332,34 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 reservar.setOnClickListener(new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        Toast.makeText(VerDetalleProductoProductor.this, "Jodiña reservaste " + nombreDelProducto, Toast.LENGTH_SHORT).show();
-                        d.dismiss();
+                        if (!productCant.getText().toString().equals("")) { //Verifica si el campo no está vacio
+                            products.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                        Product product = postSnapshot.getValue(Product.class);
+
+                                        if (product.getProductor().equals(nombreDelProductor) && product.getNombreProducto().equals(nombreDelProducto)) {
+                                            //Si la cantidad a reservar es menor o igual a la que tiene el producto en la base de datos
+                                            // puede reservar
+                                            if (Double.parseDouble(productCant.getText().toString()) <= product.getCantidad()) {
+                                                Toast.makeText(VerDetalleProductoProductor.this, "Jodiña reservaste " + nombreDelProducto, Toast.LENGTH_SHORT).show();
+                                                d.dismiss();
+                                            } else { //De lo contrario se le advierte
+                                                productCant.setText("");
+                                                Toast.makeText(VerDetalleProductoProductor.this, "La cantidad máxima que puedes reservar es " + product.getCantidad() + " lb.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+                                }
+                            });
+                        } else {
+                            Toast.makeText(VerDetalleProductoProductor.this, "Por favor indica la cantidad que quieres reservar.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
