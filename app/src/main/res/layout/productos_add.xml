@@ -82,8 +82,8 @@
         android:layout_marginBottom="10dp"
         android:text="@string/libra"
         android:textSize="18sp"
-        android:layout_marginRight="22dp"
-        android:layout_marginEnd="22dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
         android:textColor="#808080" />
 
     <ImageView

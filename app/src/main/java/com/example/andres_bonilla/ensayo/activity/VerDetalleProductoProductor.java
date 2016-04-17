@@ -33,7 +33,9 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ANDRES_BONILLA on 11/04/2016.
@@ -343,11 +345,21 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                                             //Si la cantidad a reservar es menor o igual a la que tiene el producto en la base de datos
                                             // puede reservar
                                             if (Double.parseDouble(productCant.getText().toString()) <= product.getCantidad()) {
-                                                Toast.makeText(VerDetalleProductoProductor.this, "Jodiña reservaste " + nombreDelProducto, Toast.LENGTH_SHORT).show();
+                                                //Resta lo que el usuario reserva con la cantidad que el productor tiene del producto
+                                                Double cantidadDigitada = Double.parseDouble(productCant.getText().toString());
+                                                Double cantidad = product.getCantidad()-cantidadDigitada;
+
+                                                //Actualiza la cantidad del producto en la base de datos
+                                                Firebase cantidadQueQueda = myRef.child("products").child(nombreDelProductor + ": " + nombreDelProducto);
+                                                Map<String, Object> cantidadRestante = new HashMap<>();
+                                                cantidadRestante.put("cantidad", cantidad);
+                                                cantidadQueQueda.updateChildren(cantidadRestante);
+
+                                                Toast.makeText(VerDetalleProductoProductor.this, "Has reservado " + cantidadDigitada + " lb de " + nombreDelProducto, Toast.LENGTH_SHORT).show();
                                                 d.dismiss();
                                             } else { //De lo contrario se le advierte
                                                 productCant.setText("");
-                                                Toast.makeText(VerDetalleProductoProductor.this, "La cantidad máxima que puedes reservar es " + product.getCantidad() + " lb.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(VerDetalleProductoProductor.this, "La cantidad máxima que puedes reservar es " + product.getCantidad() + " lb", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     }
