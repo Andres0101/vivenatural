@@ -32,6 +32,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -155,6 +156,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(buttonSend.getWindowToken(),
                         InputMethodManager.RESULT_UNCHANGED_SHOWN);
+
+                listaBaseDatos();
             }
         });
 
@@ -196,6 +199,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                             Bitmap imagenBitmap = StringToBitMap(imageConsumidor);
                             imageConsumer.setImageBitmap(imagenBitmap);
                         } else {
+                            Bitmap imagenBitmapDefault = BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_profile_image);
+                            imageConsumidor = BitMapToString(imagenBitmapDefault);
                             imageConsumer.setImageResource(R.drawable.ic_no_profile_image);
                         }
                     }
@@ -303,6 +308,14 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
             e.getMessage();
             return null;
         }
+    }
+
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
     }
 
     @Override

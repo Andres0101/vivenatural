@@ -19,7 +19,6 @@
         android:id="@+id/editTextDescriProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
         android:maxLength="140"
         android:enabled="false"
         android:textSize="14sp"
