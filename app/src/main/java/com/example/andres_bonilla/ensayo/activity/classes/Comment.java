@@ -1,8 +1,5 @@
 package com.example.andres_bonilla.ensayo.activity.classes;
 
-/**
- * Created by ANDRES_BONILLA on 13/04/2016.
- */
 public class Comment {
     private String dirigidoA;
     private String hechoPor;

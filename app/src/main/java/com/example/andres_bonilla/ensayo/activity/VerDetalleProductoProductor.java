@@ -25,7 +25,9 @@ import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.classes.Comment;
+import com.example.andres_bonilla.ensayo.activity.classes.MarketProduct;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
+import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -46,6 +48,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     private Firebase myRef;
     private Firebase comments;
     private Firebase products;
+    private Firebase marketProducts;
 
     private Typeface editText;
     private Typeface infoName;
@@ -55,6 +58,9 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     private String nombreDelProductor;
     private String nombreDelProducto;
     private String imageConsumidor;
+
+    private int precioProducto;
+    private String stringImagenFirebase;
 
     private ImageView imagenProducto;
     private ImageView imageConsumer;
@@ -153,7 +159,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 //Vacia el editText
                 agregarComentario.setText("");
                 //Esconde el teclado
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(buttonSend.getWindowToken(),
                         InputMethodManager.RESULT_UNCHANGED_SHOWN);
 
@@ -342,6 +348,28 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 productCant = (EditText) d.findViewById(R.id.editTextCant);
                 productCant.setTypeface(editText);
 
+                // Lee los datos de los productos del mercado
+                marketProducts = myRef.child("marketProducts");
+                marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            MarketProduct marketProduct = postSnapshot.getValue(MarketProduct.class);
+
+                            if (marketProduct.getNombre().equals(nombreDelProducto)) {
+                                stringImagenFirebase = marketProduct.getImagen();
+                                precioProducto = marketProduct.getPrecio();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+
                 Button reservar = (Button) d.findViewById(R.id.done);
                 reservar.setTypeface(text);
                 reservar.setOnClickListener(new View.OnClickListener() {
@@ -367,6 +395,11 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                                                 Map<String, Object> cantidadRestante = new HashMap<>();
                                                 cantidadRestante.put("cantidad", cantidad);
                                                 cantidadQueQueda.updateChildren(cantidadRestante);
+
+                                                // Agrega reserva a la base de datos
+                                                Firebase reserve = myRef.child("reserves").child(nombreDelConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
+                                                Reserve newReserve = new Reserve(nombreDelProducto, nombreDelConsumidor, nombreDelProductor, stringImagenFirebase, cantidadDigitada, precioProducto);
+                                                reserve.setValue(newReserve);
 
                                                 Toast.makeText(VerDetalleProductoProductor.this, "Has reservado " + cantidadDigitada + " lb de " + nombreDelProducto, Toast.LENGTH_SHORT).show();
                                                 d.dismiss();

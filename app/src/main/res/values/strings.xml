@@ -60,6 +60,7 @@
 
     <!-- Productos -->
     <string name="emptyProducts">No hay productos para mostrar.</string>
+    <string name="emptyProductsReserve">No has reservado ningún producto.</string>
     <string name="addProducts">Agregar producto</string>
     <string name="reservarProducto">Reservar producto</string>
     <string name="agregar">Agregar</string>
@@ -67,6 +68,7 @@
     <string name="cancelar">Cancelar</string>
     <string name="cantidad">Disponible:</string>
     <string name="disponible">DISPONIBLES</string>
+    <string name="reserve">RESERVADAS</string>
     <string name="cantidadOfrecida">Cantidad a ofrecer</string>
     <string name="cantidadReservar">Cantidad a reservar</string>
     <string name="info">Información</string>

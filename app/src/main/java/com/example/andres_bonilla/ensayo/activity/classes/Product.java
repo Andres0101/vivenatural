@@ -1,8 +1,5 @@
 package com.example.andres_bonilla.ensayo.activity.classes;
 
-/**
- * Created by ANDRES_BONILLA on 31/03/16.
- */
 public class Product {
 
     private String productor;
@@ -11,18 +8,16 @@ public class Product {
     private double cantidad;
     private int precio;
     private String descripcionProducto;
-    private Comment comentario = new Comment();
 
     public Product() {}
 
-    public Product(String productor, String imagen, String nombreProducto, double cantidad, int precio, String descripcionProducto/*, Comment comentario*/) {
+    public Product(String productor, String imagen, String nombreProducto, double cantidad, int precio, String descripcionProducto) {
         this.productor = productor;
         this.imagen = imagen;
         this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;
         this.precio = precio;
         this.descripcionProducto = descripcionProducto;
-        this.comentario = comentario;
     }
 
     public String getProductor() {

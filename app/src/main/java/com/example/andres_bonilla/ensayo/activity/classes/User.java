@@ -1,8 +1,5 @@
 package com.example.andres_bonilla.ensayo.activity.classes;
 
-/**
- * Created by ANDRES_BONILLA on 25/02/2016.
- */
 public class User {
     private String nombre;
     private String imagen;

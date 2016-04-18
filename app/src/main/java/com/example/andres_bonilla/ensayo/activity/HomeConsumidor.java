@@ -22,6 +22,7 @@ import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.PerfilConsumidor;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.PerfilConsumidorCheck;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.Productores;
+import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.ProductosReservados;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -47,6 +48,7 @@ public class HomeConsumidor extends AppCompatActivity {
     private PerfilConsumidorCheck fragmentUnoCheck;
 
     private Productores fragmentDos;
+    private ProductosReservados fragmentTres;
 
     private String dataNombre;
     private String datadescripcion;
@@ -190,6 +192,21 @@ public class HomeConsumidor extends AppCompatActivity {
                         setTitle(R.string.title_productores);
 
                         fragmentTransactionDos.commit();
+                        return true;
+                    case R.id.listaMercado:
+                        fragmentTres = new ProductosReservados();
+                        android.support.v4.app.FragmentTransaction fragmentTransactionTres = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionTres.replace(R.id.container_body, fragmentTres);
+
+                        Bundle bundleProducts = new Bundle();
+                        bundleProducts.putString("nombreDelConsumidor", dataNombre);
+                        // set Fragmentclass Arguments
+                        fragmentTres.setArguments(bundleProducts);
+
+                        //Setea el nombre del label
+                        setTitle(R.string.title_lista_mercado);
+
+                        fragmentTransactionTres.commit();
                         return true;
                     case R.id.log_out:
                         myRef.unauth();

@@ -1,8 +1,5 @@
 package com.example.andres_bonilla.ensayo.activity.classes;
 
-/**
- * Created by ANDRES_BONILLA on 6/04/16.
- */
 public class MarketProduct {
 
     private String nombre;

@@ -71,7 +71,7 @@ public class ProductosFragment extends Fragment {
     private ArrayList<String> list = new ArrayList<>();
 
     private int precioProducto;
-    String stringImagenFirebase;
+    private String stringImagenFirebase;
 
     public ProductosFragment() {
         // Required empty public constructor
@@ -254,11 +254,11 @@ public class ProductosFragment extends Fragment {
                             if (snapshot.hasChild(nombreDelProductor+": "+nombreProducto)) {
                                 Toast.makeText(getContext(), "El producto que intenta agregar ya existe.", Toast.LENGTH_SHORT).show();
                             } else {
-                                myProducts.add(new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info/*, new Comment()*/));
+                                myProducts.add(new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info));
 
                                 // Agrega producto a la base de datos
                                 Firebase productRef = myRef.child("products").child(nombreDelProductor+": "+nombreProducto);
-                                Product newProduct = new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info/*, new Comment()*/);
+                                Product newProduct = new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info);
                                 productRef.setValue(newProduct);
 
                                 // We notify the data model is changed
