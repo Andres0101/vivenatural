@@ -47,8 +47,6 @@ public class VerDetalleProductor extends AppCompatActivity {
     private TextView cantidadProducto;
     private TextView nohayProductos;
 
-    private Boolean guardeProducto;
-
     MyListAdapter adapter;
 
     private Typeface editText;
@@ -79,8 +77,6 @@ public class VerDetalleProductor extends AppCompatActivity {
 
         Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
         products = myRef.child("products");
-
-        guardeProducto = false;
 
         ListView lv = (ListView) findViewById(R.id.productsListView);
         lv.setOnTouchListener(new View.OnTouchListener() {
@@ -250,13 +246,6 @@ public class VerDetalleProductor extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(VerDetalleProductor.this, HomeConsumidor.class);
-        intent.putExtra("NombreUsuario", nombreDelProductor);
-        startActivity(intent);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -264,11 +253,7 @@ public class VerDetalleProductor extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (guardeProducto) { //Si editó y guardó los datos del producto, entonces se regresa al perfil
-                    onBackPressed();
-                } else { //De lo contrario se regresa al frament anterior.
-                    super.onBackPressed();
-                }
+                super.onBackPressed();
                 return true;
 
             default:

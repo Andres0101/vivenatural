@@ -2,6 +2,7 @@ package com.example.andres_bonilla.ensayo.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -78,6 +79,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
     private List<Comment> myComments = new ArrayList<>();
 
+    private Boolean reservo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +106,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         Firebase usuarios = myRef.child("users");
         comments = myRef.child("comments");
         products = myRef.child("products");
+
+        reservo = false;
 
         listaBaseDatos();
         listView();
@@ -331,7 +336,15 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
+                if (reservo) {
+                    Intent intent = new Intent(VerDetalleProductoProductor.this, VerDetalleProductor.class);
+                    intent.putExtra("nombreProductor", nombreDelProductor);
+                    intent.putExtra("nombreConsumidor", nombreDelConsumidor);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    super.onBackPressed();
+                }
                 return true;
 
             case R.id.action_reservar:
@@ -417,6 +430,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                                                     public void onCancelled(FirebaseError firebaseError) {
                                                     }
                                                 });
+
+                                                reservo = true;
 
                                                 Toast.makeText(VerDetalleProductoProductor.this, "Has reservado " + cantidadDigitada + " lb de " + nombreDelProducto, Toast.LENGTH_SHORT).show();
                                                 d.dismiss();
