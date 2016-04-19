@@ -168,8 +168,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         });
 
         // Lee los datos de los productos
-        Firebase productos = myRef.child("products");
-        productos.addListenerForSingleValueEvent(new ValueEventListener() {
+        products.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
@@ -400,6 +399,24 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                                                 Firebase reserve = myRef.child("reserves").child(nombreDelConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
                                                 Reserve newReserve = new Reserve(nombreDelProducto, nombreDelConsumidor, nombreDelProductor, stringImagenFirebase, cantidadDigitada, precioProducto);
                                                 reserve.setValue(newReserve);
+
+                                                // Lee los datos de los productos para actualizar cantidad
+                                                products.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(DataSnapshot snapshot) {
+                                                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                                            Product product = postSnapshot.getValue(Product.class);
+
+                                                            if (product.getNombreProducto().equals(nombreDelProducto) && product.getProductor().equals(nombreDelProductor)) {
+                                                                cantidadDisponible.setText(" " + product.getCantidad() + " lb");
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(FirebaseError firebaseError) {
+                                                    }
+                                                });
 
                                                 Toast.makeText(VerDetalleProductoProductor.this, "Has reservado " + cantidadDigitada + " lb de " + nombreDelProducto, Toast.LENGTH_SHORT).show();
                                                 d.dismiss();
