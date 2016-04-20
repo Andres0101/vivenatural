@@ -202,6 +202,11 @@ public class HomeProductor extends AppCompatActivity {
                         android.support.v4.app.FragmentTransaction fragmentTransactionTres = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionTres.replace(R.id.container_body, fragmentTres);
 
+                        Bundle bundleProducts = new Bundle();
+                        bundleProducts.putString("nombreDelProductor", dataNombre);
+                        // set Fragmentclass Arguments
+                        fragmentTres.setArguments(bundleProducts);
+
                         //Setea el nombre del label
                         setTitle(R.string.title_reservas);
 

@@ -84,4 +84,8 @@
     <string name="productos">PRODUCTOS •</string>
     <string name="noComments">No hay comentarios para mostrar.</string>
 
+    <!-- Pedidos -->
+    <string name="noPedidos">No hay solicitud de pedidos.</string>
+    <string name="reserved">Reservado por:</string>
+
 </resources>

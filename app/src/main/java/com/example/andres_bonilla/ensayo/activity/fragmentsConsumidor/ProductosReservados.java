@@ -31,7 +31,6 @@ public class ProductosReservados extends Fragment {
 
     private View rootView;
 
-    private Firebase myRef;
     private Firebase productosReservados;
 
     MyListAdapter adapter;
@@ -50,7 +49,7 @@ public class ProductosReservados extends Fragment {
     public ProductosReservados() {
         // Required empty public constructor
 
-        myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
         productosReservados = myRef.child("reserves");
     }
 
@@ -81,7 +80,6 @@ public class ProductosReservados extends Fragment {
         textoNoHay.setTypeface(texto);
 
         listaBaseDatos();
-
         listView();
         //clickSobreItem();
 
