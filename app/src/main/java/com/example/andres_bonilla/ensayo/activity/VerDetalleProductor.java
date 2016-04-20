@@ -30,9 +30,6 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ANDRES_BONILLA on 10/04/2016.
- */
 public class VerDetalleProductor extends AppCompatActivity {
 
     private Firebase products;

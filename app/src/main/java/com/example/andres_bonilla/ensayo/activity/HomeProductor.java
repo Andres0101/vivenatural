@@ -31,13 +31,9 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by ANDRES_BONILLA on 14/02/2016.
- */
 public class HomeProductor extends AppCompatActivity {
 
     private Firebase myRef;
-    private Firebase userImage;
 
     private DrawerLayout drawerLayout;
 
@@ -66,7 +62,6 @@ public class HomeProductor extends AppCompatActivity {
         save = false;
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
-        userImage = myRef.child("users");
 
         //Initializing NavigationView
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -79,6 +74,7 @@ public class HomeProductor extends AppCompatActivity {
         tv.setText(dataNombre);
 
         // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
+        Firebase userImage = myRef.child("users");
         userImage.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

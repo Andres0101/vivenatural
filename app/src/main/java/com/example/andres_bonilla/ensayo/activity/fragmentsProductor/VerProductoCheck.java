@@ -13,9 +13,6 @@ import android.widget.EditText;
 
 import com.example.andres_bonilla.ensayo.R;
 
-/**
- * Created by ANDRES_BONILLA on 30/03/16.
- */
 public class VerProductoCheck extends Fragment {
 
     private EditText descripcionProducto;

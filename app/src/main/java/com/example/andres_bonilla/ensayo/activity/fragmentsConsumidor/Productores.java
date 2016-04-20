@@ -3,7 +3,6 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
@@ -27,9 +26,6 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ANDRES_BONILLA on 4/04/16.
- */
 public class Productores extends Fragment {
 
     private View rootView;
@@ -39,7 +35,6 @@ public class Productores extends Fragment {
     private User clickedProducer;
 
     private Firebase myRef;
-    private Firebase usuarios;
 
     MyListAdapter adapter;
 
@@ -81,8 +76,7 @@ public class Productores extends Fragment {
 
     private void listaBaseDatos(){
         // Lee los datos de los productos
-        usuarios = myRef.child("users");
-
+        Firebase usuarios = myRef.child("users");
         usuarios.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

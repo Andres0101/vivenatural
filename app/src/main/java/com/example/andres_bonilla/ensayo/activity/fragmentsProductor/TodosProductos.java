@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 
 import com.example.andres_bonilla.ensayo.R;
 
-/**
- * Created by ANDRES_BONILLA on 11/03/2016.
- */
 public class TodosProductos extends Fragment {
 
     public TodosProductos() {

@@ -26,12 +26,8 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ANDRES_BONILLA on 12/04/2016.
- */
 public class VerDetalleProductoFragment extends Fragment {
 
-    private Firebase myRef;
     private Firebase comments;
 
     private View rootView;
@@ -79,7 +75,7 @@ public class VerDetalleProductoFragment extends Fragment {
                 getActivity().getAssets(),
                 "fonts/Roboto-Medium.ttf");
 
-        myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
         comments = myRef.child("comments");
 
         nombreDelProductor = getArguments().getString("nombreDelProductor");

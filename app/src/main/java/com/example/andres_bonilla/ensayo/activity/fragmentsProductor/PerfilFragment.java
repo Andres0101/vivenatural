@@ -22,9 +22,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-/**
- * Created by ANDRES_BONILLA on 19/02/2016.
- */
 public class PerfilFragment extends Fragment {
 
     public Activity activity;

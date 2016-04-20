@@ -27,9 +27,6 @@ import java.io.File;
 
 import at.markushi.ui.CircleButton;
 
-/**
- * Created by ANDRES_BONILLA on 4/04/16.
- */
 public class PerfilConsumidorCheck extends Fragment {
 
     public Activity activity;
@@ -168,22 +165,6 @@ public class PerfilConsumidorCheck extends Fragment {
 
     public String getImageFile(){
         return imageFile;
-    }
-    public Bitmap getImageBitmap(){
-        Bitmap imageBitmap = StringToBitMap(imageFile);
-        return imageBitmap;
-    }
-    private Bitmap StringToBitMap(String encodedString) {
-        try {
-            System.out.println("Comenzando StringToBitMap");
-            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            System.out.println("Retornando: " + bitmap);
-            return bitmap;
-        } catch (Exception e) {
-            e.getMessage();
-            return null;
-        }
     }
 
     public String getTextoCapturadoDelEditText() {

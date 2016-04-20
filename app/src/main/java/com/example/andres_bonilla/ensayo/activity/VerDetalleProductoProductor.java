@@ -41,15 +41,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by ANDRES_BONILLA on 11/04/2016.
- */
 public class VerDetalleProductoProductor extends AppCompatActivity {
 
     private Firebase myRef;
     private Firebase comments;
     private Firebase products;
-    private Firebase marketProducts;
 
     private Typeface editText;
     private Typeface infoName;
@@ -361,7 +357,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 productCant.setTypeface(editText);
 
                 // Lee los datos de los productos del mercado
-                marketProducts = myRef.child("marketProducts");
+                Firebase marketProducts = myRef.child("marketProducts");
                 marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override

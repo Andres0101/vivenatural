@@ -31,13 +31,9 @@ import com.firebase.client.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by ANDRES_BONILLA on 28/02/2016.
- */
 public class HomeConsumidor extends AppCompatActivity {
 
     private Firebase myRef;
-    private Firebase userImage;
     private Firebase comments;
 
     private DrawerLayout drawerLayout;
@@ -67,7 +63,6 @@ public class HomeConsumidor extends AppCompatActivity {
         save = false;
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
-        userImage = myRef.child("users");
         comments = myRef.child("comments");
 
         //Initializing NavigationView
@@ -81,6 +76,7 @@ public class HomeConsumidor extends AppCompatActivity {
         tv.setText(dataNombre);
 
         // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
+        Firebase userImage = myRef.child("users");
         userImage.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

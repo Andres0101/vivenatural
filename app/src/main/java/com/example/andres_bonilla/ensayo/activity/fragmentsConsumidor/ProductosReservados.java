@@ -11,13 +11,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
@@ -31,16 +27,12 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ANDRES_BONILLA on 18/04/16.
- */
 public class ProductosReservados extends Fragment {
 
     private View rootView;
 
     private Firebase myRef;
     private Firebase productosReservados;
-    private Firebase marketProducts;
 
     MyListAdapter adapter;
 
@@ -50,21 +42,10 @@ public class ProductosReservados extends Fragment {
 
     private TextView textoNoHay;
 
-    private Spinner spinnerProduct;
-    private EditText productCant;
-    private EditText productInfo;
-
     private String nombreDelConsumidor;
-    private String nombreProductoSpinner;
 
     private Typeface texto;
-    private Typeface textCantidad;
     private Typeface infoName;
-
-    private ArrayList<String> list = new ArrayList<>();
-
-    private int precioProducto;
-    String stringImagenFirebase;
 
     public ProductosReservados() {
         // Required empty public constructor
@@ -88,10 +69,6 @@ public class ProductosReservados extends Fragment {
         texto = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
-
-        textCantidad = Typeface.createFromAsset(
-                getActivity().getAssets(),
-                "fonts/Roboto-Regular.ttf");
 
         infoName = Typeface.createFromAsset(
                 getActivity().getAssets(),

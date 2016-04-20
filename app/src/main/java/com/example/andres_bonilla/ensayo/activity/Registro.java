@@ -25,9 +25,6 @@ import com.firebase.client.FirebaseError;
 
 import java.util.Map;
 
-/**
- * Created by ANDRES_BONILLA on 14/02/2016.
- */
 public class Registro extends AppCompatActivity {
 
     private Firebase myRef;

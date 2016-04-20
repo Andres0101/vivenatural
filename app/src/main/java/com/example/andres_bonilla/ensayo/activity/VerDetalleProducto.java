@@ -33,9 +33,6 @@ import com.firebase.client.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by ANDRES_BONILLA on 09/04/2016.
- */
 public class VerDetalleProducto extends AppCompatActivity {
 
     private Firebase myRef;

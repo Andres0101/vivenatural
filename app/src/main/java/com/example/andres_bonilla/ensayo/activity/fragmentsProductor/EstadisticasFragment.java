@@ -17,9 +17,6 @@ import com.example.andres_bonilla.ensayo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ANDRES_BONILLA on 19/02/2016.
- */
 public class EstadisticasFragment extends Fragment {
 
     private TabLayout tabLayout;

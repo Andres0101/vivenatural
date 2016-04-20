@@ -9,9 +9,6 @@ import android.view.ViewGroup;
 
 import com.example.andres_bonilla.ensayo.R;
 
-/**
- * Created by ANDRES_BONILLA on 19/02/2016.
- */
 public class ReservasFragment extends Fragment {
 
     public ReservasFragment() {
