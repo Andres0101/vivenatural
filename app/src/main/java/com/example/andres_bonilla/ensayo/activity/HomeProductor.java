@@ -1,7 +1,6 @@
 package com.example.andres_bonilla.ensayo.activity;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.EstadisticasFragment;
@@ -47,6 +46,8 @@ public class HomeProductor extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
 
+    private Bitmap largeIcon;
+
     private ImageView imageUserHeader;
 
     private PerfilFragment fragmentUno;
@@ -73,6 +74,8 @@ public class HomeProductor extends AppCompatActivity {
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
 
+        largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_vive_natural);
+
         //Initializing NavigationView
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         View vi =  navigationView.getHeaderView(0);
@@ -89,47 +92,48 @@ public class HomeProductor extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Reserve newReserve = dataSnapshot.getValue(Reserve.class);
+                //Si el productor tiene nuevas reservas, entonces le llega la notificación
                 if (newReserve.getReservadoA().equals(dataNombre)) {
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(HomeProductor.this)
-                            .setSmallIcon(R.drawable.logo)
-                            .setContentTitle("Nuevo pedido")
-                            .setContentText("Te han solicitado una reserva.");
-
-                    // Make the notification play the default notification sound:
-                    Uri alarmSound = RingtoneManager
-                            .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                    mBuilder.setSound(alarmSound);
-                    mBuilder.setOngoing(true);
-
                     // Creates an explicit intent for an Activity in your app
-                    Intent resultIntent = new Intent(HomeProductor.this, MainActivity.class);
-
+                    Intent intent = new Intent(HomeProductor.this, VerReservaNotification.class);
+                    intent.putExtra("nombreDelProductor", dataNombre);
                     // This somehow makes sure, there is only 1 CountDownTimer going if the notification is pressed:
-                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                    // The stack builder object will contain an artificial back stack for the started Activity.
-                    // This ensures that navigating backward from the Activity leads out of
-                    // your application to the Home screen.
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(HomeProductor.this);
-
-                    // Adds the back stack for the Intent (but not the Intent itself)
-                    stackBuilder.addParentStack(MainActivity.class);
-
-                    // Adds the Intent that starts the Activity to the top of the stack
-                    stackBuilder.addNextIntent(resultIntent);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                     // Make this unique ID to make sure there is not generated just a brand new intent with new extra values:
                     int requestID = (int) System.currentTimeMillis();
 
                     // Pass the unique ID to the resultPendingIntent:
-                    PendingIntent resultPendingIntent = PendingIntent.getActivity(HomeProductor.this, requestID, resultIntent, 0);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(HomeProductor.this, requestID, intent, 0);
+                    NotificationManager notificationManager =
+                            (NotificationManager) HomeProductor.this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-                    mBuilder.setContentIntent(resultPendingIntent);
-                    NotificationManager mNotificationManager = (NotificationManager) HomeProductor.this
-                            .getSystemService(Context.NOTIFICATION_SERVICE);
+                    // The stack builder object will contain an artificial back stack for the started Activity.
+                    // This ensures that navigating backward from the Activity leads out of
+                    // your application to the Home screen.
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(HomeProductor.this);
+                    // Adds the back stack for the Intent (but not the Intent itself)
+                    stackBuilder.addParentStack(MainActivity.class);
+                    stackBuilder.addNextIntent(intent);
+                    stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    NotificationCompat.Builder notification = new NotificationCompat.Builder(HomeProductor.this)
+                            .setSmallIcon(R.drawable.logo)
+                            .setLargeIcon(largeIcon)
+                            .setContentTitle("Nuevo pedido")
+                            .setContentText(newReserve.getReservadoPor() + " te ha reservado " + newReserve.getCantidadReservada() + " de " + newReserve.getProducto())
+                            .setAutoCancel(true)
+                            .setStyle(new NotificationCompat.BigTextStyle().bigText(newReserve.getReservadoPor() + " te ha reservado " + newReserve.getCantidadReservada() + " de " + newReserve.getProducto()))
+                            .setContentIntent(pendingIntent);
+
+                    // Make the notification play the default notification sound:
+                    Uri alarmSound = RingtoneManager
+                            .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    notification.setSound(alarmSound);
+                    notification.setOngoing(true);
 
                     // mId allows you to update the notification later on.
-                    mNotificationManager.notify(0, mBuilder.build());
+                    notificationManager.notify(0, notification.build());
                 }
             }
 

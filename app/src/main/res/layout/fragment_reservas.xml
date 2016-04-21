@@ -4,11 +4,6 @@
     android:orientation="vertical"
     android:background="@color/textColorPrimary">
 
-    <FrameLayout
-        android:id="@+id/container_body"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp" />
-
     <TextView
         android:id="@+id/textoInfoProductos"
         android:layout_centerInParent="true"

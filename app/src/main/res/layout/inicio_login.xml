@@ -24,6 +24,7 @@
         android:layout_centerHorizontal="true" />
 
     <LinearLayout
+        android:id="@+id/containerInput"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -78,7 +79,8 @@
         android:textColor="@color/textColorPrimary"
         android:id="@+id/iniciar"
         android:layout_gravity="center_horizontal"
-        android:layout_above="@+id/registrarse"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/containerInput"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_centerHorizontal="true"
