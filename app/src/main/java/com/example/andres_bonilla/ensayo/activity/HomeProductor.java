@@ -1,21 +1,31 @@
 package com.example.andres_bonilla.ensayo.activity;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.Product;
+import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.EstadisticasFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.PerfilFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.PerfilFragmentCheck;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ProductosFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ReservasFragment;
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -72,6 +82,74 @@ public class HomeProductor extends AppCompatActivity {
         //Setea el texto donde va el nombre de usuario en el header.xml por el puExtra que llega del MainActivity
         dataNombre = getIntent().getExtras().getString("NombreUsuario");
         tv.setText(dataNombre);
+
+        // Lee los datos de las reservas para ver si tiene nuevas
+        Firebase reservas = myRef.child("reserves");
+        reservas.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Reserve newReserve = dataSnapshot.getValue(Reserve.class);
+                if (newReserve.getReservadoA().equals(dataNombre)) {
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(HomeProductor.this)
+                            .setSmallIcon(R.drawable.logo)
+                            .setContentTitle("Nuevo pedido")
+                            .setContentText("Te han solicitado una reserva.");
+
+                    // Make the notification play the default notification sound:
+                    Uri alarmSound = RingtoneManager
+                            .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    mBuilder.setSound(alarmSound);
+                    mBuilder.setOngoing(true);
+
+                    // Creates an explicit intent for an Activity in your app
+                    Intent resultIntent = new Intent(HomeProductor.this, MainActivity.class);
+
+                    // This somehow makes sure, there is only 1 CountDownTimer going if the notification is pressed:
+                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                    // The stack builder object will contain an artificial back stack for the started Activity.
+                    // This ensures that navigating backward from the Activity leads out of
+                    // your application to the Home screen.
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(HomeProductor.this);
+
+                    // Adds the back stack for the Intent (but not the Intent itself)
+                    stackBuilder.addParentStack(MainActivity.class);
+
+                    // Adds the Intent that starts the Activity to the top of the stack
+                    stackBuilder.addNextIntent(resultIntent);
+
+                    // Make this unique ID to make sure there is not generated just a brand new intent with new extra values:
+                    int requestID = (int) System.currentTimeMillis();
+
+                    // Pass the unique ID to the resultPendingIntent:
+                    PendingIntent resultPendingIntent = PendingIntent.getActivity(HomeProductor.this, requestID, resultIntent, 0);
+
+                    mBuilder.setContentIntent(resultPendingIntent);
+                    NotificationManager mNotificationManager = (NotificationManager) HomeProductor.this
+                            .getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    // mId allows you to update the notification later on.
+                    mNotificationManager.notify(0, mBuilder.build());
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            //Elimina el producto de la lista en tiempo real.
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
 
         // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
         Firebase userImage = myRef.child("users");
