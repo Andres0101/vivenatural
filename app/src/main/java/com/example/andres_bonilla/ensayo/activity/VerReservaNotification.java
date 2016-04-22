@@ -21,6 +21,7 @@ import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
@@ -90,7 +91,8 @@ public class VerReservaNotification extends AppCompatActivity {
 
     private void listaBaseDatos(){
         // Lee los datos de los productos
-        productosReservados.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query queryRef = productosReservados.orderByChild("horaReserva");
+        queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
@@ -165,12 +167,24 @@ public class VerReservaNotification extends AppCompatActivity {
             nombreProducto.setTypeface(infoName);
             nombreProducto.setText(currentProductReserve.getProducto());
 
-            //Cantidad reservada:
-            TextView reservedQuantity = (TextView) productsView.findViewById(R.id.textCantidad);
-            reservedQuantity.setTypeface(texto);
-            reservedQuantity.setText(currentProductReserve.getCantidadReservada() + " lb");
+            //Fecha de la reserva:
+            TextView textDate = (TextView) productsView.findViewById(R.id.textDate);
+            textDate.setTypeface(texto);
+            textDate.setText(currentProductReserve.getFechaReserva());
 
-            //Cantidad:
+            //Hora de la reserva:
+            TextView textHour = (TextView) productsView.findViewById(R.id.textHour);
+            textHour.setTypeface(texto);
+            textHour.setText(currentProductReserve.getHoraReserva());
+
+            //Cantidad reservada:
+            TextView textViewReserveQuantity = (TextView) productsView.findViewById(R.id.textViewReserveQuantity);
+            textViewReserveQuantity.setTypeface(texto);
+            TextView textCantidad = (TextView) productsView.findViewById(R.id.textCantidad);
+            textCantidad.setTypeface(texto);
+            textCantidad.setText(" " + currentProductReserve.getCantidadReservada() + " lb");
+
+            //Reservado por:
             TextView textViewReserve = (TextView) productsView.findViewById(R.id.textViewReserve);
             textViewReserve.setTypeface(texto);
             TextView reservedBy = (TextView) productsView.findViewById(R.id.textNameConsumer);

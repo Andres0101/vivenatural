@@ -87,5 +87,6 @@
     <!-- Pedidos -->
     <string name="noPedidos">No hay solicitud de pedidos.</string>
     <string name="reserved">Reservado por:</string>
+    <string name="reserveDate">Cantidad reservada:</string>
 
 </resources>
