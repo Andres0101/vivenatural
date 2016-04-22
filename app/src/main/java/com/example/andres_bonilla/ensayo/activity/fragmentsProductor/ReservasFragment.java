@@ -101,14 +101,14 @@ public class ReservasFragment extends Fragment {
 
     private void listaBaseDatos(){
         // Lee los datos de los productos
-        Query queryRef = productosReservados.orderByChild("horaReserva");
+        Query queryRef = productosReservados.orderByChild("fechaReserva");
         queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     Reserve reservedProducts = postSnapshot.getValue(Reserve.class);
 
-                    //Si el consumidor que reservó el producto coincide con el que inicio sesión entonces...
+                    //Si el productor tiene reservas entonces...
                     if (reservedProducts.getReservadoA().equals(nombreDelProductor)) {
                         textoNoHay.setVisibility(View.GONE);
 

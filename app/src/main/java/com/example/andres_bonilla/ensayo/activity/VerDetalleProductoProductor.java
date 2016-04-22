@@ -389,8 +389,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 int hour = c.get(Calendar.HOUR_OF_DAY);
                 int minutes = c.get(Calendar.MINUTE);
 
-                fechaReserva = day + "/" + month + "/" + year;
-                hora = hour + ":" +minutes;
+                fechaReserva = month + "/" + day + "/" + year;
+                hora = hour + ":" + minutes;
 
                 Button reservar = (Button) d.findViewById(R.id.done);
                 reservar.setTypeface(text);
