@@ -118,7 +118,7 @@ public class HomeProductor extends AppCompatActivity {
                     stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     NotificationCompat.Builder notification = new NotificationCompat.Builder(HomeProductor.this)
-                            .setSmallIcon(R.drawable.logo)
+                            .setSmallIcon(R.drawable.ic_launcher_vive_notification)
                             .setLargeIcon(largeIcon)
                             .setContentTitle("Nuevo pedido")
                             .setContentText(newReserve.getReservadoPor() + " te ha reservado " + newReserve.getCantidadReservada() + " de " + newReserve.getProducto())

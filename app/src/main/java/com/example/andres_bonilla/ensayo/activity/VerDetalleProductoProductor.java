@@ -37,6 +37,7 @@ import com.firebase.client.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,9 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     private List<Comment> myComments = new ArrayList<>();
 
     private Boolean reservo;
+
+    private String fechaReserva;
+    private String hora;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -378,6 +382,16 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                     }
                 });
 
+                Calendar c = Calendar.getInstance();
+                int day = c.get(Calendar.DATE);
+                int month = c.get(Calendar.MONTH);
+                int year = c.get(Calendar.YEAR);
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minutes = c.get(Calendar.MINUTE);
+
+                fechaReserva = day + "/" + month + "/" + year;
+                hora = hour + ":" +minutes;
+
                 Button reservar = (Button) d.findViewById(R.id.done);
                 reservar.setTypeface(text);
                 reservar.setOnClickListener(new View.OnClickListener() {
@@ -406,7 +420,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
                                                 // Agrega reserva a la base de datos
                                                 Firebase reserve = myRef.child("reserves").child(nombreDelConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
-                                                Reserve newReserve = new Reserve(nombreDelProducto, nombreDelConsumidor, nombreDelProductor, stringImagenFirebase, cantidadDigitada, precioProducto);
+                                                Reserve newReserve = new Reserve(nombreDelProducto, nombreDelConsumidor, nombreDelProductor, stringImagenFirebase, cantidadDigitada, precioProducto, fechaReserva, hora);
                                                 reserve.setValue(newReserve);
 
                                                 // Lee los datos de los productos para actualizar cantidad

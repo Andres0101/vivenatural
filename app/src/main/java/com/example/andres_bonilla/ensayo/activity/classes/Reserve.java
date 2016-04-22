@@ -8,16 +8,20 @@ public class Reserve {
     private String imagenProducto;
     private double cantidadReservada;
     private int precio;
+    private String fechaReserva;
+    private String horaReserva;
 
     public Reserve() {}
 
-    public Reserve(String producto, String reservadoPor, String reservadoA, String imagenProducto, double cantidadReservada, int precio) {
+    public Reserve(String producto, String reservadoPor, String reservadoA, String imagenProducto, double cantidadReservada, int precio, String fechaReserva, String horaReserva) {
         this.producto = producto;
         this.reservadoPor = reservadoPor;
         this.reservadoA = reservadoA;
         this.imagenProducto = imagenProducto;
         this.cantidadReservada = cantidadReservada;
         this.precio = precio;
+        this.fechaReserva = fechaReserva;
+        this.horaReserva = horaReserva;
     }
 
     public String getProducto() {
@@ -42,5 +46,13 @@ public class Reserve {
 
     public int getPrecio() {
         return precio;
+    }
+
+    public String getFechaReserva() {
+        return fechaReserva;
+    }
+
+    public String getHoraReserva() {
+        return horaReserva;
     }
 }
