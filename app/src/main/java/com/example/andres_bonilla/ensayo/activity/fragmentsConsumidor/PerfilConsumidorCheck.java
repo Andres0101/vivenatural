@@ -1,7 +1,11 @@
 package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
 
@@ -43,6 +49,8 @@ public class PerfilConsumidorCheck extends Fragment {
 
     private static int RESULT_LOAD_IMAGE = 1;
     private static final int SELECT_PICTURE = 1;
+
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     public PerfilConsumidorCheck() {
         // Required empty public constructor
@@ -84,14 +92,7 @@ public class PerfilConsumidorCheck extends Fragment {
         addImage.setVisibility(View.VISIBLE);
         addImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                String pictureDirectoryPath = pictureDirectory.getPath();
-
-                Uri data = Uri.parse(pictureDirectoryPath);
-
-                photoPickerIntent.setDataAndType(data, "image/*");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+                permissionToStorage();
             }
         });
 
@@ -102,6 +103,69 @@ public class PerfilConsumidorCheck extends Fragment {
 
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    //Dialogo que pide permiso para que la app tenga acceso al storage
+    private void permissionToStorage() {
+        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                showMessageOKCancel("Debes permitir el acceso al contenido multimedia de tu dispositivo",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                        REQUEST_CODE_ASK_PERMISSIONS);
+                            }
+                        });
+                return;
+            }
+            requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_CODE_ASK_PERMISSIONS);
+            return;
+        }
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        String pictureDirectoryPath = pictureDirectory.getPath();
+
+        Uri data = Uri.parse(pictureDirectoryPath);
+
+        photoPickerIntent.setDataAndType(data, "image/*");
+        startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancelar", null)
+                .create()
+                .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    String pictureDirectoryPath = pictureDirectory.getPath();
+
+                    Uri data = Uri.parse(pictureDirectoryPath);
+
+                    photoPickerIntent.setDataAndType(data, "image/*");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMAGE);
+                } else {
+                    // Permission Denied
+                    Toast.makeText(getActivity(), "Vive Natural no podrá acceder a tus fotos.", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override
