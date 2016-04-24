@@ -12,7 +12,7 @@
         android:textSize="12sp"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="@string/emptyProductsReserve"
+        android:text="@string/emptyProducts"
         android:visibility="visible" />
 
     <ListView

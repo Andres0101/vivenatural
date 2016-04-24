@@ -19,7 +19,7 @@
             android:id="@+id/products"
             android:checked="false"
             android:icon="@drawable/ic_productos"
-            android:title="@string/title_products" />
+            android:title="@string/title_products_market" />
 
         <item
             android:id="@+id/listaMercado"

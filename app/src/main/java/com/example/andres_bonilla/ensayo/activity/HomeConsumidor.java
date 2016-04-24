@@ -23,6 +23,7 @@ import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.PerfilCons
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.PerfilConsumidorCheck;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.Productores;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.ProductosReservados;
+import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.ProductsMarket;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -45,6 +46,7 @@ public class HomeConsumidor extends AppCompatActivity {
 
     private Productores fragmentDos;
     private ProductosReservados fragmentTres;
+    private ProductsMarket fragmentCuatro;
 
     private String dataNombre;
     private String datadescripcion;
@@ -188,6 +190,16 @@ public class HomeConsumidor extends AppCompatActivity {
                         setTitle(R.string.title_productores);
 
                         fragmentTransactionDos.commit();
+                        return true;
+                    case R.id.products:
+                        fragmentCuatro = new ProductsMarket();
+                        android.support.v4.app.FragmentTransaction fragmentTransactionCuatro = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionCuatro.replace(R.id.container_body, fragmentCuatro);
+
+                        //Setea el nombre del label
+                        setTitle(R.string.title_products_market);
+
+                        fragmentTransactionCuatro.commit();
                         return true;
                     case R.id.listaMercado:
                         fragmentTres = new ProductosReservados();
