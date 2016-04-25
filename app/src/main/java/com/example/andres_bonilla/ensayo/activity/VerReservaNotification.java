@@ -26,6 +26,7 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class VerReservaNotification extends AppCompatActivity {
@@ -179,7 +180,32 @@ public class VerReservaNotification extends AppCompatActivity {
             //Fecha de la reserva:
             TextView textDate = (TextView) productsView.findViewById(R.id.textDate);
             textDate.setTypeface(texto);
-            textDate.setText(currentProductReserve.getFechaReserva());
+
+            //Separa la fecha por "/"
+            String currentString = currentProductReserve.getFechaReserva();
+            String[] separated = currentString.split("/");
+            String month = separated[0]; //Este es el "Mes"
+            String day = separated[1]; //Este es el "Día"
+
+            Calendar c = Calendar.getInstance();
+            int dayCalendar = c.get(Calendar.DATE);
+            int monthCalendar = c.get(Calendar.MONTH);
+            int trueMonthcalendar = monthCalendar+1;
+
+            //Convierte el string a int
+            int castMonthToInt = Integer.parseInt(month);
+            int castDayToInt = Integer.parseInt(day);
+
+            int yesterday = dayCalendar-1;
+            int yesterdayPass = dayCalendar-2;
+
+            if (castMonthToInt == trueMonthcalendar && castDayToInt == dayCalendar) {
+                textDate.setText("Hoy");
+            } else if (castMonthToInt == trueMonthcalendar && castDayToInt == yesterday) {
+                textDate.setText("Ayer");
+            } else if ((castMonthToInt <= trueMonthcalendar && castDayToInt <= yesterdayPass) || (castMonthToInt < trueMonthcalendar && castDayToInt <= dayCalendar)) {
+                textDate.setText(currentProductReserve.getFechaReserva());
+            }
 
             //Hora de la reserva:
             TextView textHour = (TextView) productsView.findViewById(R.id.textHour);

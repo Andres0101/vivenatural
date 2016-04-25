@@ -342,6 +342,7 @@ public class ProductosFragment extends Fragment {
                     if (key.equals(product.getProductor() + ": " + product.getNombreProducto())){
                         myProducts.remove(product);
                         adapter.notifyDataSetChanged();
+                        break;
                     }
                 }
             }

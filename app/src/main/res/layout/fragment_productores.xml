@@ -4,6 +4,14 @@
     android:orientation="vertical"
     android:background="@color/textColorPrimary">
 
+    <ListView
+        android:id="@+id/producersListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <TextView
         android:id="@+id/textoInfoProductores"
         android:layout_centerInParent="true"
@@ -13,14 +21,16 @@
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:text="@string/emptyProducers"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
-    <ListView
-        android:id="@+id/producersListView"
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="132dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" >
+    </ProgressBar>
 
 </RelativeLayout>

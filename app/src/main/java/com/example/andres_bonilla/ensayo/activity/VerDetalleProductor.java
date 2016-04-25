@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
@@ -51,6 +52,8 @@ public class VerDetalleProductor extends AppCompatActivity {
 
     private List<Product> myProducts = new ArrayList<>();
 
+    private ProgressBar productProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +78,7 @@ public class VerDetalleProductor extends AppCompatActivity {
         Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
         products = myRef.child("products");
 
-        ListView lv = (ListView) findViewById(R.id.productsListView);
+        /*ListView lv = (ListView) findViewById(R.id.productsListView);
         lv.setOnTouchListener(new View.OnTouchListener() {
             // Setting on Touch Listener for handling the touch inside ScrollView
             @Override
@@ -84,7 +87,9 @@ public class VerDetalleProductor extends AppCompatActivity {
                 v.getParent().requestDisallowInterceptTouchEvent(true);
                 return false;
             }
-        });
+        });*/
+
+        productProgress = (ProgressBar) findViewById(R.id.productProgress);
 
         listaBaseDatos();
         listView();
@@ -159,10 +164,12 @@ public class VerDetalleProductor extends AppCompatActivity {
                     if (product.getProductor().equals(nombreDelProductor)) {
                         myProducts.add(postSnapshot.getValue(Product.class));
                         cantidadProducto.setText(" " + myProducts.size());
-                        nohayProductos.setVisibility(View.GONE);
+                        productProgress.setVisibility(View.GONE);
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
+                    } else {
+                        productProgress.setVisibility(View.GONE);
                     }
                 }
             }
@@ -171,6 +178,9 @@ public class VerDetalleProductor extends AppCompatActivity {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
+        if (cantidadProducto.equals(" 0")) {
+            nohayProductos.setVisibility(View.VISIBLE);
+        }
     }
 
     private void listView() {

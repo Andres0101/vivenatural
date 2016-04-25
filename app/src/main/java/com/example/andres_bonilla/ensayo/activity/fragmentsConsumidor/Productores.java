@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
@@ -42,6 +43,8 @@ public class Productores extends Fragment {
 
     private List<User> productores = new ArrayList<>();
 
+    private ProgressBar progress;
+
     public Productores() {
         // Required empty public constructor
 
@@ -64,6 +67,7 @@ public class Productores extends Fragment {
         nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
 
         textoNoHay = (TextView) rootView.findViewById(R.id.textoInfoProductores);
+        progress = (ProgressBar) rootView.findViewById(R.id.progress);
 
         listaBaseDatos();
 
@@ -86,10 +90,13 @@ public class Productores extends Fragment {
                     //Si el nombre del productor coincide con el que inicio sesión entonces...
                     if (user.getRol().equals("Productor")) {
                         textoNoHay.setVisibility(View.GONE);
+                        progress.setVisibility(View.GONE);
                         productores.add(postSnapshot.getValue(User.class));
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
+                    } else {
+                        progress.setVisibility(View.GONE);
                     }
                 }
             }

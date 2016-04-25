@@ -109,6 +109,16 @@
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp" />
 
+    <ProgressBar
+        android:id="@+id/productProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="53dp"
+        android:layout_alignTop="@+id/productsListView"
+        android:layout_centerHorizontal="true" >
+    </ProgressBar>
+
     <TextView
         android:id="@+id/textoInfoProductos"
         android:layout_width="fill_parent"
@@ -117,7 +127,7 @@
         android:layout_marginTop="53dp"
         android:gravity="center_horizontal"
         android:text="@string/emptyProducts"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_alignTop="@+id/productsListView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
