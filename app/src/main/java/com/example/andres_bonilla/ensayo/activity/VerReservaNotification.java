@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
@@ -44,6 +45,8 @@ public class VerReservaNotification extends AppCompatActivity {
     private Typeface texto;
     private Typeface infoName;
 
+    private ProgressBar progress;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +74,8 @@ public class VerReservaNotification extends AppCompatActivity {
 
         textoNoHay = (TextView) findViewById(R.id.textoInfoProductos);
         textoNoHay.setTypeface(texto);
+
+        progress = (ProgressBar) findViewById(R.id.reserveProgress);
 
         listaBaseDatos();
         listView();
@@ -101,11 +106,15 @@ public class VerReservaNotification extends AppCompatActivity {
                     //Si el productor tiene reservas entonces...
                     if (reservedProducts.getReservadoA().equals(nombreDelProductor)) {
                         textoNoHay.setVisibility(View.GONE);
+                        progress.setVisibility(View.GONE);
 
                         myReserves.add(postSnapshot.getValue(Reserve.class));
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
+                    } else {
+                        textoNoHay.setVisibility(View.VISIBLE);
+                        progress.setVisibility(View.GONE);
                     }
                 }
             }

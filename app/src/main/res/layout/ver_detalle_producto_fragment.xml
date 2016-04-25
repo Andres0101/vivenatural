@@ -35,6 +35,17 @@
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp" />
 
+    <ProgressBar
+        android:id="@+id/detailsProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignTop="@+id/iconDescription"
+        android:layout_alignRight="@+id/editTextDescriProduct"
+        android:layout_alignEnd="@+id/editTextDescriProduct">
+    </ProgressBar>
+
     <ImageView
         android:id="@+id/iconAvailable"
         android:layout_width="wrap_content"
@@ -110,6 +121,16 @@
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp" />
 
+    <ProgressBar
+        android:id="@+id/commentProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="53dp"
+        android:layout_alignTop="@+id/commentsListView"
+        android:layout_centerHorizontal="true">
+    </ProgressBar>
+
     <TextView
         android:id="@+id/textoInfoComentarios"
         android:layout_width="fill_parent"
@@ -118,7 +139,7 @@
         android:layout_marginTop="53dp"
         android:gravity="center_horizontal"
         android:text="@string/noComments"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_alignTop="@+id/commentsListView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

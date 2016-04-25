@@ -78,6 +78,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     private List<Comment> myComments = new ArrayList<>();
 
     private Boolean reservo;
+    private Boolean agregandoComentario;
 
     private String fechaReserva;
     private String hora;
@@ -109,6 +110,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         products = myRef.child("products");
 
         reservo = false;
+        agregandoComentario = false;
 
         listaBaseDatos();
         listView();
@@ -169,6 +171,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(buttonSend.getWindowToken(),
                         InputMethodManager.RESULT_UNCHANGED_SHOWN);
 
+                agregandoComentario = true;
                 listaBaseDatos();
             }
         });
@@ -225,28 +228,58 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     }
 
     private void listaBaseDatos(){
-        // Lee los datos de los productos
-        comments.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    Comment comment = postSnapshot.getValue(Comment.class);
+        if (agregandoComentario) {
+            // Dialogo de espera
+            final ProgressDialog dlg = new ProgressDialog(VerDetalleProductoProductor.this);
+            dlg.setMessage("Agregando comentario. Por favor espere.");
+            dlg.show();
+            // Lee los datos de los productos
+            comments.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Comment comment = postSnapshot.getValue(Comment.class);
 
-                    if (comment.getDirigidoA().equals(nombreDelProductor) && comment.getProductoComentado().equals(nombreDelProducto)) {
-                        myComments.add(postSnapshot.getValue(Comment.class));
-                        cantidadComentario.setText(" " + myComments.size());
-                        nohayComentarios.setVisibility(View.GONE);
+                        if (comment.getDirigidoA().equals(nombreDelProductor) && comment.getProductoComentado().equals(nombreDelProducto)) {
+                            dlg.dismiss();
+                            myComments.add(postSnapshot.getValue(Comment.class));
+                            cantidadComentario.setText(" " + myComments.size());
+                            nohayComentarios.setVisibility(View.GONE);
 
-                        // We notify the data model is changed
-                        adapter.notifyDataSetChanged();
+                            // We notify the data model is changed
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            }
-        });
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                }
+            });
+        } else {
+            // Lee los datos de los productos
+            comments.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Comment comment = postSnapshot.getValue(Comment.class);
+
+                        if (comment.getDirigidoA().equals(nombreDelProductor) && comment.getProductoComentado().equals(nombreDelProducto)) {
+                            myComments.add(postSnapshot.getValue(Comment.class));
+                            cantidadComentario.setText(" " + myComments.size());
+                            nohayComentarios.setVisibility(View.GONE);
+
+                            // We notify the data model is changed
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                }
+            });
+        }
     }
 
     private void listView() {

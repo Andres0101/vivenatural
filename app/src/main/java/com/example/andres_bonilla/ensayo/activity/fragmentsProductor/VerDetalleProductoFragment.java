@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
@@ -47,6 +49,9 @@ public class VerDetalleProductoFragment extends Fragment {
     MyListAdapter adapter;
 
     private List<Comment> myComments = new ArrayList<>();
+
+    private ProgressBar progress;
+    private ProgressBar commentProgress;
 
     public VerDetalleProductoFragment() {
         // Required empty public constructor
@@ -98,6 +103,9 @@ public class VerDetalleProductoFragment extends Fragment {
         listaBaseDatos();
         listView();
 
+        progress = (ProgressBar) rootView.findViewById(R.id.detailsProgress);
+        commentProgress = (ProgressBar) rootView.findViewById(R.id.commentProgress);
+
         // Lee los datos de los productos
         Firebase productos = myRef.child("products");
         productos.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -107,6 +115,7 @@ public class VerDetalleProductoFragment extends Fragment {
                     Product product = postSnapshot.getValue(Product.class);
 
                     if (product.getNombreProducto().equals(nombreDelProducto) && product.getProductor().equals(nombreDelProductor)) {
+                        progress.setVisibility(View.GONE);
 
                         descripcionProducto.setText(product.getDescripcionProducto());
                         cantidadDisponible.setText(" " + product.getCantidad() + " lb");
@@ -135,9 +144,13 @@ public class VerDetalleProductoFragment extends Fragment {
                         myComments.add(postSnapshot.getValue(Comment.class));
                         cantidadComentario.setText(" " + myComments.size());
                         nohayComentarios.setVisibility(View.GONE);
+                        commentProgress.setVisibility(View.GONE);
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
+                    } else {
+                        nohayComentarios.setVisibility(View.VISIBLE);
+                        commentProgress.setVisibility(View.GONE);
                     }
                 }
             }

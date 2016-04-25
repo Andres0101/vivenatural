@@ -1,7 +1,6 @@
 package com.example.andres_bonilla.ensayo.activity;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.example.andres_bonilla.ensayo.activity.classes.User;

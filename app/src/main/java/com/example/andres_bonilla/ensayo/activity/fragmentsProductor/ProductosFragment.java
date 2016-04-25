@@ -2,6 +2,7 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsProductor;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +75,8 @@ public class ProductosFragment extends Fragment {
     private String stringImagenFirebase;
     private String stringImagenFirebaseProductor;
 
+    private ProgressBar progress;
+
     public ProductosFragment() {
         // Required empty public constructor
 
@@ -108,6 +112,8 @@ public class ProductosFragment extends Fragment {
 
         textoNoHay = (TextView) rootView.findViewById(R.id.textoInfoProductos);
         textoNoHay.setTypeface(texto);
+
+        progress = (ProgressBar) rootView.findViewById(R.id.listProgress);
 
         listaBaseDatos();
 
@@ -257,8 +263,11 @@ public class ProductosFragment extends Fragment {
             public void onClick(View v) {
 
                 if (!productInfo.getText().toString().equals("") && !productCant.getText().toString().equals("")) {
-
                     textoNoHay.setVisibility(View.GONE);
+                    // Dialogo de espera
+                    final ProgressDialog dlg = new ProgressDialog(getActivity());
+                    dlg.setMessage("Agregando producto. Por favor espere.");
+                    dlg.show();
 
                     // Lee los datos de los productos
                     productos = myRef.child("products");
@@ -273,8 +282,10 @@ public class ProductosFragment extends Fragment {
 
                             //Verifica si el producto está agregando un producto ya existente.
                             if (snapshot.hasChild(nombreDelProductor+": "+nombreProducto)) {
+                                dlg.dismiss();
                                 Toast.makeText(getContext(), "El producto que intenta agregar ya existe.", Toast.LENGTH_SHORT).show();
                             } else {
+                                dlg.dismiss();
                                 myProducts.add(new Product(nombreDelProductor, stringImagenFirebase, stringImagenFirebaseProductor, nombreProducto, cantidad, precioProducto, info));
 
                                 // Agrega producto a la base de datos
@@ -351,11 +362,15 @@ public class ProductosFragment extends Fragment {
                     //Si el nombre del productor coincide con el que inicio sesión entonces...
                     if (product.getProductor().equals(nombreDelProductor)) {
                         textoNoHay.setVisibility(View.GONE);
+                        progress.setVisibility(View.GONE);
 
                         myProducts.add(postSnapshot.getValue(Product.class));
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
+                    } else {
+                        textoNoHay.setVisibility(View.VISIBLE);
+                        progress.setVisibility(View.GONE);
                     }
                 }
             }

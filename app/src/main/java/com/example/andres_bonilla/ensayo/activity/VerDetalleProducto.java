@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,8 @@ public class VerDetalleProducto extends AppCompatActivity {
     private VerProductoCheck fragmentCuatroCheck;
 
     private Boolean guardeProducto;
+
+    private ProgressBar progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,7 @@ public class VerDetalleProducto extends AppCompatActivity {
         fragmentInicio.commit();
 
         imagenProducto = (ImageView) findViewById(R.id.imageProduct);
+        progress = (ProgressBar) findViewById(R.id.imageProgress);
 
         // Lee los datos de los productos
         Firebase productos = myRef.child("products");
@@ -102,6 +106,7 @@ public class VerDetalleProducto extends AppCompatActivity {
                     Product product = postSnapshot.getValue(Product.class);
 
                     if (product.getNombreProducto().equals(nombreDelProducto) && product.getProductor().equals(nombreDelProductor)) {
+                        progress.setVisibility(View.GONE);
 
                         String imageProduct = product.getImagen();
                         Bitmap imagenBitmap = StringToBitMap(imageProduct);

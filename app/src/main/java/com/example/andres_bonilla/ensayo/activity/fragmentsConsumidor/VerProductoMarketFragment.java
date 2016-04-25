@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.VerDetalleProductoProductor;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
-import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
