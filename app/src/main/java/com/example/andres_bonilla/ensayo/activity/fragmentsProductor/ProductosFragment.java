@@ -29,6 +29,7 @@ import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.VerDetalleProducto;
 import com.example.andres_bonilla.ensayo.activity.classes.MarketProduct;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
+import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -43,6 +44,7 @@ public class ProductosFragment extends Fragment {
     private View rootView;
 
     private Firebase myRef;
+    private Firebase users;
     private Firebase productos;
     private Firebase marketProducts;
 
@@ -69,6 +71,7 @@ public class ProductosFragment extends Fragment {
 
     private int precioProducto;
     private String stringImagenFirebase;
+    private String stringImagenFirebaseProductor;
 
     public ProductosFragment() {
         // Required empty public constructor
@@ -226,6 +229,27 @@ public class ProductosFragment extends Fragment {
             }
         });
 
+        // Lee los datos de los productos del mercado
+        users = myRef.child("users");
+        users.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    User user = postSnapshot.getValue(User.class);
+
+                    if (user.getNombre().equals(nombreDelProductor)) {
+                        stringImagenFirebaseProductor = user.getImagen();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
         Button readyToAdd = (Button) d.findViewById(R.id.done);
         readyToAdd.setTypeface(textCantidad);
         readyToAdd.setOnClickListener(new View.OnClickListener() {
@@ -251,11 +275,11 @@ public class ProductosFragment extends Fragment {
                             if (snapshot.hasChild(nombreDelProductor+": "+nombreProducto)) {
                                 Toast.makeText(getContext(), "El producto que intenta agregar ya existe.", Toast.LENGTH_SHORT).show();
                             } else {
-                                myProducts.add(new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info));
+                                myProducts.add(new Product(nombreDelProductor, stringImagenFirebase, stringImagenFirebaseProductor, nombreProducto, cantidad, precioProducto, info));
 
                                 // Agrega producto a la base de datos
                                 Firebase productRef = myRef.child("products").child(nombreDelProductor+": "+nombreProducto);
-                                Product newProduct = new Product(nombreDelProductor, stringImagenFirebase, nombreProducto, cantidad, precioProducto, info);
+                                Product newProduct = new Product(nombreDelProductor, stringImagenFirebase, stringImagenFirebaseProductor, nombreProducto, cantidad, precioProducto, info);
                                 productRef.setValue(newProduct);
 
                                 // We notify the data model is changed

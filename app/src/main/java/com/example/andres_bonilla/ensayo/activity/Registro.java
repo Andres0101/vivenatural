@@ -112,8 +112,8 @@ public class Registro extends AppCompatActivity {
 
                 // Dialogo de espera
                 final ProgressDialog dlg = new ProgressDialog(Registro.this);
-                dlg.setTitle("Por favor espere.");
-                dlg.setMessage("Registrando. Por favor espere.");
+                dlg.setTitle("Registrando cuenta.");
+                dlg.setMessage("Por favor espere.");
                 dlg.show();
 
                 // Crea usuario en base de datos

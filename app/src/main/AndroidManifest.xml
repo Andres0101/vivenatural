@@ -49,6 +49,8 @@
         <activity android:name=".activity.VerDetalleProductor" />
         <activity android:name=".activity.HomeConsumidor" />
 
+        <activity android:name=".activity.VerProductoMarket" />
+
         <!-- Batch Push -->
         <service android:name="com.batch.android.BatchPushService" />
         <receiver android:name="com.batch.android.BatchPushReceiver"

@@ -1,5 +1,6 @@
 package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -8,12 +9,14 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.VerProductoMarket;
 import com.example.andres_bonilla.ensayo.activity.classes.MarketProduct;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -37,6 +40,8 @@ public class ProductsMarket extends Fragment {
 
     private List<MarketProduct> marketProductList = new ArrayList<>();
 
+    private String nombreDelConsumidor;
+
     public ProductsMarket() {
         // Required empty public constructor
 
@@ -57,10 +62,12 @@ public class ProductsMarket extends Fragment {
 
         textoNoHay = (TextView) rootView.findViewById(R.id.textoInfoProductos);
 
+        nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
+
         listaBaseDatos();
 
         listView();
-        //clickSobreItem();
+        clickSobreItem();
 
         // Inflate the layout for this fragment
         return rootView;
@@ -73,10 +80,9 @@ public class ProductsMarket extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    MarketProduct marketProduct = postSnapshot.getValue(MarketProduct.class);
 
                     textoNoHay.setVisibility(View.GONE);
-                    marketProductList.add(new MarketProduct(marketProduct.getNombre(), marketProduct.getImagen(), marketProduct.getPrecio()));
+                    marketProductList.add(postSnapshot.getValue(MarketProduct.class));
 
                     // We notify the data model is changed
                     adapter.notifyDataSetChanged();
@@ -107,7 +113,7 @@ public class ProductsMarket extends Fragment {
         }
     }
 
-    /*private void clickSobreItem() {
+    private void clickSobreItem() {
         ListView list = (ListView) rootView.findViewById(R.id.productsListView);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -116,12 +122,13 @@ public class ProductsMarket extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("nombreProducto", clickedProduct.getNombre());
-                Intent i = new Intent(getActivity(), VerDetalleProductor.class);
+                bundle.putString("nombreDelConsumidor", nombreDelConsumidor);
+                Intent i = new Intent(getActivity(), VerProductoMarket.class);
                 i.putExtras(bundle);
                 startActivity(i);
             }
         });
-    }*/
+    }
 
     private class MyListAdapter extends ArrayAdapter<MarketProduct> {
         public MyListAdapter(){

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/textColorPrimary">
+
+    <TextView
+        android:id="@+id/textViewProducers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="15dp"
+        android:textColor="#CCCCCC"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/producers" />
+
+    <TextView
+        android:id="@+id/textViewCantidadProductores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text=" 0"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/textViewProducers"
+        android:layout_toEndOf="@id/textViewProducers"
+        android:textColor="#CCCCCC" />
+
+    <ListView
+        android:id="@+id/producersListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewProducers"
+        android:layout_alignLeft="@+id/textViewProducers"
+        android:layout_alignStart="@+id/textViewProducers"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <TextView
+        android:id="@+id/textoInfoProductores"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginTop="53dp"
+        android:gravity="center_horizontal"
+        android:text="@string/noProducers"
+        android:visibility="visible"
+        android:layout_alignTop="@+id/producersListView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

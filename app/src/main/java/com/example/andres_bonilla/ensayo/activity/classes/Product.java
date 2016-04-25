@@ -4,6 +4,7 @@ public class Product {
 
     private String productor;
     private String imagen;
+    private String imagenProductor;
     private String nombreProducto;
     private double cantidad;
     private int precio;
@@ -11,9 +12,10 @@ public class Product {
 
     public Product() {}
 
-    public Product(String productor, String imagen, String nombreProducto, double cantidad, int precio, String descripcionProducto) {
+    public Product(String productor, String imagen, String imagenProductor, String nombreProducto, double cantidad, int precio, String descripcionProducto) {
         this.productor = productor;
         this.imagen = imagen;
+        this.imagenProductor = imagenProductor;
         this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;
         this.precio = precio;
@@ -26,6 +28,10 @@ public class Product {
 
     public String getImagen() {
         return imagen;
+    }
+
+    public String getImagenProductor() {
+        return imagenProductor;
     }
 
     public String getNombreProducto() {

@@ -90,4 +90,8 @@
     <string name="reserved">Reservado por:</string>
     <string name="reserveDate">Cantidad reservada:</string>
 
+    <!-- Market products-->
+    <string name="producers">PRODUCTORES •</string>
+    <string name="noProducers">No hay productores para mostrar.</string>
+
 </resources>

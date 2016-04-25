@@ -82,16 +82,14 @@ public class MainActivity extends AppCompatActivity {
 
                 // Dialogo de espera
                 final ProgressDialog dlg = new ProgressDialog(MainActivity.this);
-                dlg.setTitle("Por favor espere.");
-                dlg.setMessage("Iniciando sesión. Por favor espere.");
+                dlg.setTitle("Iniciando sesión.");
+                dlg.setMessage("Por favor espere.");
                 dlg.show();
 
                 myRef.authWithPassword(email.getText().toString(), password.getText().toString(), new Firebase.AuthResultHandler() {
                     @Override
                     public void onAuthenticated(AuthData authData) {
                         System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
-
-                        dlg.dismiss();
 
                         // Lee los datos de los usuarios
                         Firebase usuarios = myRef.child("users");
@@ -105,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                                     // Imprime en consola el Nombre y el Rol del usuario que inicia sesión
                                     if (user.getCorreo().equals(email.getText().toString())) {
                                         System.out.println("Usuario que inicio sesión: " + user.getNombre() + " - " + user.getRol());
+                                        dlg.dismiss();
 
                                         // Va al home de la app
                                         if (user.getRol().equals("Productor")) {

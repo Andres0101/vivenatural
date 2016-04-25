@@ -86,7 +86,7 @@ public class Productores extends Fragment {
                     //Si el nombre del productor coincide con el que inicio sesión entonces...
                     if (user.getRol().equals("Productor")) {
                         textoNoHay.setVisibility(View.GONE);
-                        productores.add(new User(user.getNombre(), user.getImagen(), user.getCorreo(), user.getRol(), user.getDescripcion()));
+                        productores.add(postSnapshot.getValue(User.class));
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();

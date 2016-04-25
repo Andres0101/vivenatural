@@ -1,6 +1,8 @@
 package com.example.andres_bonilla.ensayo.activity;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.Comment;
+import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.EstadisticasFragment;
@@ -394,6 +396,29 @@ public class HomeProductor extends AppCompatActivity {
                     descripcion.put("descripcion", fragmentUnoCheck.getTextoCapturadoDelEditText());
                     descripcion.put("imagen", fragmentUnoCheck.getImageFile());
                     textoDescripcion.updateChildren(descripcion);
+
+                    //Actualiza la imagen del productor en los productos con la que puso en su perfil.
+                    Firebase products = myRef.child("products");
+                    products.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                Product product = postSnapshot.getValue(Product.class);
+
+                                if (product.getProductor().equals(dataNombre)) {
+                                    Firebase imagenProductor = myRef.child("products").child(dataNombre + ": " + product.getNombreProducto());
+                                    Map<String, Object> imagen = new HashMap<>();
+                                    imagen.put("imagenProductor", fragmentUnoCheck.getImageFile());
+                                    imagenProductor.updateChildren(imagen);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
 
                     fragmentUno = new PerfilFragment();
                     fragmentUno.setUserString(dataNombre);

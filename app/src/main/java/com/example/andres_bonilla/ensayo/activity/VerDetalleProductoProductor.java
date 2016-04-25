@@ -1,6 +1,7 @@
 package com.example.andres_bonilla.ensayo.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -336,15 +337,15 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (reservo) {
+                /*if (reservo) {
                     Intent intent = new Intent(VerDetalleProductoProductor.this, VerDetalleProductor.class);
                     intent.putExtra("nombreProductor", nombreDelProductor);
                     intent.putExtra("nombreConsumidor", nombreDelConsumidor);
                     startActivity(intent);
                     finish();
-                } else {
+                } else {*/
                     super.onBackPressed();
-                }
+                //}
                 return true;
 
             case R.id.action_reservar:
@@ -397,6 +398,11 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 reservar.setOnClickListener(new View.OnClickListener() {
 
                     public void onClick(View v) {
+                        // Dialogo de espera
+                        final ProgressDialog dlg = new ProgressDialog(VerDetalleProductoProductor.this);
+                        dlg.setMessage("Realizando reserva. Por favor espere.");
+                        dlg.show();
+
                         if (!productCant.getText().toString().equals("")) { //Verifica si el campo no está vacio
                             products.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -442,6 +448,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                                                 });
 
                                                 reservo = true;
+                                                dlg.dismiss();
 
                                                 Toast.makeText(VerDetalleProductoProductor.this, "Has reservado " + cantidadDigitada + " lb de " + nombreDelProducto, Toast.LENGTH_SHORT).show();
                                                 d.dismiss();
