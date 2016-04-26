@@ -3,7 +3,6 @@ package com.example.andres_bonilla.ensayo.activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -38,7 +37,6 @@ import com.firebase.client.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +78,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     private Boolean reservo;
     private Boolean agregandoComentario;
 
-    private String fechaReserva;
+    private long fechaReserva;
     private String hora;
 
     @Override
@@ -416,18 +414,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                     }
                 });
 
-                Calendar c = Calendar.getInstance();
-                int day = c.get(Calendar.DATE);
-                int month = c.get(Calendar.MONTH);
-                int year = c.get(Calendar.YEAR);
-                int hour = c.get(Calendar.HOUR_OF_DAY);
-                int minutes = c.get(Calendar.MINUTE);
-
-                int trueMonth = month+1;
-
-                fechaReserva = trueMonth + "/" + day + "/" + year;
-                hora = hour + ":" + minutes;
-
                 Button reservar = (Button) d.findViewById(R.id.done);
                 reservar.setTypeface(text);
                 reservar.setOnClickListener(new View.OnClickListener() {
@@ -461,7 +447,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
                                                 // Agrega reserva a la base de datos
                                                 Firebase reserve = myRef.child("reserves").child(nombreDelConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
-                                                Reserve newReserve = new Reserve(nombreDelProducto, nombreDelConsumidor, nombreDelProductor, stringImagenFirebase, cantidadDigitada, precioProducto, fechaReserva, hora);
+                                                Reserve newReserve = new Reserve(nombreDelProducto, nombreDelConsumidor, nombreDelProductor, stringImagenFirebase, cantidadDigitada, precioProducto, fechaReserva);
                                                 reserve.setValue(newReserve);
 
                                                 // Lee los datos de los productos para actualizar cantidad

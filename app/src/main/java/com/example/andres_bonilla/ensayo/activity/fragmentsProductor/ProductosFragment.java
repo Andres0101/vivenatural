@@ -114,6 +114,7 @@ public class ProductosFragment extends Fragment {
         textoNoHay.setTypeface(texto);
 
         progress = (ProgressBar) rootView.findViewById(R.id.listProgress);
+        textoNoHay.setVisibility(View.GONE);
 
         listaBaseDatos();
 
@@ -362,7 +363,6 @@ public class ProductosFragment extends Fragment {
 
                     //Si el nombre del productor coincide con el que inicio sesión entonces...
                     if (product.getProductor().equals(nombreDelProductor)) {
-                        textoNoHay.setVisibility(View.GONE);
                         progress.setVisibility(View.GONE);
 
                         myProducts.add(postSnapshot.getValue(Product.class));
@@ -370,8 +370,8 @@ public class ProductosFragment extends Fragment {
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
                     } else {
-                        textoNoHay.setVisibility(View.VISIBLE);
                         progress.setVisibility(View.GONE);
+                        textoNoHay.setVisibility(View.VISIBLE);
                     }
                 }
             }

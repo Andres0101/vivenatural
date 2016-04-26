@@ -106,11 +106,11 @@ public class VerDetalleProducto extends AppCompatActivity {
                     Product product = postSnapshot.getValue(Product.class);
 
                     if (product.getNombreProducto().equals(nombreDelProducto) && product.getProductor().equals(nombreDelProductor)) {
-                        progress.setVisibility(View.GONE);
-
                         String imageProduct = product.getImagen();
                         Bitmap imagenBitmap = StringToBitMap(imageProduct);
                         imagenProducto.setImageBitmap(imagenBitmap);
+
+                        progress.setVisibility(View.GONE);
                     }
                 }
             }

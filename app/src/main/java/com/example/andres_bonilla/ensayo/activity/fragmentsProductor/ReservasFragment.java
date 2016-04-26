@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.firebase.client.DataSnapshot;
@@ -26,13 +27,13 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class ReservasFragment extends Fragment {
 
     private View rootView;
 
+    private Firebase myRef;
     private Firebase productosReservados;
 
     MyListAdapter adapter;
@@ -50,10 +51,15 @@ public class ReservasFragment extends Fragment {
 
     private ProgressBar progress;
 
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+
     public ReservasFragment() {
         // Required empty public constructor
 
-        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        myRef = new Firebase("https://vivenatural.firebaseio.com/");
         productosReservados = myRef.child("reserves");
     }
 
@@ -84,6 +90,7 @@ public class ReservasFragment extends Fragment {
         textoNoHay.setTypeface(texto);
 
         progress = (ProgressBar) rootView.findViewById(R.id.reserveProgress);
+        textoNoHay.setVisibility(View.GONE);
 
         listaBaseDatos();
         listView();
@@ -106,27 +113,42 @@ public class ReservasFragment extends Fragment {
     }
 
     private void listaBaseDatos(){
-        // Lee los datos de los productos
-        Query queryRef = productosReservados.orderByChild("fechaReserva");
-        queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    Reserve reservedProducts = postSnapshot.getValue(Reserve.class);
+                if (snapshot.hasChild("reserves")) {
+                    System.out.println("Si hay reservas ®");
+                    // Lee los datos de las reservas
+                    Query queryRef = productosReservados.orderByChild("fechaReserva");
+                    queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                Reserve reservedProducts = postSnapshot.getValue(Reserve.class);
 
-                    //Si el productor tiene reservas entonces...
-                    if (reservedProducts.getReservadoA().equals(nombreDelProductor)) {
-                        textoNoHay.setVisibility(View.GONE);
-                        progress.setVisibility(View.GONE);
+                                //Si el productor tiene reservas entonces...
+                                if (reservedProducts.getReservadoA().equals(nombreDelProductor)) {
+                                    progress.setVisibility(View.GONE);
 
-                        myReserves.add(postSnapshot.getValue(Reserve.class));
+                                    myReserves.add(postSnapshot.getValue(Reserve.class));
 
-                        // We notify the data model is changed
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        textoNoHay.setVisibility(View.VISIBLE);
-                        progress.setVisibility(View.GONE);
-                    }
+                                    // We notify the data model is changed
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    progress.setVisibility(View.GONE);
+                                    textoNoHay.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                        }
+                    });
+                } else {
+                    System.out.println("No hay reservas ®");
+                    progress.setVisibility(View.GONE);
+                    textoNoHay.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -187,56 +209,55 @@ public class ReservasFragment extends Fragment {
             nombreProducto.setTypeface(infoName);
             nombreProducto.setText(currentProductReserve.getProducto());
 
+            //Cantidad reservada:
+            TextView textCantidad = (TextView) productsView.findViewById(R.id.textCantidad);
+            textCantidad.setTypeface(texto);
+            textCantidad.setText(currentProductReserve.getCantidadReservada() + " lb");
+
+            //Reservado por:
+            TextView reservedBy = (TextView) productsView.findViewById(R.id.textNameConsumer);
+            reservedBy.setTypeface(texto);
+            reservedBy.setText(currentProductReserve.getReservadoPor());
+
             //Fecha de la reserva:
             TextView textDate = (TextView) productsView.findViewById(R.id.textDate);
             textDate.setTypeface(texto);
-
-            //Separa la fecha por "/"
-            String currentString = currentProductReserve.getFechaReserva();
-            String[] separated = currentString.split("/");
-            String month = separated[0]; //Este es el "Mes"
-            String day = separated[1]; //Este es el "Día"
-
-            Calendar c = Calendar.getInstance();
-            int dayCalendar = c.get(Calendar.DATE);
-            int monthCalendar = c.get(Calendar.MONTH);
-            int trueMonthcalendar = monthCalendar+1;
-
-            //Convierte el string a int
-            int castMonthToInt = Integer.parseInt(month);
-            int castDayToInt = Integer.parseInt(day);
-
-            int yesterday = dayCalendar-1;
-            int yesterdayPass = dayCalendar-2;
-
-            if (castMonthToInt == trueMonthcalendar && castDayToInt == dayCalendar) {
-                textDate.setText("Hoy");
-            } else if (castMonthToInt == trueMonthcalendar && castDayToInt == yesterday) {
-                textDate.setText("Ayer");
-            } else if ((castMonthToInt <= trueMonthcalendar && castDayToInt <= yesterdayPass) || (castMonthToInt < trueMonthcalendar && castDayToInt <= dayCalendar)) {
-                textDate.setText(currentProductReserve.getFechaReserva());
-            }
-
-            //Hora de la reserva:
-            TextView textHour = (TextView) productsView.findViewById(R.id.textHour);
-            textHour.setTypeface(texto);
-            textHour.setText(currentProductReserve.getHoraReserva());
-
-            //Cantidad reservada:
-            TextView textViewReserveQuantity = (TextView) productsView.findViewById(R.id.textViewReserveQuantity);
-            textViewReserveQuantity.setTypeface(texto);
-            TextView textCantidad = (TextView) productsView.findViewById(R.id.textCantidad);
-            textCantidad.setTypeface(texto);
-            textCantidad.setText(" " + currentProductReserve.getCantidadReservada() + " lb");
-
-            //Reservado por:
-            TextView textViewReserve = (TextView) productsView.findViewById(R.id.textViewReserve);
-            textViewReserve.setTypeface(texto);
-            TextView reservedBy = (TextView) productsView.findViewById(R.id.textNameConsumer);
-            reservedBy.setTypeface(texto);
-            reservedBy.setText(" " + currentProductReserve.getReservadoPor());
+            textDate.setText(getTimeAgo(currentProductReserve.getFechaReserva()));
 
             return productsView;
+        }
+    }
+
+    public static String getTimeAgo(long time) {
+        if (time < 1000000000000L) {
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+        }
+
+        long now = System.currentTimeMillis();
+        if (time > now || time <= 0) {
+            return null;
+        }
+
+        final long diff = now - time;
+        if (diff < MINUTE_MILLIS) {
+            return "Justo ahora";
+        } else if (diff < 2 * MINUTE_MILLIS) {
+            return "Hace un minuto";
+        } else if (diff < 50 * MINUTE_MILLIS) {
+            return "Hace " + diff / MINUTE_MILLIS + " minutos";
+        } else if (diff < 90 * MINUTE_MILLIS) {
+            return "Hace una hora";
+        } else if (diff < 24 * HOUR_MILLIS) {
+            return "Hace " + diff / HOUR_MILLIS + " horas";
+        } else if (diff < 48 * HOUR_MILLIS) {
+            return "Ayer";
+        } else {
+            if (diff / DAY_MILLIS > 1) {
+                return "Hace " + diff / DAY_MILLIS + " días";
+            } else {
+                return "Hace " + diff / DAY_MILLIS + " día";
+            }
         }
     }
 

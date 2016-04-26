@@ -178,9 +178,6 @@ public class VerDetalleProductor extends AppCompatActivity {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
-        if (cantidadProducto.equals(" 0")) {
-            nohayProductos.setVisibility(View.VISIBLE);
-        }
     }
 
     private void listView() {

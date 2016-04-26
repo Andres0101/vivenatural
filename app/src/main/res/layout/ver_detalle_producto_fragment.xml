@@ -126,7 +126,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="55dp"
         android:layout_alignTop="@+id/commentsListView"
         android:layout_centerHorizontal="true">
     </ProgressBar>
@@ -136,10 +136,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="70dp"
         android:gravity="center_horizontal"
         android:text="@string/noComments"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_alignTop="@+id/commentsListView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

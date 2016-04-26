@@ -26,7 +26,6 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class VerReservaNotification extends AppCompatActivity {
@@ -47,6 +46,11 @@ public class VerReservaNotification extends AppCompatActivity {
     private Typeface infoName;
 
     private ProgressBar progress;
+
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -177,56 +181,55 @@ public class VerReservaNotification extends AppCompatActivity {
             nombreProducto.setTypeface(infoName);
             nombreProducto.setText(currentProductReserve.getProducto());
 
+            //Cantidad reservada:
+            TextView textCantidad = (TextView) productsView.findViewById(R.id.textCantidad);
+            textCantidad.setTypeface(texto);
+            textCantidad.setText(currentProductReserve.getCantidadReservada() + " lb");
+
+            //Reservado por:
+            TextView reservedBy = (TextView) productsView.findViewById(R.id.textNameConsumer);
+            reservedBy.setTypeface(texto);
+            reservedBy.setText(currentProductReserve.getReservadoPor());
+
             //Fecha de la reserva:
             TextView textDate = (TextView) productsView.findViewById(R.id.textDate);
             textDate.setTypeface(texto);
-
-            //Separa la fecha por "/"
-            String currentString = currentProductReserve.getFechaReserva();
-            String[] separated = currentString.split("/");
-            String month = separated[0]; //Este es el "Mes"
-            String day = separated[1]; //Este es el "Día"
-
-            Calendar c = Calendar.getInstance();
-            int dayCalendar = c.get(Calendar.DATE);
-            int monthCalendar = c.get(Calendar.MONTH);
-            int trueMonthcalendar = monthCalendar+1;
-
-            //Convierte el string a int
-            int castMonthToInt = Integer.parseInt(month);
-            int castDayToInt = Integer.parseInt(day);
-
-            int yesterday = dayCalendar-1;
-            int yesterdayPass = dayCalendar-2;
-
-            if (castMonthToInt == trueMonthcalendar && castDayToInt == dayCalendar) {
-                textDate.setText("Hoy");
-            } else if (castMonthToInt == trueMonthcalendar && castDayToInt == yesterday) {
-                textDate.setText("Ayer");
-            } else if ((castMonthToInt <= trueMonthcalendar && castDayToInt <= yesterdayPass) || (castMonthToInt < trueMonthcalendar && castDayToInt <= dayCalendar)) {
-                textDate.setText(currentProductReserve.getFechaReserva());
-            }
-
-            //Hora de la reserva:
-            TextView textHour = (TextView) productsView.findViewById(R.id.textHour);
-            textHour.setTypeface(texto);
-            textHour.setText(currentProductReserve.getHoraReserva());
-
-            //Cantidad reservada:
-            TextView textViewReserveQuantity = (TextView) productsView.findViewById(R.id.textViewReserveQuantity);
-            textViewReserveQuantity.setTypeface(texto);
-            TextView textCantidad = (TextView) productsView.findViewById(R.id.textCantidad);
-            textCantidad.setTypeface(texto);
-            textCantidad.setText(" " + currentProductReserve.getCantidadReservada() + " lb");
-
-            //Reservado por:
-            TextView textViewReserve = (TextView) productsView.findViewById(R.id.textViewReserve);
-            textViewReserve.setTypeface(texto);
-            TextView reservedBy = (TextView) productsView.findViewById(R.id.textNameConsumer);
-            reservedBy.setTypeface(texto);
-            reservedBy.setText(" " + currentProductReserve.getReservadoPor());
+            textDate.setText(getTimeAgo(currentProductReserve.getFechaReserva()));
 
             return productsView;
+        }
+    }
+
+    public static String getTimeAgo(long time) {
+        if (time < 1000000000000L) {
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+        }
+
+        long now = System.currentTimeMillis();
+        if (time > now || time <= 0) {
+            return null;
+        }
+
+        final long diff = now - time;
+        if (diff < MINUTE_MILLIS) {
+            return "Justo ahora";
+        } else if (diff < 2 * MINUTE_MILLIS) {
+            return "Hace un minuto";
+        } else if (diff < 50 * MINUTE_MILLIS) {
+            return "Hace " + diff / MINUTE_MILLIS + " minutos";
+        } else if (diff < 90 * MINUTE_MILLIS) {
+            return "Hace una hora";
+        } else if (diff < 24 * HOUR_MILLIS) {
+            return "Hace " + diff / HOUR_MILLIS + " horas";
+        } else if (diff < 48 * HOUR_MILLIS) {
+            return "Ayer";
+        } else {
+            if (diff / DAY_MILLIS > 1) {
+                return "Hace " + diff / DAY_MILLIS + " días";
+            } else {
+                return "Hace " + diff / DAY_MILLIS + " día";
+            }
         }
     }
 

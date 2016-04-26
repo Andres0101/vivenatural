@@ -30,6 +30,6 @@
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:text="@string/noPedidos"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </RelativeLayout>

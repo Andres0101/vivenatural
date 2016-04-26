@@ -30,6 +30,7 @@ import java.util.List;
 
 public class VerDetalleProductoFragment extends Fragment {
 
+    private Firebase myRef;
     private Firebase comments;
 
     private View rootView;
@@ -80,7 +81,7 @@ public class VerDetalleProductoFragment extends Fragment {
                 getActivity().getAssets(),
                 "fonts/Roboto-Medium.ttf");
 
-        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        myRef = new Firebase("https://vivenatural.firebaseio.com/");
         comments = myRef.child("comments");
 
         nombreDelProductor = getArguments().getString("nombreDelProductor");
@@ -105,6 +106,7 @@ public class VerDetalleProductoFragment extends Fragment {
 
         progress = (ProgressBar) rootView.findViewById(R.id.detailsProgress);
         commentProgress = (ProgressBar) rootView.findViewById(R.id.commentProgress);
+        nohayComentarios.setVisibility(View.GONE);
 
         // Lee los datos de los productos
         Firebase productos = myRef.child("products");
@@ -133,26 +135,41 @@ public class VerDetalleProductoFragment extends Fragment {
     }
 
     private void listaBaseDatos(){
-        // Lee los datos de los productos
-        comments.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    Comment comment = postSnapshot.getValue(Comment.class);
+                    if (snapshot.hasChild("comments")) {
+                        System.out.println("Este man si existe ®");
+                        // Lee los datos de los productos
+                        comments.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot snapshot) {
+                                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                    Comment comment = postSnapshot.getValue(Comment.class);
 
-                    if (comment.getDirigidoA().equals(nombreDelProductor) && comment.getProductoComentado().equals(nombreDelProducto)) {
-                        myComments.add(postSnapshot.getValue(Comment.class));
-                        cantidadComentario.setText(" " + myComments.size());
-                        nohayComentarios.setVisibility(View.GONE);
-                        commentProgress.setVisibility(View.GONE);
+                                    if (comment.getDirigidoA().equals(nombreDelProductor) && comment.getProductoComentado().equals(nombreDelProducto)) {
+                                        myComments.add(postSnapshot.getValue(Comment.class));
+                                        cantidadComentario.setText(" " + myComments.size());
+                                        commentProgress.setVisibility(View.GONE);
 
-                        // We notify the data model is changed
-                        adapter.notifyDataSetChanged();
+                                        // We notify the data model is changed
+                                        adapter.notifyDataSetChanged();
+                                    } else {
+                                        commentProgress.setVisibility(View.GONE);
+                                        nohayComentarios.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+                            }
+                        });
                     } else {
-                        nohayComentarios.setVisibility(View.VISIBLE);
+                        System.out.println("Este man no existe ®");
                         commentProgress.setVisibility(View.GONE);
+                        nohayComentarios.setVisibility(View.VISIBLE);
                     }
-                }
             }
 
             @Override
