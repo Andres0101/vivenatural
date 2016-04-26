@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,11 +76,15 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
     private List<Comment> myComments = new ArrayList<>();
 
-    private Boolean reservo;
     private Boolean agregandoComentario;
 
     private long fechaReserva;
-    private String hora;
+
+    private ProgressBar imageProgress;
+    private ProgressBar detailsProgress;
+    private ProgressBar commentProgress;
+
+    private Boolean pinto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +112,12 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         comments = myRef.child("comments");
         products = myRef.child("products");
 
-        reservo = false;
+        imageProgress = (ProgressBar) findViewById(R.id.imageProgress);
+        detailsProgress = (ProgressBar) findViewById(R.id.detailsProgress);
+        commentProgress = (ProgressBar) findViewById(R.id.commentProgress);
+
+        pinto = false;
+
         agregandoComentario = false;
 
         listaBaseDatos();
@@ -140,6 +150,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         agregarComentario.setTypeface(editText);
         nohayComentarios = (TextView) findViewById(R.id.textoInfoComentarios);
         nohayComentarios.setTypeface(editText);
+        nohayComentarios.setVisibility(View.GONE);
 
         agregarComentario.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -186,8 +197,12 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                         Bitmap imagenBitmap = StringToBitMap(imageProduct);
                         imagenProducto.setImageBitmap(imagenBitmap);
 
+                        imageProgress.setVisibility(View.GONE);
+
                         descripcionProducto.setText(product.getDescripcionProducto());
                         cantidadDisponible.setText(" " + product.getCantidad() + " lb");
+
+                        detailsProgress.setVisibility(View.GONE);
                     }
                 }
             }
@@ -255,21 +270,48 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 }
             });
         } else {
-            // Lee los datos de los productos
-            comments.addListenerForSingleValueEvent(new ValueEventListener() {
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                        Comment comment = postSnapshot.getValue(Comment.class);
+                    if (snapshot.hasChild("comments")) {
+                        System.out.println("Si hay comentarios ®");
+                        // Lee los datos de los comentarios
+                        comments.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot snapshot) {
+                                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                    Comment comment = postSnapshot.getValue(Comment.class);
 
-                        if (comment.getDirigidoA().equals(nombreDelProductor) && comment.getProductoComentado().equals(nombreDelProducto)) {
-                            myComments.add(postSnapshot.getValue(Comment.class));
-                            cantidadComentario.setText(" " + myComments.size());
-                            nohayComentarios.setVisibility(View.GONE);
+                                    if (comment.getDirigidoA().equals(nombreDelProductor) && comment.getProductoComentado().equals(nombreDelProducto)) {
+                                        commentProgress.setVisibility(View.GONE);
 
-                            // We notify the data model is changed
-                            adapter.notifyDataSetChanged();
-                        }
+                                        myComments.add(postSnapshot.getValue(Comment.class));
+                                        cantidadComentario.setText(" " + myComments.size());
+
+                                        pinto = true;
+
+                                        // We notify the data model is changed
+                                        adapter.notifyDataSetChanged();
+                                    } else {
+                                        commentProgress.setVisibility(View.GONE);
+                                    }
+
+                                    if (pinto) {
+                                        nohayComentarios.setVisibility(View.GONE);
+                                    } else {
+                                        nohayComentarios.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+                            }
+                        });
+                    } else {
+                        System.out.println("No hay comentarios ®");
+                        commentProgress.setVisibility(View.GONE);
+                        nohayComentarios.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -368,15 +410,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                /*if (reservo) {
-                    Intent intent = new Intent(VerDetalleProductoProductor.this, VerDetalleProductor.class);
-                    intent.putExtra("nombreProductor", nombreDelProductor);
-                    intent.putExtra("nombreConsumidor", nombreDelConsumidor);
-                    startActivity(intent);
-                    finish();
-                } else {*/
-                    super.onBackPressed();
-                //}
+                super.onBackPressed();
                 return true;
 
             case R.id.action_reservar:
@@ -413,6 +447,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
                     }
                 });
+
+                fechaReserva = System.currentTimeMillis();
 
                 Button reservar = (Button) d.findViewById(R.id.done);
                 reservar.setTypeface(text);
@@ -468,7 +504,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                                                     }
                                                 });
 
-                                                reservo = true;
                                                 dlg.dismiss();
 
                                                 Toast.makeText(VerDetalleProductoProductor.this, "Has reservado " + cantidadDigitada + " lb de " + nombreDelProducto, Toast.LENGTH_SHORT).show();

@@ -77,6 +77,8 @@ public class ProductosFragment extends Fragment {
 
     private ProgressBar progress;
 
+    private Boolean pinto;
+
     public ProductosFragment() {
         // Required empty public constructor
 
@@ -115,6 +117,8 @@ public class ProductosFragment extends Fragment {
 
         progress = (ProgressBar) rootView.findViewById(R.id.listProgress);
         textoNoHay.setVisibility(View.GONE);
+
+        pinto = false;
 
         listaBaseDatos();
 
@@ -366,11 +370,17 @@ public class ProductosFragment extends Fragment {
                         progress.setVisibility(View.GONE);
 
                         myProducts.add(postSnapshot.getValue(Product.class));
+                        pinto = true;
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
                     } else {
                         progress.setVisibility(View.GONE);
+                    }
+
+                    if (pinto) {
+                        textoNoHay.setVisibility(View.GONE);
+                    } else {
                         textoNoHay.setVisibility(View.VISIBLE);
                     }
                 }

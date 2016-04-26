@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
@@ -47,6 +48,10 @@ public class VerProductoMarketFragment extends Fragment {
     MyListAdapter adapter;
 
     private List<Product> myProducers = new ArrayList<>();
+
+    private ProgressBar producerProgress;
+
+    private Boolean pinto;
 
     public VerProductoMarketFragment() {
         // Required empty public constructor
@@ -87,6 +92,11 @@ public class VerProductoMarketFragment extends Fragment {
         cantidadProductor.setTypeface(text);
         nohayProductores = (TextView) rootView.findViewById(R.id.textoInfoProductores);
         nohayProductores.setTypeface(editText);
+        nohayProductores.setVisibility(View.GONE);
+
+        producerProgress = (ProgressBar) rootView.findViewById(R.id.producerProgress);
+
+        pinto = false;
 
         listaBaseDatos();
         listView();
@@ -105,12 +115,22 @@ public class VerProductoMarketFragment extends Fragment {
                     Product product = postSnapshot.getValue(Product.class);
 
                     if (product.getNombreProducto().equals(nombreDelProducto)) {
+                        producerProgress.setVisibility(View.GONE);
                         myProducers.add(postSnapshot.getValue(Product.class));
                         cantidadProductor.setText(" " + myProducers.size());
-                        nohayProductores.setVisibility(View.GONE);
+
+                        pinto = true;
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
+                    } else {
+                        producerProgress.setVisibility(View.GONE);
+                    }
+
+                    if (pinto) {
+                        nohayProductores.setVisibility(View.GONE);
+                    } else {
+                        nohayProductores.setVisibility(View.VISIBLE);
                     }
                 }
             }

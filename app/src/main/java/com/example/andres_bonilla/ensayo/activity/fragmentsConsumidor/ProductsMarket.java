@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
@@ -28,19 +29,18 @@ import java.util.List;
 
 public class ProductsMarket extends Fragment {
 
+    private Firebase myRef;
     private View rootView;
 
     private MarketProduct clickedProduct;
 
-    private Firebase myRef;
-
     MyListAdapter adapter;
-
-    private TextView textoNoHay;
 
     private List<MarketProduct> marketProductList = new ArrayList<>();
 
     private String nombreDelConsumidor;
+
+    private ProgressBar productsProgress;
 
     public ProductsMarket() {
         // Required empty public constructor
@@ -60,9 +60,9 @@ public class ProductsMarket extends Fragment {
         rootView = inflater.inflate(R.layout.products_market, container, false);
         setHasOptionsMenu(true);
 
-        textoNoHay = (TextView) rootView.findViewById(R.id.textoInfoProductos);
-
         nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
+
+        productsProgress = (ProgressBar) rootView.findViewById(R.id.productsProgress);
 
         listaBaseDatos();
 
@@ -80,8 +80,7 @@ public class ProductsMarket extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-
-                    textoNoHay.setVisibility(View.GONE);
+                    productsProgress.setVisibility(View.GONE);
                     marketProductList.add(postSnapshot.getValue(MarketProduct.class));
 
                     // We notify the data model is changed

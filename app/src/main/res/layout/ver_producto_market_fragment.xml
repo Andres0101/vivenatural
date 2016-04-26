@@ -39,12 +39,22 @@
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp" />
 
+    <ProgressBar
+        android:id="@+id/producerProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:layout_alignTop="@+id/producersListView"
+        android:layout_centerHorizontal="true">
+    </ProgressBar>
+
     <TextView
         android:id="@+id/textoInfoProductores"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="70dp"
         android:gravity="center_horizontal"
         android:text="@string/noProducers"
         android:visibility="visible"

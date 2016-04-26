@@ -51,6 +51,8 @@ public class ReservasFragment extends Fragment {
 
     private ProgressBar progress;
 
+    private Boolean pinto;
+
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
@@ -92,6 +94,8 @@ public class ReservasFragment extends Fragment {
         progress = (ProgressBar) rootView.findViewById(R.id.reserveProgress);
         textoNoHay.setVisibility(View.GONE);
 
+        pinto = false;
+
         listaBaseDatos();
         listView();
         //clickSobreItem();
@@ -117,7 +121,7 @@ public class ReservasFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.hasChild("reserves")) {
-                    System.out.println("Si hay reservas ®");
+                    System.out.println("Si hay pedidos ®");
                     // Lee los datos de las reservas
                     Query queryRef = productosReservados.orderByChild("fechaReserva");
                     queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -131,11 +135,17 @@ public class ReservasFragment extends Fragment {
                                     progress.setVisibility(View.GONE);
 
                                     myReserves.add(postSnapshot.getValue(Reserve.class));
+                                    pinto = true;
 
                                     // We notify the data model is changed
                                     adapter.notifyDataSetChanged();
                                 } else {
                                     progress.setVisibility(View.GONE);
+                                }
+
+                                if (pinto) {
+                                    textoNoHay.setVisibility(View.GONE);
+                                } else {
                                     textoNoHay.setVisibility(View.VISIBLE);
                                 }
                             }
@@ -146,7 +156,7 @@ public class ReservasFragment extends Fragment {
                         }
                     });
                 } else {
-                    System.out.println("No hay reservas ®");
+                    System.out.println("No hay pedidos ®");
                     progress.setVisibility(View.GONE);
                     textoNoHay.setVisibility(View.VISIBLE);
                 }

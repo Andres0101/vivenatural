@@ -54,6 +54,8 @@ public class VerDetalleProductoFragment extends Fragment {
     private ProgressBar progress;
     private ProgressBar commentProgress;
 
+    private Boolean pinto;
+
     public VerDetalleProductoFragment() {
         // Required empty public constructor
     }
@@ -101,6 +103,8 @@ public class VerDetalleProductoFragment extends Fragment {
         cantidadDisponible.setTypeface(editText);
         cantidadDisponible.setBackground(null);
 
+        pinto = false;
+
         listaBaseDatos();
         listView();
 
@@ -139,7 +143,7 @@ public class VerDetalleProductoFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                     if (snapshot.hasChild("comments")) {
-                        System.out.println("Este man si existe ®");
+                        System.out.println("Si hay comentarios ®");
                         // Lee los datos de los productos
                         comments.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -152,10 +156,17 @@ public class VerDetalleProductoFragment extends Fragment {
                                         cantidadComentario.setText(" " + myComments.size());
                                         commentProgress.setVisibility(View.GONE);
 
+                                        pinto = true;
+
                                         // We notify the data model is changed
                                         adapter.notifyDataSetChanged();
                                     } else {
                                         commentProgress.setVisibility(View.GONE);
+                                    }
+
+                                    if (pinto) {
+                                        nohayComentarios.setVisibility(View.GONE);
+                                    } else {
                                         nohayComentarios.setVisibility(View.VISIBLE);
                                     }
                                 }
@@ -166,7 +177,7 @@ public class VerDetalleProductoFragment extends Fragment {
                             }
                         });
                     } else {
-                        System.out.println("Este man no existe ®");
+                        System.out.println("No hay comentarios ®");
                         commentProgress.setVisibility(View.GONE);
                         nohayComentarios.setVisibility(View.VISIBLE);
                     }

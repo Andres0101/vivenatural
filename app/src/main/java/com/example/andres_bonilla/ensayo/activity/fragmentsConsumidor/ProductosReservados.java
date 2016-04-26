@@ -14,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.firebase.client.DataSnapshot;
@@ -31,6 +33,7 @@ public class ProductosReservados extends Fragment {
 
     private View rootView;
 
+    private Firebase myRef;
     private Firebase productosReservados;
 
     MyListAdapter adapter;
@@ -46,10 +49,14 @@ public class ProductosReservados extends Fragment {
     private Typeface texto;
     private Typeface infoName;
 
+    private ProgressBar reserveProgress;
+
+    private Boolean pinto;
+
     public ProductosReservados() {
         // Required empty public constructor
 
-        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        myRef = new Firebase("https://vivenatural.firebaseio.com/");
         productosReservados = myRef.child("reserves");
     }
 
@@ -76,8 +83,13 @@ public class ProductosReservados extends Fragment {
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
 
+        reserveProgress = (ProgressBar) rootView.findViewById(R.id.reserveProgress);
+
         textoNoHay = (TextView) rootView.findViewById(R.id.textoInfoProductos);
         textoNoHay.setTypeface(texto);
+        textoNoHay.setVisibility(View.GONE);
+
+        pinto = false;
 
         listaBaseDatos();
         listView();
@@ -99,22 +111,48 @@ public class ProductosReservados extends Fragment {
     }
 
     private void listaBaseDatos(){
-        // Lee los datos de los productos
-        productosReservados.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    Reserve reservedProducts = postSnapshot.getValue(Reserve.class);
+                if (snapshot.hasChild("reserves")) {
+                    System.out.println("Si hay reservas ®");
+                    // Lee los datos de los productos
+                    productosReservados.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                Reserve reservedProducts = postSnapshot.getValue(Reserve.class);
 
-                    //Si el consumidor que reservó el producto coincide con el que inicio sesión entonces...
-                    if (reservedProducts.getReservadoPor().equals(nombreDelConsumidor)) {
-                        textoNoHay.setVisibility(View.GONE);
+                                //Si el consumidor que reservó el producto coincide con el que inicio sesión entonces...
+                                if (reservedProducts.getReservadoPor().equals(nombreDelConsumidor)) {
+                                    reserveProgress.setVisibility(View.GONE);
 
-                        myReserves.add(postSnapshot.getValue(Reserve.class));
+                                    myReserves.add(postSnapshot.getValue(Reserve.class));
 
-                        // We notify the data model is changed
-                        adapter.notifyDataSetChanged();
-                    }
+                                    pinto = true;
+
+                                    // We notify the data model is changed
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    reserveProgress.setVisibility(View.GONE);
+                                }
+
+                                if (pinto) {
+                                    textoNoHay.setVisibility(View.GONE);
+                                } else {
+                                    textoNoHay.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                        }
+                    });
+                } else {
+                    System.out.println("No hay reservas ®");
+                    reserveProgress.setVisibility(View.GONE);
+                    textoNoHay.setVisibility(View.VISIBLE);
                 }
             }
 

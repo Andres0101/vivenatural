@@ -4,16 +4,14 @@
     android:orientation="vertical"
     android:background="@color/textColorPrimary">
 
-    <TextView
-        android:id="@+id/textoInfoProductos"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
+    <ProgressBar
+        android:id="@+id/productsProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:text="@string/emptyProducts"
-        android:visibility="visible" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+    </ProgressBar>
 
     <ListView
         android:id="@+id/productsListView"

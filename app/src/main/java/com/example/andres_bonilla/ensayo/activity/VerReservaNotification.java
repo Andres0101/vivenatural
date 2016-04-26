@@ -118,7 +118,6 @@ public class VerReservaNotification extends AppCompatActivity {
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
                     } else {
-                        textoNoHay.setVisibility(View.VISIBLE);
                         progress.setVisibility(View.GONE);
                     }
                 }

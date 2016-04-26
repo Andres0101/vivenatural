@@ -30,20 +30,20 @@ import java.util.List;
 public class Productores extends Fragment {
 
     private View rootView;
+    private Firebase myRef;
 
     private String nombreDelConsumidor;
-
-    private User clickedProducer;
-
-    private Firebase myRef;
 
     MyListAdapter adapter;
 
     private TextView textoNoHay;
 
+    private User clickedProducer;
     private List<User> productores = new ArrayList<>();
 
     private ProgressBar progress;
+
+    private Boolean pinto;
 
     public Productores() {
         // Required empty public constructor
@@ -67,7 +67,11 @@ public class Productores extends Fragment {
         nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
 
         textoNoHay = (TextView) rootView.findViewById(R.id.textoInfoProductores);
+        textoNoHay.setVisibility(View.GONE);
+
         progress = (ProgressBar) rootView.findViewById(R.id.progress);
+
+        pinto = false;
 
         listaBaseDatos();
 
@@ -89,14 +93,20 @@ public class Productores extends Fragment {
 
                     //Si el nombre del productor coincide con el que inicio sesión entonces...
                     if (user.getRol().equals("Productor")) {
-                        textoNoHay.setVisibility(View.GONE);
                         progress.setVisibility(View.GONE);
                         productores.add(postSnapshot.getValue(User.class));
+                        pinto = true;
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
                     } else {
                         progress.setVisibility(View.GONE);
+                    }
+
+                    if (pinto) {
+                        textoNoHay.setVisibility(View.GONE);
+                    } else {
+                        textoNoHay.setVisibility(View.VISIBLE);
                     }
                 }
             }

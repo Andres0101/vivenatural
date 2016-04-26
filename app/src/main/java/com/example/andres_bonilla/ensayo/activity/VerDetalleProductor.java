@@ -52,7 +52,11 @@ public class VerDetalleProductor extends AppCompatActivity {
 
     private List<Product> myProducts = new ArrayList<>();
 
+    private ProgressBar imageProgress;
+    private ProgressBar descriptionProgress;
     private ProgressBar productProgress;
+
+    private Boolean pinto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,18 +82,11 @@ public class VerDetalleProductor extends AppCompatActivity {
         Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
         products = myRef.child("products");
 
-        /*ListView lv = (ListView) findViewById(R.id.productsListView);
-        lv.setOnTouchListener(new View.OnTouchListener() {
-            // Setting on Touch Listener for handling the touch inside ScrollView
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Disallow the touch request for parent scroll on touch of child view
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });*/
-
         productProgress = (ProgressBar) findViewById(R.id.productProgress);
+        descriptionProgress = (ProgressBar) findViewById(R.id.descriptionProgress);
+        imageProgress = (ProgressBar) findViewById(R.id.imageProgress);
+
+        pinto = false;
 
         listaBaseDatos();
         listView();
@@ -108,6 +105,7 @@ public class VerDetalleProductor extends AppCompatActivity {
         cantidadProducto.setTypeface(textCantidad);
         nohayProductos = (TextView) findViewById(R.id.textoInfoProductos);
         nohayProductos.setTypeface(editText);
+        nohayProductos.setVisibility(View.GONE);
 
         descripcionProductor = (EditText) findViewById(R.id.editTextDescriProducer);
         descripcionProductor.setTypeface(editText);
@@ -125,11 +123,20 @@ public class VerDetalleProductor extends AppCompatActivity {
                         if (!user.getImagen().equals("")) {String imageProduct = user.getImagen();
                             Bitmap imagenBitmap = StringToBitMap(imageProduct);
                             imagenProductor.setImageBitmap(imagenBitmap);
+
+                            imageProgress.setVisibility(View.GONE);
                         } else {
+                            imageProgress.setVisibility(View.GONE);
                             imagenProductor.setImageResource(R.drawable.ic_no_profile_image);
                         }
 
-                        descripcionProductor.setText(user.getDescripcion());
+                        descriptionProgress.setVisibility(View.GONE);
+
+                        if (!user.getDescripcion().equals("")) {
+                            descripcionProductor.setText(user.getDescripcion());
+                        } else {
+                            descripcionProductor.setText(nombreDelProductor + " no tiene descripción.");
+                        }
                     }
                 }
             }
@@ -162,14 +169,23 @@ public class VerDetalleProductor extends AppCompatActivity {
                     Product product = postSnapshot.getValue(Product.class);
 
                     if (product.getProductor().equals(nombreDelProductor)) {
+                        productProgress.setVisibility(View.GONE);
+
                         myProducts.add(postSnapshot.getValue(Product.class));
                         cantidadProducto.setText(" " + myProducts.size());
-                        productProgress.setVisibility(View.GONE);
+
+                        pinto = true;
 
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
                     } else {
                         productProgress.setVisibility(View.GONE);
+                    }
+
+                    if (pinto) {
+                        nohayProductos.setVisibility(View.GONE);
+                    } else {
+                        nohayProductos.setVisibility(View.VISIBLE);
                     }
                 }
             }

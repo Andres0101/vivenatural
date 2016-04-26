@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
@@ -22,6 +24,8 @@ public class VerProductoMarket extends AppCompatActivity {
     private String nombreDelProducto;
 
     private ImageView imagenProducto;
+
+    private ProgressBar progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class VerProductoMarket extends AppCompatActivity {
         setTitle(nombreDelProducto);
 
         imagenProducto = (ImageView) findViewById(R.id.imageProduct);
+        progress = (ProgressBar) findViewById(R.id.imageProgress);
 
         // Lee los datos de los productos
         Firebase productos = myRef.child("products");
@@ -53,6 +58,8 @@ public class VerProductoMarket extends AppCompatActivity {
                         String imageProduct = product.getImagen();
                         Bitmap imagenBitmap = StringToBitMap(imageProduct);
                         imagenProducto.setImageBitmap(imagenBitmap);
+
+                        progress.setVisibility(View.GONE);
                     }
                 }
             }
