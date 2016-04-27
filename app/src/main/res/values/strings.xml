@@ -5,6 +5,7 @@
     <string name="action_search">Buscar</string>
     <string name="action_edit">Editar</string>
     <string name="action_edit_product">Editar</string>
+    <string name="action_show_less">Mostrar resumen</string>
     <string name="action_save">Guardar</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>

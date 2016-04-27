@@ -448,6 +448,13 @@ public class HomeProductor extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Buscar fue seleccionada!", Toast.LENGTH_SHORT).show();
                 return true;
 
+            case R.id.action_show_less:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                //openSearch();
+                Toast.makeText(getApplicationContext(), "Show less was selected!", Toast.LENGTH_SHORT).show();
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
