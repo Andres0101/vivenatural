@@ -157,7 +157,7 @@ public class ProductsMarket extends Fragment {
 
             //precio:
             TextView precioProducto = (TextView) producersView.findViewById(R.id.textPrecio);
-            precioProducto.setText("$" + currentProduct.getPrecio());
+            precioProducto.setText("$" + currentProduct.getPrecio() + "/lb");
 
             return producersView;
         }

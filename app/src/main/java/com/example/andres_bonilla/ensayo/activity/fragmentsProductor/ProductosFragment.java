@@ -46,7 +46,6 @@ public class ProductosFragment extends Fragment {
     private View rootView;
 
     private Firebase myRef;
-    private Firebase users;
     private Firebase productos;
     private Firebase marketProducts;
 
@@ -241,7 +240,7 @@ public class ProductosFragment extends Fragment {
         });
 
         // Lee los datos de los productos del mercado
-        users = myRef.child("users");
+        Firebase users = myRef.child("users");
         users.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -446,15 +445,24 @@ public class ProductosFragment extends Fragment {
             //Precio:
             TextView priceProducto = (TextView) productsView.findViewById(R.id.textPrecio);
             priceProducto.setTypeface(texto);
-            priceProducto.setText("$" + currentProduct.getPrecio());
+            priceProducto.setText("$" + currentProduct.getPrecio() + "/lb");
 
             //Cantidad:
-            TextView textViewCantidad = (TextView) productsView.findViewById(R.id.textViewCantidad);
-            textViewCantidad.setTypeface(texto);
             TextView cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
             cantidadProducto.setTypeface(texto);
             priceProducto.setTypeface(texto);
             cantidadProducto.setText(currentProduct.getCantidad() + " lb");
+
+            ImageView iconAvailable = (ImageView) productsView.findViewById(R.id.iconAvailable);
+            ImageView iconNoAvailable = (ImageView) productsView.findViewById(R.id.iconNoAvailable);
+
+            if (currentProduct.getCantidad() == 0.0) {
+                iconNoAvailable.setVisibility(View.VISIBLE);
+                iconAvailable.setVisibility(View.GONE);
+            } else {
+                iconAvailable.setVisibility(View.VISIBLE);
+                iconNoAvailable.setVisibility(View.GONE);
+            }
 
             return productsView;
         }

@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -251,15 +250,24 @@ public class VerDetalleProductor extends AppCompatActivity {
             //Precio:
             TextView priceProducto = (TextView) productsView.findViewById(R.id.textPrecio);
             priceProducto.setTypeface(editText);
-            priceProducto.setText("$" + currentProduct.getPrecio());
+            priceProducto.setText("$" + currentProduct.getPrecio() + "/lb");
 
             //Cantidad:
-            TextView textViewCantidad = (TextView) productsView.findViewById(R.id.textViewCantidad);
-            textViewCantidad.setTypeface(editText);
             TextView cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
             cantidadProducto.setTypeface(editText);
             priceProducto.setTypeface(editText);
             cantidadProducto.setText(currentProduct.getCantidad() + " lb");
+
+            ImageView iconAvailable = (ImageView) productsView.findViewById(R.id.iconAvailable);
+            ImageView iconNoAvailable = (ImageView) productsView.findViewById(R.id.iconNoAvailable);
+
+            if (currentProduct.getCantidad() == 0.0) {
+                iconNoAvailable.setVisibility(View.VISIBLE);
+                iconAvailable.setVisibility(View.GONE);
+            } else {
+                iconAvailable.setVisibility(View.VISIBLE);
+                iconNoAvailable.setVisibility(View.GONE);
+            }
 
             return productsView;
         }

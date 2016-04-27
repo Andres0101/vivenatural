@@ -3,10 +3,13 @@ package com.example.andres_bonilla.ensayo.activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -77,6 +80,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     private List<Comment> myComments = new ArrayList<>();
 
     private Boolean agregandoComentario;
+    private Boolean puedeReservar;
 
     private long fechaReserva;
 
@@ -119,6 +123,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         pinto = false;
 
         agregandoComentario = false;
+        puedeReservar = false;
 
         listaBaseDatos();
         listView();
@@ -193,6 +198,12 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                     Product product = postSnapshot.getValue(Product.class);
 
                     if (product.getNombreProducto().equals(nombreDelProducto) && product.getProductor().equals(nombreDelProductor)) {
+                        if (product.getCantidad() > 0.0) {
+                            puedeReservar = true;
+                        } else {
+                            puedeReservar = false;
+                        }
+
                         String imageProduct = product.getImagen();
                         Bitmap imagenBitmap = StringToBitMap(imageProduct);
                         imagenProducto.setImageBitmap(imagenBitmap);
@@ -414,128 +425,162 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 return true;
 
             case R.id.action_reservar:
+                if (puedeReservar) {// Si el producto tiene cantidad para ofrecer entonces deja reservar
+                    final Dialog d = new Dialog(VerDetalleProductoProductor.this);
 
-                final Dialog d = new Dialog(VerDetalleProductoProductor.this);
+                    d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    d.setContentView(R.layout.productos_reservar);
+                    d.setCancelable(true);
 
-                d.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                d.setContentView(R.layout.productos_reservar);
-                d.setCancelable(true);
+                    TextView textViewDialog = (TextView) d.findViewById(R.id.textViewDialog);
+                    textViewDialog.setTypeface(infoName);
+                    productCant = (EditText) d.findViewById(R.id.editTextCant);
+                    productCant.setTypeface(editText);
 
-                TextView textViewDialog = (TextView) d.findViewById(R.id.textViewDialog);
-                textViewDialog.setTypeface(infoName);
-                productCant = (EditText) d.findViewById(R.id.editTextCant);
-                productCant.setTypeface(editText);
+                    // Lee los datos de los productos del mercado
+                    Firebase marketProducts = myRef.child("marketProducts");
+                    marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
 
-                // Lee los datos de los productos del mercado
-                Firebase marketProducts = myRef.child("marketProducts");
-                marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                MarketProduct marketProduct = postSnapshot.getValue(MarketProduct.class);
 
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                            MarketProduct marketProduct = postSnapshot.getValue(MarketProduct.class);
-
-                            if (marketProduct.getNombre().equals(nombreDelProducto)) {
-                                stringImagenFirebase = marketProduct.getImagen();
-                                precioProducto = marketProduct.getPrecio();
+                                if (marketProduct.getNombre().equals(nombreDelProducto)) {
+                                    stringImagenFirebase = marketProduct.getImagen();
+                                    precioProducto = marketProduct.getPrecio();
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
 
-                    }
-                });
+                        }
+                    });
 
-                fechaReserva = System.currentTimeMillis();
+                    fechaReserva = System.currentTimeMillis();
 
-                Button reservar = (Button) d.findViewById(R.id.done);
-                reservar.setTypeface(text);
-                reservar.setOnClickListener(new View.OnClickListener() {
+                    Button reservar = (Button) d.findViewById(R.id.done);
+                    reservar.setTypeface(text);
+                    reservar.setOnClickListener(new View.OnClickListener() {
 
-                    public void onClick(View v) {
-                        // Dialogo de espera
-                        final ProgressDialog dlg = new ProgressDialog(VerDetalleProductoProductor.this);
-                        dlg.setMessage("Realizando reserva. Por favor espere.");
-                        dlg.show();
+                        public void onClick(View v) {
+                            final ProgressDialog dlg = new ProgressDialog(VerDetalleProductoProductor.this);
 
-                        if (!productCant.getText().toString().equals("")) { //Verifica si el campo no está vacio
-                            products.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot snapshot) {
-                                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                                        Product product = postSnapshot.getValue(Product.class);
+                            if (!productCant.getText().toString().equals("")) { //Verifica si el campo no está vacio
+                                // Dialogo de espera
+                                dlg.setMessage("Realizando reserva. Por favor espere.");
+                                dlg.show();
 
-                                        if (product.getProductor().equals(nombreDelProductor) && product.getNombreProducto().equals(nombreDelProducto)) {
-                                            //Si la cantidad a reservar es menor o igual a la que tiene el producto en la base de datos
-                                            // puede reservar
-                                            if (Double.parseDouble(productCant.getText().toString()) <= product.getCantidad()) {
-                                                //Resta lo que el usuario reserva con la cantidad que el productor tiene del producto
-                                                Double cantidadDigitada = Double.parseDouble(productCant.getText().toString());
-                                                Double cantidad = product.getCantidad()-cantidadDigitada;
+                                products.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshot) {
+                                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                            Product product = postSnapshot.getValue(Product.class);
 
-                                                //Actualiza la cantidad del producto en la base de datos
-                                                Firebase cantidadQueQueda = myRef.child("products").child(nombreDelProductor + ": " + nombreDelProducto);
-                                                Map<String, Object> cantidadRestante = new HashMap<>();
-                                                cantidadRestante.put("cantidad", cantidad);
-                                                cantidadQueQueda.updateChildren(cantidadRestante);
+                                            if (product.getProductor().equals(nombreDelProductor) && product.getNombreProducto().equals(nombreDelProducto)) {
+                                                //Si la cantidad a reservar es menor o igual a la que tiene el producto en la base de datos
+                                                // puede reservar
+                                                if (Double.parseDouble(productCant.getText().toString()) <= product.getCantidad()) {
+                                                    //Resta lo que el usuario reserva con la cantidad que el productor tiene del producto
+                                                    Double cantidadDigitada = Double.parseDouble(productCant.getText().toString());
+                                                    Double cantidad = product.getCantidad()-cantidadDigitada;
 
-                                                // Agrega reserva a la base de datos
-                                                Firebase reserve = myRef.child("reserves").child(nombreDelConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
-                                                Reserve newReserve = new Reserve(nombreDelProducto, nombreDelConsumidor, nombreDelProductor, stringImagenFirebase, cantidadDigitada, precioProducto, fechaReserva);
-                                                reserve.setValue(newReserve);
+                                                    //Actualiza la cantidad del producto en la base de datos
+                                                    Firebase cantidadQueQueda = myRef.child("products").child(nombreDelProductor + ": " + nombreDelProducto);
+                                                    Map<String, Object> cantidadRestante = new HashMap<>();
+                                                    cantidadRestante.put("cantidad", cantidad);
+                                                    cantidadQueQueda.updateChildren(cantidadRestante);
 
-                                                // Lee los datos de los productos para actualizar cantidad
-                                                products.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(DataSnapshot snapshot) {
-                                                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                                                            Product product = postSnapshot.getValue(Product.class);
+                                                    // Agrega reserva a la base de datos
+                                                    Firebase reserve = myRef.child("reserves").child(nombreDelConsumidor + ": " + nombreDelProducto + " de " + nombreDelProductor);
+                                                    Reserve newReserve = new Reserve(nombreDelProducto, nombreDelConsumidor, nombreDelProductor, stringImagenFirebase, cantidadDigitada, precioProducto, fechaReserva);
+                                                    reserve.setValue(newReserve);
 
-                                                            if (product.getNombreProducto().equals(nombreDelProducto) && product.getProductor().equals(nombreDelProductor)) {
-                                                                cantidadDisponible.setText(" " + product.getCantidad() + " lb");
+                                                    // Lee los datos de los productos para actualizar cantidad
+                                                    products.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(DataSnapshot snapshot) {
+                                                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                                                Product product = postSnapshot.getValue(Product.class);
+
+                                                                if (product.getNombreProducto().equals(nombreDelProducto) && product.getProductor().equals(nombreDelProductor)) {
+                                                                    cantidadDisponible.setText(" " + product.getCantidad() + " lb");
+                                                                }
                                                             }
                                                         }
-                                                    }
 
-                                                    @Override
-                                                    public void onCancelled(FirebaseError firebaseError) {
-                                                    }
-                                                });
+                                                        @Override
+                                                        public void onCancelled(FirebaseError firebaseError) {
+                                                        }
+                                                    });
 
-                                                dlg.dismiss();
+                                                    dlg.dismiss();
 
-                                                Toast.makeText(VerDetalleProductoProductor.this, "Has reservado " + cantidadDigitada + " lb de " + nombreDelProducto, Toast.LENGTH_SHORT).show();
-                                                d.dismiss();
-                                            } else { //De lo contrario se le advierte
-                                                productCant.setText("");
-                                                Toast.makeText(VerDetalleProductoProductor.this, "La cantidad máxima que puedes reservar es " + product.getCantidad() + " lb", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(VerDetalleProductoProductor.this, "Has reservado " + cantidadDigitada + " lb de " + nombreDelProducto, Toast.LENGTH_SHORT).show();
+                                                    d.dismiss();
+                                                } else { //De lo contrario se le advierte
+                                                    productCant.setText("");
+                                                    dlg.dismiss();
+                                                    Toast.makeText(VerDetalleProductoProductor.this, "La cantidad máxima que puedes reservar es " + product.getCantidad() + " lb", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
                                         }
                                     }
-                                }
 
-                                @Override
-                                public void onCancelled(FirebaseError firebaseError) {
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(VerDetalleProductoProductor.this, "Por favor indica la cantidad que quieres reservar.", Toast.LENGTH_SHORT).show();
+                                dlg.dismiss();
+                            }
+                        }
+                    });
+
+                    Button cancel = (Button) d.findViewById(R.id.cancel);
+                    cancel.setTypeface(text);
+                    cancel.setOnClickListener(new View.OnClickListener() {
+
+                        public void onClick(View v) {
+                            d.dismiss();
+                        }
+                    });
+
+                    d.show();
+                } else {
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(VerDetalleProductoProductor.this);
+                    // Setting Dialog Title
+                    builder1.setTitle("Reserva no disponible");
+                    builder1.setIcon(R.drawable.ic_no_available);
+                    //builder1.setIconAttribute(android.R.attr.alertDialogIcon);
+                    builder1.setMessage("El producto " + nombreDelProducto + " no tiene cantidad para ofrecer.");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
                                 }
                             });
-                        } else {
-                            Toast.makeText(VerDetalleProductoProductor.this, "Por favor indica la cantidad que quieres reservar.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
 
-                Button cancel = (Button) d.findViewById(R.id.cancel);
-                cancel.setTypeface(text);
-                cancel.setOnClickListener(new View.OnClickListener() {
+                    Dialog alert11 = builder1.create();
+                    alert11.show();
 
-                    public void onClick(View v) {
-                        d.dismiss();
-                    }
-                });
-
-                d.show();
+                    //Change message text font
+                    TextView content = ((TextView) alert11.findViewById(android.R.id.message));
+                    content.setTypeface(editText);
+                    //Change dialog button text font
+                    TextView textButtonUno = ((TextView) alert11.findViewById(android.R.id.button1));
+                    textButtonUno.setTypeface(infoName);
+                    //Change dialog icon color
+                    ImageView icon = ((ImageView) alert11.findViewById(android.R.id.icon));
+                    int color = Color.parseColor("#F44336");
+                    icon.setColorFilter(color);
+                }
 
                 return true;
 

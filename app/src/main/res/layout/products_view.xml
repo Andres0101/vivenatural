@@ -47,17 +47,30 @@
         android:layout_toRightOf="@+id/imageProduct"
         android:layout_toEndOf="@+id/imageProduct"/>
 
-    <TextView
-        android:id="@+id/textViewCantidad"
+    <ImageView
+        android:id="@+id/iconAvailable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/disponible"
-        android:layout_alignBottom="@+id/textCantidad"
+        android:src="@drawable/ic_available"
+        android:layout_below="@id/textNameProduct"
         android:layout_toRightOf="@+id/textCantidad"
         android:layout_toEndOf="@+id/textCantidad"
+        android:layout_marginTop="-4dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp" />
+        android:layout_marginStart="5dp"
+        android:tint="@color/colorPrimary"/>
+
+    <ImageView
+        android:id="@+id/iconNoAvailable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_no_available"
+        android:layout_below="@id/textNameProduct"
+        android:layout_toRightOf="@+id/textCantidad"
+        android:layout_toEndOf="@+id/textCantidad"
+        android:layout_marginTop="-4dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:tint="#F44336"/>
 
 </RelativeLayout>
