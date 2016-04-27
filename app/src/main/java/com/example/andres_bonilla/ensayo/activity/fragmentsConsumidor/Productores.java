@@ -182,6 +182,10 @@ public class Productores extends Fragment {
             TextView nombreProductor = (TextView) producersView.findViewById(R.id.textNameProducer);
             nombreProductor.setText(currentProducer.getNombre());
 
+            //Calificación:
+            TextView textViewCalificacion = (TextView) producersView.findViewById(R.id.textViewCalificacion);
+            textViewCalificacion.setText("0/5");
+
             return producersView;
         }
     }

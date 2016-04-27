@@ -57,7 +57,6 @@
 
     <!-- Productores -->
     <string name="emptyProducers">No hay productores para mostrar.</string>
-    <string name="calificacion">Las estrellas de una.</string>
 
     <!-- Productos -->
     <string name="emptyProducts">No hay productos para mostrar.</string>

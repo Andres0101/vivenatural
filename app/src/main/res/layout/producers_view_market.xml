@@ -26,10 +26,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_star_rate"
-        android:layout_marginTop="-7dp"
+        android:layout_marginTop="-2dp"
         android:layout_marginLeft="-7dp"
         android:layout_marginStart="-7dp"
-        android:layout_alignBottom="@+id/imageProducer"
+        android:layout_below="@+id/textNameProducer"
         android:layout_toRightOf="@+id/imageProducer"
         android:layout_toEndOf="@+id/imageProducer"
         android:tint="#FFC107"/>

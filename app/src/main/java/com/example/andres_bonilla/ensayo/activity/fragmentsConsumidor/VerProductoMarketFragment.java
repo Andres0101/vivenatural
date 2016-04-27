@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -168,7 +169,7 @@ public class VerProductoMarketFragment extends Fragment {
 
     private class MyListAdapter extends ArrayAdapter<Product> {
         public MyListAdapter(){
-            super(getActivity(), R.layout.producers_view, myProducers);
+            super(getActivity(), R.layout.producers_view_market, myProducers);
         }
 
         @Override
@@ -176,7 +177,7 @@ public class VerProductoMarketFragment extends Fragment {
             //Se asegura que existe un View con el que se pueda trabajar
             View productsView = convertView;
             if (productsView == null) {
-                productsView = getActivity().getLayoutInflater().inflate(R.layout.producers_view, parent, false);
+                productsView = getActivity().getLayoutInflater().inflate(R.layout.producers_view_market, parent, false);
             }
 
             //Encontrar el productor que hace el producto
@@ -198,11 +199,9 @@ public class VerProductoMarketFragment extends Fragment {
             nombreProductor.setTypeface(infoName);
             nombreProductor.setText(currentProductProducer.getProductor());
 
-            //Cantidad de estrellas:
-            //TODO cantidad de estrellas
-            /*TextView priceProducto = (TextView) productsView.findViewById(R.id.textViewComentario);
-            priceProducto.setTypeface(editText);
-            priceProducto.setText(currentUser.getComentario());*/
+            //Calificación:
+            TextView textViewCalificacion = (TextView) productsView.findViewById(R.id.textViewCalificacion);
+            textViewCalificacion.setText("0/5");
 
             return productsView;
         }
