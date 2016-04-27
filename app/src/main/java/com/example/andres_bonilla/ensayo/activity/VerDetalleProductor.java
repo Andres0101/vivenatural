@@ -47,7 +47,7 @@ public class VerDetalleProductor extends AppCompatActivity {
     MyListAdapter adapter;
 
     private Typeface editText;
-    private Typeface infoName;
+    private Typeface textCantidad;
 
     private List<Product> myProducts = new ArrayList<>();
 
@@ -66,13 +66,9 @@ public class VerDetalleProductor extends AppCompatActivity {
                 this.getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        Typeface textCantidad = Typeface.createFromAsset(
+        textCantidad = Typeface.createFromAsset(
                 this.getAssets(),
                 "fonts/Roboto-Regular.ttf");
-
-        infoName = Typeface.createFromAsset(
-                this.getAssets(),
-                "fonts/Roboto-Medium.ttf");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -126,7 +122,7 @@ public class VerDetalleProductor extends AppCompatActivity {
                             imageProgress.setVisibility(View.GONE);
                         } else {
                             imageProgress.setVisibility(View.GONE);
-                            imagenProductor.setImageResource(R.drawable.ic_no_profile_image);
+                            imagenProductor.setImageResource(R.drawable.no_image_profile);
                         }
 
                         descriptionProgress.setVisibility(View.GONE);
@@ -244,7 +240,7 @@ public class VerDetalleProductor extends AppCompatActivity {
 
             //Nombre:
             TextView nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);
-            nombreProducto.setTypeface(infoName);
+            nombreProducto.setTypeface(textCantidad);
             nombreProducto.setText(currentProduct.getNombreProducto());
 
             //Precio:
@@ -255,7 +251,6 @@ public class VerDetalleProductor extends AppCompatActivity {
             //Cantidad:
             TextView cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
             cantidadProducto.setTypeface(editText);
-            priceProducto.setTypeface(editText);
             cantidadProducto.setText(currentProduct.getCantidad() + " lb");
 
             ImageView iconAvailable = (ImageView) productsView.findViewById(R.id.iconAvailable);

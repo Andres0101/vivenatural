@@ -237,9 +237,9 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                             Bitmap imagenBitmap = StringToBitMap(imageConsumidor);
                             imageConsumer.setImageBitmap(imagenBitmap);
                         } else {
-                            Bitmap imagenBitmapDefault = BitmapFactory.decodeResource(getResources(), R.drawable.ic_no_profile_image);
+                            Bitmap imagenBitmapDefault = BitmapFactory.decodeResource(getResources(), R.drawable.no_image_profile);
                             imageConsumidor = BitMapToString(imagenBitmapDefault);
-                            imageConsumer.setImageResource(R.drawable.ic_no_profile_image);
+                            imageConsumer.setImageResource(R.drawable.no_image_profile);
                         }
                     }
                 }
@@ -363,12 +363,12 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                 Bitmap imagenConsumidor = StringToBitMap(imagenConsumerComment);
                 imageView.setImageBitmap(imagenConsumidor);
             } else {
-                imageView.setImageResource(R.drawable.ic_no_profile_image);
+                imageView.setImageResource(R.drawable.no_image_profile);
             }
 
             //Nombre:
             TextView nombreConsumidor = (TextView) productsView.findViewById(R.id.textNameConsumer);
-            nombreConsumidor.setTypeface(infoName);
+            nombreConsumidor.setTypeface(text);
             //Si el consumidor que puso el comentario es el mismo que está en sesión, entonces...
             if (currentComment.getHechoPor().equals(nombreDelConsumidor)) {
                 nombreConsumidor.setText("Tú");

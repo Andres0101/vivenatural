@@ -6,8 +6,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageProduct"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_margin="16dp"/>
 
     <TextView
@@ -15,8 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16sp"
         android:text="Large Text"
-        android:paddingTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_alignTop="@+id/imageProduct"
         android:layout_toRightOf="@+id/imageProduct"
         android:layout_toEndOf="@+id/imageProduct" />
@@ -25,10 +26,11 @@
         android:id="@+id/textPrecio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="14sp"
         android:text="Small Text"
         android:gravity="end"
-        android:paddingTop="23dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
         android:layout_alignTop="@+id/imageProduct"

@@ -43,7 +43,7 @@ public class VerReservaNotification extends AppCompatActivity {
     private String nombreDelProductor;
 
     private Typeface texto;
-    private Typeface infoName;
+    private Typeface regular;
 
     private ProgressBar progress;
 
@@ -61,9 +61,9 @@ public class VerReservaNotification extends AppCompatActivity {
                 this.getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        infoName = Typeface.createFromAsset(
+        regular = Typeface.createFromAsset(
                 this.getAssets(),
-                "fonts/Roboto-Medium.ttf");
+                "fonts/Roboto-Regular.ttf");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -177,7 +177,7 @@ public class VerReservaNotification extends AppCompatActivity {
 
             //Nombre:
             TextView nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);
-            nombreProducto.setTypeface(infoName);
+            nombreProducto.setTypeface(regular);
             nombreProducto.setText(currentProductReserve.getProducto());
 
             //Cantidad reservada:

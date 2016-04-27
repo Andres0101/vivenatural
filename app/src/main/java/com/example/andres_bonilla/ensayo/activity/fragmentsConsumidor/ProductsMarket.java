@@ -3,6 +3,7 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
@@ -32,6 +33,9 @@ public class ProductsMarket extends Fragment {
     private Firebase myRef;
     private View rootView;
 
+    private Typeface editText;
+    private Typeface text;
+
     private MarketProduct clickedProduct;
 
     MyListAdapter adapter;
@@ -59,6 +63,14 @@ public class ProductsMarket extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.products_market, container, false);
         setHasOptionsMenu(true);
+
+        editText = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Light.ttf");
+
+        text = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Regular.ttf");
 
         nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
 
@@ -153,10 +165,12 @@ public class ProductsMarket extends Fragment {
 
             //Nombre:
             TextView nombreProducto = (TextView) producersView.findViewById(R.id.textNameProduct);
+            nombreProducto.setTypeface(text);
             nombreProducto.setText(currentProduct.getNombre());
 
             //precio:
             TextView precioProducto = (TextView) producersView.findViewById(R.id.textPrecio);
+            precioProducto.setTypeface(editText);
             precioProducto.setText("$" + currentProduct.getPrecio() + "/lb");
 
             return producersView;

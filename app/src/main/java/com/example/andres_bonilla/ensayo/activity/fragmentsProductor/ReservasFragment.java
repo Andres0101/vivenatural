@@ -47,7 +47,7 @@ public class ReservasFragment extends Fragment {
     private String nombreDelProductor;
 
     private Typeface texto;
-    private Typeface infoName;
+    private Typeface regular;
 
     private ProgressBar progress;
 
@@ -81,9 +81,9 @@ public class ReservasFragment extends Fragment {
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        infoName = Typeface.createFromAsset(
+        regular = Typeface.createFromAsset(
                 getActivity().getAssets(),
-                "fonts/Roboto-Medium.ttf");
+                "fonts/Roboto-Regular.ttf");
 
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelProductor = getArguments().getString("nombreDelProductor");
@@ -216,7 +216,7 @@ public class ReservasFragment extends Fragment {
 
             //Nombre:
             TextView nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);
-            nombreProducto.setTypeface(infoName);
+            nombreProducto.setTypeface(regular);
             nombreProducto.setText(currentProductReserve.getProducto());
 
             //Cantidad reservada:

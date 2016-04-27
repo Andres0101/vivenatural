@@ -46,6 +46,7 @@ public class ProductosReservados extends Fragment {
     private String nombreDelConsumidor;
 
     private Typeface texto;
+    private Typeface regular;
     private Typeface infoName;
 
     private ProgressBar reserveProgress;
@@ -74,6 +75,10 @@ public class ProductosReservados extends Fragment {
         texto = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
+
+        regular = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Regular.ttf");
 
         infoName = Typeface.createFromAsset(
                 getActivity().getAssets(),
@@ -209,7 +214,7 @@ public class ProductosReservados extends Fragment {
 
             //Nombre:
             TextView nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);
-            nombreProducto.setTypeface(infoName);
+            nombreProducto.setTypeface(regular);
             nombreProducto.setText(currentProductReserve.getProducto());
 
             //Precio:
@@ -222,8 +227,12 @@ public class ProductosReservados extends Fragment {
             textViewCantidad.setTypeface(texto);
             TextView cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
             cantidadProducto.setTypeface(texto);
-            priceProducto.setTypeface(texto);
             cantidadProducto.setText(currentProductReserve.getCantidadReservada() + " lb");
+
+            //Reservado a:
+            TextView textNameProducer = (TextView) productsView.findViewById(R.id.textNameProducer);
+            textNameProducer.setTypeface(texto);
+            textNameProducer.setText(currentProductReserve.getReservadoA());
 
             return productsView;
         }

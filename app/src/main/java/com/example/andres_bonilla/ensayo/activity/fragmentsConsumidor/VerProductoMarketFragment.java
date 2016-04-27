@@ -36,7 +36,8 @@ public class VerProductoMarketFragment extends Fragment {
 
     private View rootView;
 
-    private Typeface infoName;
+    private Typeface text;
+    private Typeface editText;
 
     private String nombreDelProducto;
     private String nombreDelConsumidor;
@@ -67,17 +68,13 @@ public class VerProductoMarketFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.ver_producto_market_fragment, container, false);
 
-        Typeface editText = Typeface.createFromAsset(
+        editText = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        Typeface text = Typeface.createFromAsset(
+        text = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Regular.ttf");
-
-        infoName = Typeface.createFromAsset(
-                getActivity().getAssets(),
-                "fonts/Roboto-Medium.ttf");
 
         Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
         products = myRef.child("products");
@@ -167,7 +164,7 @@ public class VerProductoMarketFragment extends Fragment {
 
     private class MyListAdapter extends ArrayAdapter<Product> {
         public MyListAdapter(){
-            super(getActivity(), R.layout.producers_view_market, myProducers);
+            super(getActivity(), R.layout.producers_view, myProducers);
         }
 
         @Override
@@ -175,7 +172,7 @@ public class VerProductoMarketFragment extends Fragment {
             //Se asegura que existe un View con el que se pueda trabajar
             View productsView = convertView;
             if (productsView == null) {
-                productsView = getActivity().getLayoutInflater().inflate(R.layout.producers_view_market, parent, false);
+                productsView = getActivity().getLayoutInflater().inflate(R.layout.producers_view, parent, false);
             }
 
             //Encontrar el productor que hace el producto
@@ -188,17 +185,17 @@ public class VerProductoMarketFragment extends Fragment {
                 Bitmap imagenConsumidor = StringToBitMap(imagenConsumerComment);
                 imageView.setImageBitmap(imagenConsumidor);
             } else {
-                imageView.setImageResource(R.drawable.ic_no_profile_image);
+                imageView.setImageResource(R.drawable.no_image_profile);
             }
 
             //Nombre:
             TextView nombreProductor = (TextView) productsView.findViewById(R.id.textNameProducer);
-            nombreProductor.setTextSize(14);
-            nombreProductor.setTypeface(infoName);
+            nombreProductor.setTypeface(text);
             nombreProductor.setText(currentProductProducer.getProductor());
 
             //Calificación:
             TextView textViewCalificacion = (TextView) productsView.findViewById(R.id.textViewCalificacion);
+            textViewCalificacion.setTypeface(editText);
             textViewCalificacion.setText("0/5");
 
             return productsView;

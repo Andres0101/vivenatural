@@ -6,8 +6,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageProducer"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_margin="16dp"/>
 
     <TextView
@@ -15,21 +15,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16sp"
         android:text="Large Text"
-        android:paddingTop="4dp"
         android:layout_alignTop="@+id/imageProducer"
         android:layout_toRightOf="@+id/imageProducer"
         android:layout_toEndOf="@+id/imageProducer" />
 
     <ImageView
         android:id="@+id/iconStar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:src="@drawable/ic_star_rate"
-        android:layout_marginTop="-7dp"
+        android:layout_marginTop="-4dp"
         android:layout_marginLeft="-7dp"
         android:layout_marginStart="-7dp"
-        android:layout_alignBottom="@+id/imageProducer"
+        android:layout_below="@+id/textNameProducer"
         android:layout_toRightOf="@+id/imageProducer"
         android:layout_toEndOf="@+id/imageProducer"
         android:tint="#FFC107"/>
@@ -39,7 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_marginTop="5dp"
+        android:textSize="16sp"
+        android:text="Small Text"
         android:layout_below="@+id/textNameProducer"
         android:layout_toRightOf="@+id/iconStar"
         android:layout_toEndOf="@+id/iconStar"/>

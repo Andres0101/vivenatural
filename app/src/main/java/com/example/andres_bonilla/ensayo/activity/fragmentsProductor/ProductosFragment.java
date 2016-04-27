@@ -439,7 +439,7 @@ public class ProductosFragment extends Fragment {
 
             //Nombre:
             TextView nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);
-            nombreProducto.setTypeface(infoName);
+            nombreProducto.setTypeface(textCantidad);
             nombreProducto.setText(currentProduct.getNombreProducto());
 
             //Precio:
@@ -450,7 +450,6 @@ public class ProductosFragment extends Fragment {
             //Cantidad:
             TextView cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
             cantidadProducto.setTypeface(texto);
-            priceProducto.setTypeface(texto);
             cantidadProducto.setText(currentProduct.getCantidad() + " lb");
 
             ImageView iconAvailable = (ImageView) productsView.findViewById(R.id.iconAvailable);

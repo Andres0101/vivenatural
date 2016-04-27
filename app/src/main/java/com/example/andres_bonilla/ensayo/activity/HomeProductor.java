@@ -172,7 +172,7 @@ public class HomeProductor extends AppCompatActivity {
 
                             imageUserHeader.setImageBitmap(imagenProducto);
                         } else {
-                            imageUserHeader.setImageResource(R.drawable.ic_no_profile_image_header);
+                            imageUserHeader.setImageResource(R.drawable.no_image_profile_header);
                         }
                     }
                 }

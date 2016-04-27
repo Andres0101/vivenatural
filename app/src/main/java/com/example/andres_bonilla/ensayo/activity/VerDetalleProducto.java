@@ -219,7 +219,7 @@ public class VerDetalleProducto extends AppCompatActivity {
                 builder1.setCancelable(true);
 
                 builder1.setPositiveButton(
-                        "Confirmar",
+                        "Eliminar",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 comments.addListenerForSingleValueEvent(new ValueEventListener() {

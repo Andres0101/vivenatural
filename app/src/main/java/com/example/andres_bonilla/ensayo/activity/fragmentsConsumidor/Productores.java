@@ -3,6 +3,7 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
@@ -33,6 +34,9 @@ public class Productores extends Fragment {
     private Firebase myRef;
 
     private String nombreDelConsumidor;
+
+    private Typeface text;
+    private Typeface editText;
 
     MyListAdapter adapter;
 
@@ -66,7 +70,16 @@ public class Productores extends Fragment {
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
 
+        editText = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Light.ttf");
+
+        text = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Regular.ttf");
+
         textoNoHay = (TextView) rootView.findViewById(R.id.textoInfoProductores);
+        textoNoHay.setTypeface(editText);
         textoNoHay.setVisibility(View.GONE);
 
         progress = (ProgressBar) rootView.findViewById(R.id.progress);
@@ -175,15 +188,17 @@ public class Productores extends Fragment {
                 Bitmap imagenProducto = StringToBitMap(imageProduct);
                 imageView.setImageBitmap(imagenProducto);
             } else {
-                imageView.setImageResource(R.drawable.ic_no_profile_image);
+                imageView.setImageResource(R.drawable.no_image_profile);
             }
 
             //Nombre:
             TextView nombreProductor = (TextView) producersView.findViewById(R.id.textNameProducer);
+            nombreProductor.setTypeface(text);
             nombreProductor.setText(currentProducer.getNombre());
 
             //Calificación:
             TextView textViewCalificacion = (TextView) producersView.findViewById(R.id.textViewCalificacion);
+            textViewCalificacion.setTypeface(editText);
             textViewCalificacion.setText("0/5");
 
             return producersView;

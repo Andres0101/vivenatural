@@ -36,6 +36,7 @@ public class VerDetalleProductoFragment extends Fragment {
 
     private Typeface editText;
     private Typeface infoName;
+    private Typeface text;
 
     private String nombreDelProductor;
     private String nombreDelProducto;
@@ -74,7 +75,7 @@ public class VerDetalleProductoFragment extends Fragment {
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
 
-        Typeface text = Typeface.createFromAsset(
+        text = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Regular.ttf");
 
@@ -218,12 +219,12 @@ public class VerDetalleProductoFragment extends Fragment {
                 Bitmap imagenConsumidor = StringToBitMap(imagenConsumerComment);
                 imageView.setImageBitmap(imagenConsumidor);
             } else {
-                imageView.setImageResource(R.drawable.ic_no_profile_image);
+                imageView.setImageResource(R.drawable.no_image_profile);
             }
 
             //Nombre:
             TextView nombreConsumidor = (TextView) productsView.findViewById(R.id.textNameConsumer);
-            nombreConsumidor.setTypeface(infoName);
+            nombreConsumidor.setTypeface(text);
             nombreConsumidor.setText(currentComment.getHechoPor());
 
             //Comentario:
