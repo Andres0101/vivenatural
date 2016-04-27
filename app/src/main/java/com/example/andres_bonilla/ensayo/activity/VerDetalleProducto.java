@@ -215,7 +215,6 @@ public class VerDetalleProducto extends AppCompatActivity {
                 // Setting Dialog Title
                 builder1.setTitle("Eliminar");
                 builder1.setIcon(R.drawable.ic_delete);
-                //builder1.setIconAttribute(android.R.attr.alertDialogIcon);
                 builder1.setMessage("¿Estás seguro que deseas elminar el producto " + nombreDelProducto + "?");
                 builder1.setCancelable(true);
 

@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,6 @@ public class VerProductoMarketFragment extends Fragment {
 
     private View rootView;
 
-    private Typeface editText;
     private Typeface infoName;
 
     private String nombreDelProducto;
@@ -69,7 +67,7 @@ public class VerProductoMarketFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.ver_producto_market_fragment, container, false);
 
-        editText = Typeface.createFromAsset(
+        Typeface editText = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
 

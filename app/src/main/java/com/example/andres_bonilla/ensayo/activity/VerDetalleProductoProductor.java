@@ -555,7 +555,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                     // Setting Dialog Title
                     builder1.setTitle("Reserva no disponible");
                     builder1.setIcon(R.drawable.ic_no_available);
-                    //builder1.setIconAttribute(android.R.attr.alertDialogIcon);
                     builder1.setMessage("El producto " + nombreDelProducto + " no tiene cantidad para ofrecer.");
                     builder1.setCancelable(true);
 
