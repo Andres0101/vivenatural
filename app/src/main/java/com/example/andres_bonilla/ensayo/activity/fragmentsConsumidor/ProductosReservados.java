@@ -223,8 +223,6 @@ public class ProductosReservados extends Fragment {
             priceProducto.setText("$" + currentProductReserve.getPrecio() + "/lb");
 
             //Cantidad:
-            TextView textViewCantidad = (TextView) productsView.findViewById(R.id.textViewCantidad);
-            textViewCantidad.setTypeface(texto);
             TextView cantidadProducto = (TextView) productsView.findViewById(R.id.textCantidad);
             cantidadProducto.setTypeface(texto);
             cantidadProducto.setText(currentProductReserve.getCantidadReservada() + " lb");

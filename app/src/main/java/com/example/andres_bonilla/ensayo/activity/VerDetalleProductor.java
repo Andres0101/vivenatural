@@ -3,8 +3,10 @@ package com.example.andres_bonilla.ensayo.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -50,6 +52,7 @@ public class VerDetalleProductor extends AppCompatActivity {
     private Typeface textCantidad;
 
     private List<Product> myProducts = new ArrayList<>();
+    private ListView listClick;
 
     private ProgressBar imageProgress;
     private ProgressBar descriptionProgress;
@@ -212,19 +215,25 @@ public class VerDetalleProductor extends AppCompatActivity {
     }
 
     private void clickSobreItem() {
-        ListView list = (ListView) findViewById(R.id.productsListView);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listClick = (ListView) findViewById(R.id.productsListView);
+        listClick.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 clickedProduct = myProducts.get(position);
 
-                Bundle bundle = new Bundle();
-                bundle.putString("nombreProducto", clickedProduct.getNombreProducto());
-                bundle.putString("nombreProductor", nombreDelProductor);
-                bundle.putString("nombreConsumidor", nombreDelConsumidor);
-                Intent i = new Intent(VerDetalleProductor.this, VerDetalleProductoProductor.class);
-                i.putExtras(bundle);
-                startActivity(i);
+                if (clickedProduct.getCantidad() == 0.0) {
+                    Snackbar snackbar = Snackbar
+                            .make(view, "El producto " + clickedProduct.getNombreProducto() + " no tiene cantidad disponible", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("nombreProducto", clickedProduct.getNombreProducto());
+                    bundle.putString("nombreProductor", nombreDelProductor);
+                    bundle.putString("nombreConsumidor", nombreDelConsumidor);
+                    Intent i = new Intent(VerDetalleProductor.this, VerDetalleProductoProductor.class);
+                    i.putExtras(bundle);
+                    startActivity(i);
+                }
             }
         });
     }
@@ -266,15 +275,14 @@ public class VerDetalleProductor extends AppCompatActivity {
             cantidadProducto.setTypeface(editText);
             cantidadProducto.setText(currentProduct.getCantidad() + " lb");
 
-            ImageView iconAvailable = (ImageView) productsView.findViewById(R.id.iconAvailable);
-            ImageView iconNoAvailable = (ImageView) productsView.findViewById(R.id.iconNoAvailable);
-
             if (currentProduct.getCantidad() == 0.0) {
-                iconNoAvailable.setVisibility(View.VISIBLE);
-                iconAvailable.setVisibility(View.GONE);
+                nombreProducto.setTextColor(Color.parseColor("#B6B6B6"));
+                priceProducto.setTextColor(Color.parseColor("#B6B6B6"));
+                cantidadProducto.setTextColor(Color.parseColor("#B6B6B6"));
             } else {
-                iconAvailable.setVisibility(View.VISIBLE);
-                iconNoAvailable.setVisibility(View.GONE);
+                nombreProducto.setTextColor(Color.parseColor("#000000"));
+                priceProducto.setTextColor(Color.parseColor("#838383"));
+                cantidadProducto.setTextColor(Color.parseColor("#4C4C4C"));
             }
 
             return productsView;

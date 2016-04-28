@@ -3,8 +3,10 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -151,13 +153,19 @@ public class VerProductoMarketFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 clickedProducer = myProducers.get(position);
 
-                Bundle bundle = new Bundle();
-                bundle.putString("nombreProducto", nombreDelProducto);
-                bundle.putString("nombreProductor", clickedProducer.getProductor());
-                bundle.putString("nombreConsumidor", nombreDelConsumidor);
-                Intent i = new Intent(getActivity(), VerDetalleProductoProductor.class);
-                i.putExtras(bundle);
-                startActivity(i);
+                if (clickedProducer.getCantidad() == 0.0) {
+                    Snackbar snackbar = Snackbar
+                            .make(view, clickedProducer.getProductor() + " no tiene cantidad disponible de " + clickedProducer.getNombreProducto(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("nombreProducto", nombreDelProducto);
+                    bundle.putString("nombreProductor", clickedProducer.getProductor());
+                    bundle.putString("nombreConsumidor", nombreDelConsumidor);
+                    Intent i = new Intent(getActivity(), VerDetalleProductoProductor.class);
+                    i.putExtras(bundle);
+                    startActivity(i);
+                }
             }
         });
     }
@@ -197,6 +205,18 @@ public class VerProductoMarketFragment extends Fragment {
             TextView textViewCalificacion = (TextView) productsView.findViewById(R.id.textViewCalificacion);
             textViewCalificacion.setTypeface(editText);
             textViewCalificacion.setText("0/5");
+
+            ImageView iconStar = (ImageView) productsView.findViewById(R.id.iconStar);
+
+            if (currentProductProducer.getCantidad() == 0.0) {
+                nombreProductor.setTextColor(Color.parseColor("#B6B6B6"));
+                textViewCalificacion.setTextColor(Color.parseColor("#B6B6B6"));
+                iconStar.setColorFilter(Color.parseColor("#B6B6B6"));
+            } else {
+                nombreProductor.setTextColor(Color.parseColor("#000000"));
+                textViewCalificacion.setTextColor(Color.parseColor("#4C4C4C"));
+                iconStar.setColorFilter(Color.parseColor("#FFC107"));
+            }
 
             return productsView;
         }

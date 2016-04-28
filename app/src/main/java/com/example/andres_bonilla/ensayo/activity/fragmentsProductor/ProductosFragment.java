@@ -452,17 +452,6 @@ public class ProductosFragment extends Fragment {
             cantidadProducto.setTypeface(texto);
             cantidadProducto.setText(currentProduct.getCantidad() + " lb");
 
-            ImageView iconAvailable = (ImageView) productsView.findViewById(R.id.iconAvailable);
-            ImageView iconNoAvailable = (ImageView) productsView.findViewById(R.id.iconNoAvailable);
-
-            if (currentProduct.getCantidad() == 0.0) {
-                iconNoAvailable.setVisibility(View.VISIBLE);
-                iconAvailable.setVisibility(View.GONE);
-            } else {
-                iconAvailable.setVisibility(View.VISIBLE);
-                iconNoAvailable.setVisibility(View.GONE);
-            }
-
             return productsView;
         }
     }
