@@ -55,9 +55,9 @@ public class PerfilConsumidor extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_perfil_consumidor, container, false);
         setHasOptionsMenu(true);
 
-        Typeface textView = Typeface.createFromAsset(
+        Typeface medium = Typeface.createFromAsset(
                 getActivity().getAssets(),
-                "fonts/Roboto-Bold.ttf");
+                "fonts/Roboto-Medium.ttf");
 
         Typeface editTextD = Typeface.createFromAsset(
                 getActivity().getAssets(),
@@ -68,9 +68,7 @@ public class PerfilConsumidor extends Fragment {
 
         imageConsumer = (ImageView) rootView.findViewById(R.id.imageConsumer);
         userName = (TextView) rootView.findViewById(R.id.nombreUsuario);
-        userName.setTypeface(textView);
-        TextView textDescriptionTittle = (TextView) rootView.findViewById(R.id.descriptionTittle);
-        textDescriptionTittle.setTypeface(textView);
+        userName.setTypeface(medium);
         textoEditable = (EditText) rootView.findViewById(R.id.textDescription);
         textoEditable.setTypeface(editTextD);
         textoEditable.setBackground(null);
@@ -97,7 +95,7 @@ public class PerfilConsumidor extends Fragment {
 
                             imageConsumer.setImageBitmap(imagenProducto);
                         } else {
-                            imageConsumer.setImageResource(R.drawable.defaultimage);
+                            imageConsumer.setImageResource(R.drawable.no_image_profile_header);
                         }
                     }
                 }

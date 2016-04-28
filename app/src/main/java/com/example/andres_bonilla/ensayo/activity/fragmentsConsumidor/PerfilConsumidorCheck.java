@@ -27,6 +27,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.User;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,6 +51,7 @@ public class PerfilConsumidorCheck extends Fragment {
     private EditText textoEditable;
 
     private String imageFile;
+    private String nombreDelConsumidor;
 
     private static int RESULT_LOAD_IMAGE = 1;
     private static final int SELECT_PICTURE = 1;
@@ -72,18 +78,19 @@ public class PerfilConsumidorCheck extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_perfil_consumidor, container, false);
         setHasOptionsMenu(true);
 
-        Typeface textView = Typeface.createFromAsset(
+        Typeface medium = Typeface.createFromAsset(
                 getActivity().getAssets(),
-                "fonts/Roboto-Bold.ttf");
+                "fonts/Roboto-Medium.ttf");
 
         Typeface editTextD = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
 
+        // Obtiene el nombre de la persona que inicia sesión.
+        nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
+
         userName = (TextView) rootView.findViewById(R.id.nombreUsuario);
-        userName.setTypeface(textView);
-        TextView textDescriptionTittle = (TextView) rootView.findViewById(R.id.descriptionTittle);
-        textDescriptionTittle.setTypeface(textView);
+        userName.setTypeface(medium);
         textoEditable = (EditText) rootView.findViewById(R.id.textDescription);
         textoEditable.setTypeface(editTextD);
 
@@ -101,8 +108,50 @@ public class PerfilConsumidorCheck extends Fragment {
         changeText(userString);
         textEditable(editText);
 
+        // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
+        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        Firebase user = myRef.child("users");
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    User user = postSnapshot.getValue(User.class);
+
+                    if (user.getNombre().equals(nombreDelConsumidor)) {
+                        if (!user.getImagen().equals("")) {
+                            String imageFile = user.getImagen();
+                            Bitmap imagenProducto = StringToBitMap(imageFile);
+
+                            imageConsumer.setImageBitmap(imagenProducto);
+                        } else {
+                            imageConsumer.setImageResource(R.drawable.no_image_profile_header);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    private Bitmap StringToBitMap(String encodedString) {
+        try {
+            System.out.println("Comenzando StringToBitMap");
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            System.out.println("Retornando: " + bitmap);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
     //Dialogo que pide permiso para que la app tenga acceso al storage

@@ -311,6 +311,11 @@ public class HomeConsumidor extends AppCompatActivity {
                 android.support.v4.app.FragmentTransaction fragmentTransactionUnoCheck = getSupportFragmentManager().beginTransaction();
                 fragmentTransactionUnoCheck.replace(R.id.container_body, fragmentUnoCheck);
 
+                Bundle bundleNombre = new Bundle();
+                bundleNombre.putString("nombreDelConsumidor", dataNombre);
+                // set Fragmentclass Arguments
+                fragmentUnoCheck.setArguments(bundleNombre);
+
                 fragmentTransactionUnoCheck.commit();
                 return true;
 
