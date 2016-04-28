@@ -29,8 +29,6 @@ public class Registro extends AppCompatActivity {
 
     private Firebase myRef;
 
-    private Toolbar myToolbar;
-
     private EditText username;
     private EditText password;
     private EditText email;
@@ -57,10 +55,13 @@ public class Registro extends AppCompatActivity {
                 this.getAssets(),
                 "fonts/Roboto-Bold.ttf");
 
-        myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Set the padding to match the Status Bar height
+        myToolbar.setPadding(0, getStatusBarHeight(), 0, 0);
 
         setTitle("Registro");
 
@@ -149,6 +150,16 @@ public class Registro extends AppCompatActivity {
                 userRef.setValue(newUser);
             }
         });
+    }
+
+    // A method to find height of the status bar
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     public void selectItem(View view){

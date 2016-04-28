@@ -69,6 +69,9 @@ public class VerReservaNotification extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Set the padding to match the Status Bar height
+        toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
+
         setTitle(R.string.title_reservas);
 
         Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
@@ -86,6 +89,16 @@ public class VerReservaNotification extends AppCompatActivity {
         listView();
         //clickSobreItem();
 
+    }
+
+    // A method to find height of the status bar
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     public Bitmap StringToBitMap(String encodedString){

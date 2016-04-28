@@ -3,6 +3,7 @@ package com.example.andres_bonilla.ensayo.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -62,6 +63,13 @@ public class HomeConsumidor extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // Set the padding to match the Status Bar height
+        mToolbar.setPadding(0, getStatusBarHeight(), 0, 0);
+
+        Typeface medium = Typeface.createFromAsset(
+                this.getAssets(),
+                "fonts/Roboto-Medium.ttf");
+
         save = false;
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
@@ -71,6 +79,7 @@ public class HomeConsumidor extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         View vi =  navigationView.getHeaderView(0);
         TextView tv = (TextView)vi.findViewById(R.id.usernameHeader);
+        tv.setTypeface(medium);
         imageUserHeader = (ImageView) vi.findViewById(R.id.profile_image);
 
         //Setea el texto donde va el nombre de usuario en el header.xml por el puExtra que llega del MainActivity
@@ -258,6 +267,16 @@ public class HomeConsumidor extends AppCompatActivity {
 
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+    }
+
+    // A method to find height of the status bar
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     private Bitmap StringToBitMap(String encodedString) {

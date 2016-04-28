@@ -74,6 +74,9 @@ public class VerDetalleProductor extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Set the padding to match the Status Bar height
+        toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
+
         Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
         products = myRef.child("products");
 
@@ -140,6 +143,16 @@ public class VerDetalleProductor extends AppCompatActivity {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
+    }
+
+    // A method to find height of the status bar
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     private Bitmap StringToBitMap(String encodedString) {
