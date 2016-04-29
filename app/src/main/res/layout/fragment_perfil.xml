@@ -23,6 +23,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageProducer"
             android:layout_gravity="bottom|center"
+            android:src="@drawable/no_image_profile_profile"
             android:layout_width="80dp"
             android:layout_height="80dp" />
 

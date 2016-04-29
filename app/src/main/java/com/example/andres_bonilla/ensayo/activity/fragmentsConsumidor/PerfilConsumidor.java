@@ -95,7 +95,7 @@ public class PerfilConsumidor extends Fragment {
 
                             imageConsumer.setImageBitmap(imagenProducto);
                         } else {
-                            imageConsumer.setImageResource(R.drawable.no_image_profile_header);
+                            imageConsumer.setImageResource(R.drawable.no_image_profile_profile);
                         }
                     }
                 }

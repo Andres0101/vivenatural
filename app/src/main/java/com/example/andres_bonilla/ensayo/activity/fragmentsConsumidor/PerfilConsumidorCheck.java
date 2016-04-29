@@ -108,50 +108,8 @@ public class PerfilConsumidorCheck extends Fragment {
         changeText(userString);
         textEditable(editText);
 
-        // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
-        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
-        Firebase user = myRef.child("users");
-        user.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    User user = postSnapshot.getValue(User.class);
-
-                    if (user.getNombre().equals(nombreDelConsumidor)) {
-                        if (!user.getImagen().equals("")) {
-                            String imageFile = user.getImagen();
-                            Bitmap imagenProducto = StringToBitMap(imageFile);
-
-                            imageConsumer.setImageBitmap(imagenProducto);
-                        } else {
-                            imageConsumer.setImageResource(R.drawable.no_image_profile_header);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-
         // Inflate the layout for this fragment
         return rootView;
-    }
-
-    private Bitmap StringToBitMap(String encodedString) {
-        try {
-            System.out.println("Comenzando StringToBitMap");
-            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            System.out.println("Retornando: " + bitmap);
-            return bitmap;
-        } catch (Exception e) {
-            e.getMessage();
-            return null;
-        }
     }
 
     //Dialogo que pide permiso para que la app tenga acceso al storage

@@ -95,7 +95,7 @@ public class PerfilFragment extends Fragment {
 
                             imageProducer.setImageBitmap(imagenProducto);
                         } else {
-                            imageProducer.setImageResource(R.drawable.no_image_profile_header);
+                            imageProducer.setImageResource(R.drawable.no_image_profile_profile);
                         }
                     }
                 }
