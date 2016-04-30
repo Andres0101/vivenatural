@@ -52,7 +52,6 @@ public class VerDetalleProductor extends AppCompatActivity {
     private Typeface textCantidad;
 
     private List<Product> myProducts = new ArrayList<>();
-    private ListView listClick;
 
     private ProgressBar imageProgress;
     private ProgressBar descriptionProgress;
@@ -215,7 +214,7 @@ public class VerDetalleProductor extends AppCompatActivity {
     }
 
     private void clickSobreItem() {
-        listClick = (ListView) findViewById(R.id.productsListView);
+        ListView listClick = (ListView) findViewById(R.id.productsListView);
         listClick.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

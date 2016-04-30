@@ -4,16 +4,32 @@
     android:orientation="vertical"
     android:background="@color/textColorPrimary">
 
+    <ListView
+        android:id="@+id/productsListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ProgressBar
+        android:id="@+id/productProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+    </ProgressBar>
 
     <TextView
-        android:id="@+id/label"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
+        android:id="@+id/textoInfoProductos"
+        android:layout_centerInParent="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:textSize="45dp"
-        android:text="MIS PRODUCTOS"
-        android:textStyle="bold"/>
+        android:text="@string/emptyProducts"
+        android:visibility="visible" />
 
 </RelativeLayout>

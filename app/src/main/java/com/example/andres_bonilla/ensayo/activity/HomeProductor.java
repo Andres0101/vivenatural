@@ -230,6 +230,11 @@ public class HomeProductor extends AppCompatActivity {
             fragmentTransactionDos.replace(R.id.container_body, fragmentDos);
             navigationView.getMenu().getItem(1).setChecked(true);
 
+            Bundle bundleStatistics = new Bundle();
+            bundleStatistics.putString("nombreDelProductor", dataNombre);
+            // set Fragmentclass Arguments
+            fragmentDos.setArguments(bundleStatistics);
+
             //Setea el nombre del label
             setTitle(R.string.title_statistics);
 
@@ -283,6 +288,11 @@ public class HomeProductor extends AppCompatActivity {
                         EstadisticasFragment fragmentDos = new EstadisticasFragment();
                         android.support.v4.app.FragmentTransaction fragmentTransactionDos = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionDos.replace(R.id.container_body, fragmentDos);
+
+                        Bundle bundleStatistics = new Bundle();
+                        bundleStatistics.putString("nombreDelProductor", dataNombre);
+                        // set Fragmentclass Arguments
+                        fragmentDos.setArguments(bundleStatistics);
 
                         //Setea el nombre del label
                         setTitle(R.string.title_statistics);

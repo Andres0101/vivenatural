@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.HomeProductor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,8 @@ public class EstadisticasFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    private String nombreDelProductor;
 
     public EstadisticasFragment() {
         // Required empty public constructor
@@ -36,6 +39,9 @@ public class EstadisticasFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_estadisticas, container, false);
         setHasOptionsMenu(true);
+
+        // Obtiene el nombre de la persona que inicia sesión.
+        nombreDelProductor = getArguments().getString("nombreDelProductor");
 
         viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -65,7 +71,20 @@ public class EstadisticasFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+            switch (position) {
+                case 0:
+                    // Display second fragment
+                    Fragment fragment = new MisProductos();
+                    // Pass extra values using bundle extras as arguments.
+                    Bundle args = new Bundle();
+                    args.putString("nombreDelProductor", nombreDelProductor);
+                    fragment.setArguments(args);
+                    return fragment;
+                case 1:
+                    return new TodosProductos();
+                default:
+                    return new MisProductos();
+            }
         }
 
         @Override
@@ -82,13 +101,6 @@ public class EstadisticasFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        menu.clear();    //remove all items
-        getActivity().getMenuInflater().inflate(R.menu.menu_busqueda, menu);
     }
 
     @Override
