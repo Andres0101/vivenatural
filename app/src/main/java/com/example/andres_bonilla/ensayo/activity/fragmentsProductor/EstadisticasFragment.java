@@ -73,7 +73,7 @@ public class EstadisticasFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    // Display second fragment
+                    // Display first fragment
                     Fragment fragment = new MisProductos();
                     // Pass extra values using bundle extras as arguments.
                     Bundle args = new Bundle();
