@@ -39,6 +39,7 @@ public class TodosProductos extends Fragment {
     MyListAdapter adapter;
 
     private List<MarketProduct> marketProductList = new ArrayList<>();
+    private ArrayList<String> mylistProduct = new ArrayList<>();
 
     private TextView textoNoHay;
 
@@ -169,14 +170,18 @@ public class TodosProductos extends Fragment {
             textCantidad.setText("0.0 lb");
 
             // Lee los datos de las reservas
-            /*reserves.addListenerForSingleValueEvent(new ValueEventListener() {
+            reserves.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                         Reserve reserve = postSnapshot.getValue(Reserve.class);
 
+                        mylistProduct.add(reserve.getProducto());
+
                         if (currentMarketProduct.getNombre().equals(reserve.getProducto())) {
-                            String[] users = "User1,User2,User1,User,User".split(",");
+                            //mylistProduct.add(reserve.getProducto()); //this adds an element to the list.
+
+                            /*String[] users = "User1,User2,User1,User,User".split(",");
 
                             Set<String> uniquUsers = new HashSet<>();
 
@@ -185,16 +190,28 @@ public class TodosProductos extends Fragment {
                                     users[i] = "Duplicate"; // here I am assigning Duplicate instead if find duplicate
                                     // you can assign as null or whatever you want to do with duplicates.
                                 }
-                            System.out.println(Arrays.toString(users));
-                            System.out.println("producto con reserva: " + reserve.getProducto() + " y su cantidad: " + reserve.getCantidadReservada());
-                        }
+                            System.out.println(Arrays.toString(users));*/
+                            //System.out.println("producto con reserva: " + reserve.getProducto() + " y su cantidad: " + reserve.getCantidadReservada());
+                        }/* else {
+                            System.out.println(currentMarketProduct.getNombre() + " no tiene reservas");
+                        }*/
                     }
                 }
 
                 @Override
                 public void onCancelled(FirebaseError firebaseError) {
                 }
-            });*/
+            });
+
+            System.out.println("Productos: " + mylistProduct.size());
+
+            Set<String> uniquUsers = new HashSet<>();
+
+            /*for (int i = 0; i < mylistProduct.size(); i++) {
+                if (!uniquUsers.add(mylistProduct.get(i))) {
+                    System.out.println("Producto duplicado: " + mylistProduct.get(i));
+                }
+            }*/
 
             return productsView;
         }
