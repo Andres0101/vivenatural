@@ -183,6 +183,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                         InputMethodManager.RESULT_UNCHANGED_SHOWN);
 
                 agregandoComentario = true;
+                adapter.clear();
                 listaBaseDatos();
             }
         });
