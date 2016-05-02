@@ -82,6 +82,8 @@ public class HomeProductor extends AppCompatActivity {
         save = false;
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        Firebase reservas = myRef.child("reserves");
+        Firebase userImage = myRef.child("users");
 
         largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_vive_natural);
 
@@ -97,7 +99,6 @@ public class HomeProductor extends AppCompatActivity {
         tv.setText(dataNombre);
 
         // Lee los datos de las reservas para ver si tiene nuevas
-        Firebase reservas = myRef.child("reserves");
         reservas.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -166,7 +167,6 @@ public class HomeProductor extends AppCompatActivity {
         });
 
         // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
-        Firebase userImage = myRef.child("users");
         userImage.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

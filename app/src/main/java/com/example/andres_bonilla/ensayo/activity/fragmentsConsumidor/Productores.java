@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,9 @@ import java.util.List;
 public class Productores extends Fragment {
 
     private View rootView;
-    private Firebase myRef;
+    private Firebase usuarios;
+
+    private SwipeRefreshLayout swipeContainer;
 
     private String nombreDelConsumidor;
 
@@ -52,7 +55,8 @@ public class Productores extends Fragment {
     public Productores() {
         // Required empty public constructor
 
-        myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        usuarios = myRef.child("users");
     }
 
     @Override
@@ -69,6 +73,22 @@ public class Productores extends Fragment {
 
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
+
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                listaBaseDatos();
+
+                // Now we call setRefreshing(false) to signal refresh has finished
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_green_light);
 
         editText = Typeface.createFromAsset(
                 getActivity().getAssets(),
@@ -97,7 +117,6 @@ public class Productores extends Fragment {
 
     private void listaBaseDatos(){
         // Lee los datos de los productos
-        Firebase usuarios = myRef.child("users");
         usuarios.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

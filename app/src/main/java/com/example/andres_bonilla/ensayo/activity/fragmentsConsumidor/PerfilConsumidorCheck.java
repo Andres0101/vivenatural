@@ -27,11 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.classes.User;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -51,7 +46,6 @@ public class PerfilConsumidorCheck extends Fragment {
     private EditText textoEditable;
 
     private String imageFile;
-    private String nombreDelConsumidor;
 
     private static int RESULT_LOAD_IMAGE = 1;
     private static final int SELECT_PICTURE = 1;
@@ -85,9 +79,6 @@ public class PerfilConsumidorCheck extends Fragment {
         Typeface editTextD = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Light.ttf");
-
-        // Obtiene el nombre de la persona que inicia sesión.
-        nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
 
         userName = (TextView) rootView.findViewById(R.id.nombreUsuario);
         userName.setTypeface(medium);

@@ -48,6 +48,7 @@ public class ProductosFragment extends Fragment {
     private Firebase myRef;
     private Firebase productos;
     private Firebase marketProducts;
+    private Firebase users;
 
     MyListAdapter adapter;
 
@@ -82,6 +83,9 @@ public class ProductosFragment extends Fragment {
         // Required empty public constructor
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        marketProducts = myRef.child("marketProducts");
+        users = myRef.child("users");
+        productos = myRef.child("products");
     }
 
     @Override
@@ -125,7 +129,6 @@ public class ProductosFragment extends Fragment {
         clickSobreItem();
 
         // Lee los datos de los productos del mercado
-        marketProducts = myRef.child("marketProducts");
         marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -212,7 +215,6 @@ public class ProductosFragment extends Fragment {
                 nombreProductoSpinner = String.valueOf(spinnerProduct.getSelectedItem());
 
                 // Lee los datos de los productos del mercado
-                marketProducts = myRef.child("marketProducts");
                 marketProducts.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -240,7 +242,6 @@ public class ProductosFragment extends Fragment {
         });
 
         // Lee los datos de los productos del mercado
-        Firebase users = myRef.child("users");
         users.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -274,7 +275,6 @@ public class ProductosFragment extends Fragment {
                     dlg.show();
 
                     // Lee los datos de los productos
-                    productos = myRef.child("products");
                     productos.addListenerForSingleValueEvent(new ValueEventListener() {
 
                         String nombreProducto = String.valueOf(spinnerProduct.getSelectedItem());
@@ -329,7 +329,6 @@ public class ProductosFragment extends Fragment {
 
     private void listaBaseDatos(){
         // Lee los datos de los productos
-        productos = myRef.child("products");
         productos.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

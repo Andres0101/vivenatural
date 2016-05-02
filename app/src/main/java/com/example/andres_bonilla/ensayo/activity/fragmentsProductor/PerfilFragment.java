@@ -26,6 +26,8 @@ public class PerfilFragment extends Fragment {
 
     public Activity activity;
 
+    private Firebase user;
+
     private String userString;
     private Boolean editText;
     private String textDescription;
@@ -41,6 +43,9 @@ public class PerfilFragment extends Fragment {
         userString = "none";
         editText = false;
         textDescription = "No hay información.";
+
+        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        user = myRef.child("users");
     }
 
     @Override
@@ -79,8 +84,6 @@ public class PerfilFragment extends Fragment {
         changeDescription(textDescription);
 
         // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
-        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
-        Firebase user = myRef.child("users");
         user.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

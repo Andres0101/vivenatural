@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -47,7 +46,6 @@ public class ProductosReservados extends Fragment {
 
     private Typeface texto;
     private Typeface regular;
-    private Typeface infoName;
 
     private ProgressBar reserveProgress;
 
@@ -79,10 +77,6 @@ public class ProductosReservados extends Fragment {
         regular = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Regular.ttf");
-
-        infoName = Typeface.createFromAsset(
-                getActivity().getAssets(),
-                "fonts/Roboto-Medium.ttf");
 
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
@@ -234,13 +228,6 @@ public class ProductosReservados extends Fragment {
 
             return productsView;
         }
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        menu.clear();    //remove all items
-        getActivity().getMenuInflater().inflate(R.menu.menu_busqueda, menu);
     }
 
     @Override

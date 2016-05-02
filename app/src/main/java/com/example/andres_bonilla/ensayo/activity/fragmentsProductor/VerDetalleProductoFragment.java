@@ -31,11 +31,11 @@ public class VerDetalleProductoFragment extends Fragment {
 
     private Firebase myRef;
     private Firebase comments;
+    private Firebase productos;
 
     private View rootView;
 
     private Typeface editText;
-    private Typeface infoName;
     private Typeface text;
 
     private String nombreDelProductor;
@@ -58,6 +58,10 @@ public class VerDetalleProductoFragment extends Fragment {
 
     public VerDetalleProductoFragment() {
         // Required empty public constructor
+
+        myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        comments = myRef.child("comments");
+        productos = myRef.child("products");
     }
 
     @Override
@@ -78,13 +82,6 @@ public class VerDetalleProductoFragment extends Fragment {
         text = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Regular.ttf");
-
-        infoName = Typeface.createFromAsset(
-                getActivity().getAssets(),
-                "fonts/Roboto-Medium.ttf");
-
-        myRef = new Firebase("https://vivenatural.firebaseio.com/");
-        comments = myRef.child("comments");
 
         nombreDelProductor = getArguments().getString("nombreDelProductor");
         nombreDelProducto = getArguments().getString("nombreDelProducto");
@@ -113,7 +110,6 @@ public class VerDetalleProductoFragment extends Fragment {
         nohayComentarios.setVisibility(View.GONE);
 
         // Lee los datos de los productos
-        Firebase productos = myRef.child("products");
         productos.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

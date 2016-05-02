@@ -8,20 +8,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.HomeProductor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EstadisticasFragment extends Fragment {
-
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
 
     private String nombreDelProductor;
 
@@ -43,10 +38,10 @@ public class EstadisticasFragment extends Fragment {
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelProductor = getArguments().getString("nombreDelProductor");
 
-        viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
+        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
 

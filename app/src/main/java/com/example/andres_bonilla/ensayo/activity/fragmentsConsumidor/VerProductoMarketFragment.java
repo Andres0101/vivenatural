@@ -57,6 +57,9 @@ public class VerProductoMarketFragment extends Fragment {
 
     public VerProductoMarketFragment() {
         // Required empty public constructor
+
+        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        products = myRef.child("products");
     }
 
     @Override
@@ -77,9 +80,6 @@ public class VerProductoMarketFragment extends Fragment {
         text = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Regular.ttf");
-
-        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
-        products = myRef.child("products");
 
         nombreDelProducto = getArguments().getString("nombreProducto");
         nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
