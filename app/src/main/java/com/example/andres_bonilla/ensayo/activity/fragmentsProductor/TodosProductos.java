@@ -24,10 +24,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class TodosProductos extends Fragment {
 
@@ -40,6 +38,7 @@ public class TodosProductos extends Fragment {
 
     private List<MarketProduct> marketProductList = new ArrayList<>();
     private ArrayList<String> mylistProduct = new ArrayList<>();
+    private ArrayList<String> mylistProductNoDuplicate = new ArrayList<>();
 
     private TextView textoNoHay;
 
@@ -49,6 +48,8 @@ public class TodosProductos extends Fragment {
     private ProgressBar progress;
 
     private Boolean pinto;
+
+    private int i;
 
     public TodosProductos() {
         // Required empty public constructor
@@ -128,6 +129,77 @@ public class TodosProductos extends Fragment {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
+
+
+        // Lee los datos de las reservas
+        reserves.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Reserve reserve = postSnapshot.getValue(Reserve.class);
+
+                    mylistProduct.add(reserve.getProducto());
+
+                    /*if (currentMarketProduct.getNombre().equals(reserve.getProducto())) {
+                        mylistProduct.add(reserve.getProducto());
+                    } else {
+                            System.out.println(currentMarketProduct.getNombre() + " no tiene reservas");
+                        }*/
+                }
+
+                System.out.println("Estos son los productos: " + mylistProduct);
+
+                // Remove duplicates from ArrayList of Strings.
+                ArrayList<String> unique = removeDuplicates(mylistProduct);
+                for (String element : unique) {
+                    mylistProductNoDuplicate.add(element); //Agrega los elementos sin duplicados a un nuevo arrayList
+                }
+                System.out.println("ArrayList sin elementos duplicados: " + mylistProductNoDuplicate);
+
+                //for (i = 0; i < mylistProductNoDuplicate.size(); i++) {
+                    // Lee los datos de las reservas
+                    reserves.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                Reserve reserve = postSnapshot.getValue(Reserve.class);
+
+                                if (reserve.getProducto().equals(mylistProductNoDuplicate.get(0))) {
+                                    System.out.println("Producto: " + mylistProductNoDuplicate.get(0) + " Cantidad: " + reserve.getCantidadReservada());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                        }
+                    });
+                //}
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+    }
+
+    public static ArrayList<String> removeDuplicates(ArrayList<String> list) {
+
+        // Store unique items in result.
+        ArrayList<String> result = new ArrayList<>();
+
+        // Record encountered Strings in HashSet.
+        HashSet<String> set = new HashSet<>();
+
+        // Loop over argument list.
+        for (String item : list) {
+            // If String is not in set, add it to the list and the set.
+            if (!set.contains(item)) {
+                result.add(item);
+                set.add(item);
+            }
+        }
+        return result;
     }
 
     private void listView() {
@@ -168,50 +240,6 @@ public class TodosProductos extends Fragment {
             TextView textCantidad = (TextView) productsView.findViewById(R.id.textCantidad);
             textCantidad.setTypeface(texto);
             textCantidad.setText("0.0 lb");
-
-            // Lee los datos de las reservas
-            reserves.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                        Reserve reserve = postSnapshot.getValue(Reserve.class);
-
-                        mylistProduct.add(reserve.getProducto());
-
-                        if (currentMarketProduct.getNombre().equals(reserve.getProducto())) {
-                            //mylistProduct.add(reserve.getProducto()); //this adds an element to the list.
-
-                            /*String[] users = "User1,User2,User1,User,User".split(",");
-
-                            Set<String> uniquUsers = new HashSet<>();
-
-                            for (int i = 0; i < users.length; i++) {
-                                if (!uniquUsers.add(users[i]))
-                                    users[i] = "Duplicate"; // here I am assigning Duplicate instead if find duplicate
-                                    // you can assign as null or whatever you want to do with duplicates.
-                                }
-                            System.out.println(Arrays.toString(users));*/
-                            //System.out.println("producto con reserva: " + reserve.getProducto() + " y su cantidad: " + reserve.getCantidadReservada());
-                        }/* else {
-                            System.out.println(currentMarketProduct.getNombre() + " no tiene reservas");
-                        }*/
-                    }
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                }
-            });
-
-            System.out.println("Productos: " + mylistProduct.size());
-
-            Set<String> uniquUsers = new HashSet<>();
-
-            /*for (int i = 0; i < mylistProduct.size(); i++) {
-                if (!uniquUsers.add(mylistProduct.get(i))) {
-                    System.out.println("Producto duplicado: " + mylistProduct.get(i));
-                }
-            }*/
 
             return productsView;
         }
