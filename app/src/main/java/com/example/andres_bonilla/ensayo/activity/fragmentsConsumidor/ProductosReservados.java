@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
@@ -37,6 +38,7 @@ public class ProductosReservados extends Fragment {
 
     private Firebase myRef;
     private Firebase productosReservados;
+    private Firebase successReserves;
 
     MyListAdapter adapter;
 
@@ -55,12 +57,14 @@ public class ProductosReservados extends Fragment {
     private ProgressBar reserveProgress;
 
     private Boolean pinto;
+    private Boolean puederReclamar;
 
     public ProductosReservados() {
         // Required empty public constructor
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
         productosReservados = myRef.child("reserves");
+        successReserves = myRef.child("successReserves");
     }
 
     @Override
@@ -97,6 +101,7 @@ public class ProductosReservados extends Fragment {
         textoNoHay.setVisibility(View.GONE);
 
         pinto = false;
+        puederReclamar = false;
 
         listaBaseDatos();
         listView();
@@ -177,7 +182,7 @@ public class ProductosReservados extends Fragment {
     }
 
     /*private void clickSobreItem() {
-        ListView list = (ListView) rootView.findViewById(R.id.productsListView);
+        final ListView list = (ListView) rootView.findViewById(R.id.productsListView);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -239,43 +244,86 @@ public class ProductosReservados extends Fragment {
             check.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-                    // Setting Dialog Content
-                    builder1.setMessage("Has reclamado el producto " + currentProductReserve.getProducto() + " de " + currentProductReserve.getReservadoA());
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton(
-                            "Confirmar",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    int color = Color.parseColor("#378F43");
-                                    check.setColorFilter(color);
+                    if (puederReclamar) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                        // Setting Dialog Content
+                        builder1.setMessage("Has reclamado el producto " + currentProductReserve.getProducto() + " de " + currentProductReserve.getReservadoA());
+                        builder1.setCancelable(true);
+                        builder1.setPositiveButton(
+                                "Confirmar",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        int color = Color.parseColor("#378F43");
+                                        check.setColorFilter(color);
+                                        check.setEnabled(false);
 
-                                    // Agrega producto reclamado a la base de datos
-                                    Firebase productRef = myRef.child("successReserves");
-                                    SuccessReserve newSuccessReserve = new SuccessReserve(currentProductReserve.getProducto(), currentProductReserve.getReservadoPor(), currentProductReserve.getReservadoA(), currentProductReserve.getCantidadReservada(), currentProductReserve.getPrecio());
-                                    productRef.push().setValue(newSuccessReserve);
+                                        // Agrega producto reclamado a la base de datos
+                                        Firebase productRef = myRef.child("successReserves");
+                                        SuccessReserve newSuccessReserve = new SuccessReserve(currentProductReserve.getProducto(), currentProductReserve.getReservadoPor(), currentProductReserve.getReservadoA(), currentProductReserve.getCantidadReservada(), currentProductReserve.getPrecio());
+                                        productRef.push().setValue(newSuccessReserve);
+                                    }
+                                });
+
+                        builder1.setNegativeButton(
+                                "No",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        Dialog alert11 = builder1.create();
+                        alert11.show();
+
+                        //Change dialog button text font
+                        TextView textButtonUno = ((TextView) alert11.findViewById(android.R.id.button1));
+                        textButtonUno.setTypeface(medium);
+                        TextView textButtonDos = ((TextView) alert11.findViewById(android.R.id.button2));
+                        textButtonDos.setTypeface(medium);
+                    } else {
+                        Snackbar snackbar = Snackbar
+                                .make(v, "Procesando datos...", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                }
+            });
+
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if (snapshot.hasChild("successReserves")) {
+                        System.out.println("Si hay pedidos reclamados con éxito ®");
+                        // Lee los datos de las reservas exitosas
+                        successReserves.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot snapshot) {
+                                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                    SuccessReserve successReserve = postSnapshot.getValue(SuccessReserve.class);
+
+                                    //Valida si el consumidor ya ha marcado como reclamado un producto
+                                    if (successReserve.getReservadoPor().equals(nombreDelConsumidor) && currentProductReserve.getProducto().equals(successReserve.getProducto()) && currentProductReserve.getReservadoA().equals(successReserve.getReservadoA())) {
+                                        int color = Color.parseColor("#378F43");
+                                        check.setColorFilter(color);
+                                        check.setEnabled(false);
+
+                                        puederReclamar = true;
+                                    } else {
+                                        puederReclamar = true;
+                                    }
                                 }
-                            });
+                            }
 
-                    builder1.setNegativeButton(
-                            "No",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+                            }
+                        });
+                    } else {
+                        System.out.println("No hay pedidos reclamados con éxito ®");
+                    }
+                }
 
-                    Dialog alert11 = builder1.create();
-                    alert11.show();
-
-                    //Change message text font
-                    /*TextView content = ((TextView) alert11.findViewById(android.R.id.message));
-                    content.setTypeface(texto);*/
-                    //Change dialog button text font
-                    TextView textButtonUno = ((TextView) alert11.findViewById(android.R.id.button1));
-                    textButtonUno.setTypeface(medium);
-                    TextView textButtonDos = ((TextView) alert11.findViewById(android.R.id.button2));
-                    textButtonDos.setTypeface(medium);
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
                 }
             });
 

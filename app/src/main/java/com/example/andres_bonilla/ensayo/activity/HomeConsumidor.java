@@ -37,7 +37,6 @@ public class HomeConsumidor extends AppCompatActivity {
 
     private Firebase myRef;
     private Firebase comments;
-    private Firebase userImage;
 
     private DrawerLayout drawerLayout;
 
@@ -75,7 +74,6 @@ public class HomeConsumidor extends AppCompatActivity {
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
         comments = myRef.child("comments");
-        userImage = myRef.child("users");
 
         //Initializing NavigationView
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -89,6 +87,7 @@ public class HomeConsumidor extends AppCompatActivity {
         tv.setText(dataNombre);
 
         // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
+        Firebase userImage = myRef.child("users");
         userImage.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

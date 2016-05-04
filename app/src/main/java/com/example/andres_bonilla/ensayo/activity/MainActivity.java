@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.batch.android.Batch;
@@ -32,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
     private TextInputLayout inputLayoutEmail, inputLayoutPassword;
 
+    private Typeface editText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inicio_login);
 
-        Typeface editText = Typeface.createFromAsset(
+        editText = Typeface.createFromAsset(
                 this.getAssets(),
                 "fonts/Roboto-Light.ttf");
 
@@ -85,6 +88,10 @@ public class MainActivity extends AppCompatActivity {
                 dlg.setTitle("Iniciando sesión");
                 dlg.setMessage("Por favor espere");
                 dlg.show();
+
+                //Change message text font
+                TextView content = ((TextView) dlg.findViewById(android.R.id.message));
+                content.setTypeface(editText);
 
                 myRef.authWithPassword(email.getText().toString(), password.getText().toString(), new Firebase.AuthResultHandler() {
                     @Override
