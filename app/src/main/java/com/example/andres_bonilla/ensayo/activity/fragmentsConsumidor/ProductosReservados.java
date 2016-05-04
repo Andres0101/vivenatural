@@ -16,12 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.example.andres_bonilla.ensayo.activity.classes.SuccessReserve;
 import com.firebase.client.DataSnapshot;
@@ -240,50 +243,42 @@ public class ProductosReservados extends Fragment {
             textNameProducer.setTypeface(texto);
             textNameProducer.setText(currentProductReserve.getReservadoA());
 
-            final ImageView check = (ImageView) productsView.findViewById(R.id.check);
-            check.setOnClickListener(new View.OnClickListener() {
+            final CheckBox checkBox = (CheckBox) productsView.findViewById(R.id.checkBox);
+            checkBox.setEnabled(false);
+            checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (puederReclamar) {
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-                        // Setting Dialog Content
-                        builder1.setMessage("Has reclamado el producto " + currentProductReserve.getProducto() + " de " + currentProductReserve.getReservadoA());
-                        builder1.setCancelable(true);
-                        builder1.setPositiveButton(
-                                "Confirmar",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        int color = Color.parseColor("#378F43");
-                                        check.setColorFilter(color);
-                                        check.setEnabled(false);
+                        if (checkBox.isChecked()) {
+                            System.out.println("Agregó el producto " + currentProductReserve.getProducto());
+                            // Agrega producto reclamado a la base de datos
+                            Firebase reservesRef = myRef.child("successReserves");
+                            SuccessReserve newSuccessReserve = new SuccessReserve(currentProductReserve.getProducto(), currentProductReserve.getReservadoPor(), currentProductReserve.getReservadoA(), currentProductReserve.getCantidadReservada(), currentProductReserve.getPrecio());
+                            reservesRef.push().setValue(newSuccessReserve);
+                        } else {
+                            /*successReserves.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    System.out.println("Value: " + snapshot.getValue());
+                                    System.out.println("Ref: " + snapshot.getRef());
+                                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                        SuccessReserve successReserve = postSnapshot.getValue(SuccessReserve.class);
 
-                                        // Agrega producto reclamado a la base de datos
-                                        Firebase productRef = myRef.child("successReserves");
-                                        SuccessReserve newSuccessReserve = new SuccessReserve(currentProductReserve.getProducto(), currentProductReserve.getReservadoPor(), currentProductReserve.getReservadoA(), currentProductReserve.getCantidadReservada(), currentProductReserve.getPrecio());
-                                        productRef.push().setValue(newSuccessReserve);
+                                        if (successReserve.getReservadoPor().equals(nombreDelConsumidor) && currentProductReserve.getProducto().equals(successReserve.getProducto()) && currentProductReserve.getReservadoA().equals(successReserve.getReservadoA())) {
+                                            System.out.println("Producto: " + currentProductReserve.getProducto() + " con Key: " + successReserve.getClass());
+                                        }
                                     }
-                                });
+                                }
 
-                        builder1.setNegativeButton(
-                                "No",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                        Dialog alert11 = builder1.create();
-                        alert11.show();
-
-                        //Change dialog button text font
-                        TextView textButtonUno = ((TextView) alert11.findViewById(android.R.id.button1));
-                        textButtonUno.setTypeface(medium);
-                        TextView textButtonDos = ((TextView) alert11.findViewById(android.R.id.button2));
-                        textButtonDos.setTypeface(medium);
-                    } else {
-                        Snackbar snackbar = Snackbar
-                                .make(v, "Procesando datos...", Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+                                }
+                            });*/
+                            System.out.println("Eliminó el producto " + currentProductReserve.getProducto());
+                            /*//Elimina el producto
+                            Firebase deleteProduct = myRef.child("successReserves").child(nombreDelProductor + ": " + nombreDelProducto);
+                            deleteProduct.removeValue();*/
+                        }
                     }
                 }
             });
@@ -302,12 +297,12 @@ public class ProductosReservados extends Fragment {
 
                                     //Valida si el consumidor ya ha marcado como reclamado un producto
                                     if (successReserve.getReservadoPor().equals(nombreDelConsumidor) && currentProductReserve.getProducto().equals(successReserve.getProducto()) && currentProductReserve.getReservadoA().equals(successReserve.getReservadoA())) {
-                                        int color = Color.parseColor("#378F43");
-                                        check.setColorFilter(color);
-                                        check.setEnabled(false);
+                                        checkBox.setChecked(true);
+                                        checkBox.setEnabled(true);
 
                                         puederReclamar = true;
                                     } else {
+                                        checkBox.setEnabled(true);
                                         puederReclamar = true;
                                     }
                                 }
