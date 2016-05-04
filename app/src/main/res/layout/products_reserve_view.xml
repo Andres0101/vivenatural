@@ -34,9 +34,7 @@
         android:layout_marginEnd="16dp"
         android:layout_alignTop="@+id/imageProduct"
         android:layout_toRightOf="@+id/textNameProduct"
-        android:layout_toEndOf="@+id/textNameProduct"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toEndOf="@+id/textNameProduct" />
 
     <ImageView
         android:id="@+id/iconProducer"
@@ -87,5 +85,16 @@
         android:layout_below="@+id/iconProducer"
         android:layout_toRightOf="@+id/iconCantidad"
         android:layout_toEndOf="@+id/iconCantidad"/>
+
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_available"
+        android:gravity="end"
+        android:tint="#B6B6B6"
+        android:layout_alignBottom="@+id/textCantidad"
+        android:layout_alignRight="@+id/textPrecio"
+        android:layout_alignEnd="@+id/textPrecio" />
 
 </RelativeLayout>

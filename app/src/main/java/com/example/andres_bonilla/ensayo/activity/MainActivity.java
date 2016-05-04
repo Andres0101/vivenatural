@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // Dialogo de espera
                 final ProgressDialog dlg = new ProgressDialog(MainActivity.this);
-                dlg.setTitle("Iniciando sesión.");
-                dlg.setMessage("Por favor espere.");
+                dlg.setTitle("Iniciando sesión");
+                dlg.setMessage("Por favor espere");
                 dlg.show();
 
                 myRef.authWithPassword(email.getText().toString(), password.getText().toString(), new Firebase.AuthResultHandler() {
@@ -139,11 +139,11 @@ public class MainActivity extends AppCompatActivity {
                         switch (firebaseError.getCode()) {
                             case FirebaseError.USER_DOES_NOT_EXIST:
                                 // handle a non existing user
-                                Toast.makeText(MainActivity.this, "Usuario no existe.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "Usuario no existe", Toast.LENGTH_LONG).show();
                                 break;
                             case FirebaseError.INVALID_PASSWORD:
                                 // handle an invalid password
-                                Toast.makeText(MainActivity.this, "Contraseña incorrecta.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "Contraseña incorrecta", Toast.LENGTH_LONG).show();
                                 break;
                             default:
                                 // handle other errors

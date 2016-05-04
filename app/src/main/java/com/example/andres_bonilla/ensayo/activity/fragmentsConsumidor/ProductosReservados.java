@@ -1,11 +1,15 @@
 package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
+import com.example.andres_bonilla.ensayo.activity.classes.SuccessReserve;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -38,7 +42,7 @@ public class ProductosReservados extends Fragment {
 
     private List<Reserve> myReserves = new ArrayList<>();
 
-    private Product clickedProduct;
+    private Reserve clickedProduct;
 
     private TextView textoNoHay;
 
@@ -46,6 +50,7 @@ public class ProductosReservados extends Fragment {
 
     private Typeface texto;
     private Typeface regular;
+    private Typeface medium;
 
     private ProgressBar reserveProgress;
 
@@ -77,6 +82,10 @@ public class ProductosReservados extends Fragment {
         regular = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Regular.ttf");
+
+        medium = Typeface.createFromAsset(
+                getActivity().getAssets(),
+                "fonts/Roboto-Medium.ttf");
 
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
@@ -172,7 +181,7 @@ public class ProductosReservados extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                clickedProduct = myProducts.get(position);
+                clickedProduct = myReserves.get(position);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("nombreProducto", clickedProduct.getNombreProducto());
@@ -198,7 +207,7 @@ public class ProductosReservados extends Fragment {
             }
 
             //Encontrar productos reservados
-            Reserve currentProductReserve = myReserves.get(position);
+            final Reserve currentProductReserve = myReserves.get(position);
 
             //LLenar el View
             ImageView imageView = (ImageView) productsView.findViewById(R.id.imageProduct);
@@ -225,6 +234,50 @@ public class ProductosReservados extends Fragment {
             TextView textNameProducer = (TextView) productsView.findViewById(R.id.textNameProducer);
             textNameProducer.setTypeface(texto);
             textNameProducer.setText(currentProductReserve.getReservadoA());
+
+            final ImageView check = (ImageView) productsView.findViewById(R.id.check);
+            check.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                    // Setting Dialog Content
+                    builder1.setMessage("Has reclamado el producto " + currentProductReserve.getProducto() + " de " + currentProductReserve.getReservadoA());
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton(
+                            "Confirmar",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    int color = Color.parseColor("#378F43");
+                                    check.setColorFilter(color);
+
+                                    // Agrega producto reclamado a la base de datos
+                                    Firebase productRef = myRef.child("successReserves");
+                                    SuccessReserve newSuccessReserve = new SuccessReserve(currentProductReserve.getProducto(), currentProductReserve.getReservadoPor(), currentProductReserve.getReservadoA(), currentProductReserve.getCantidadReservada(), currentProductReserve.getPrecio());
+                                    productRef.push().setValue(newSuccessReserve);
+                                }
+                            });
+
+                    builder1.setNegativeButton(
+                            "No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    Dialog alert11 = builder1.create();
+                    alert11.show();
+
+                    //Change message text font
+                    /*TextView content = ((TextView) alert11.findViewById(android.R.id.message));
+                    content.setTypeface(texto);*/
+                    //Change dialog button text font
+                    TextView textButtonUno = ((TextView) alert11.findViewById(android.R.id.button1));
+                    textButtonUno.setTypeface(medium);
+                    TextView textButtonDos = ((TextView) alert11.findViewById(android.R.id.button2));
+                    textButtonDos.setTypeface(medium);
+                }
+            });
 
             return productsView;
         }
