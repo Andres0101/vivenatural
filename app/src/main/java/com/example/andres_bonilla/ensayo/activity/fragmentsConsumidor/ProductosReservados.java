@@ -1,16 +1,11 @@
 package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +16,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.example.andres_bonilla.ensayo.activity.classes.SuccessReserve;
 import com.firebase.client.DataSnapshot;
@@ -55,12 +48,13 @@ public class ProductosReservados extends Fragment {
 
     private Typeface texto;
     private Typeface regular;
-    private Typeface medium;
 
     private ProgressBar reserveProgress;
 
     private Boolean pinto;
     private Boolean puederReclamar;
+
+    private long fechaReserva;
 
     public ProductosReservados() {
         // Required empty public constructor
@@ -89,10 +83,6 @@ public class ProductosReservados extends Fragment {
         regular = Typeface.createFromAsset(
                 getActivity().getAssets(),
                 "fonts/Roboto-Regular.ttf");
-
-        medium = Typeface.createFromAsset(
-                getActivity().getAssets(),
-                "fonts/Roboto-Medium.ttf");
 
         // Obtiene el nombre de la persona que inicia sesión.
         nombreDelConsumidor = getArguments().getString("nombreDelConsumidor");
@@ -250,34 +240,29 @@ public class ProductosReservados extends Fragment {
                 public void onClick(View v) {
                     if (puederReclamar) {
                         if (checkBox.isChecked()) {
-                            System.out.println("Agregó el producto " + currentProductReserve.getProducto());
+                            fechaReserva = System.currentTimeMillis();
                             // Agrega producto reclamado a la base de datos
-                            Firebase reservesRef = myRef.child("successReserves");
-                            SuccessReserve newSuccessReserve = new SuccessReserve(currentProductReserve.getProducto(), currentProductReserve.getReservadoPor(), currentProductReserve.getReservadoA(), currentProductReserve.getCantidadReservada(), currentProductReserve.getPrecio());
-                            reservesRef.push().setValue(newSuccessReserve);
+                            Firebase reservesRef = myRef.child("successReserves").child(nombreDelConsumidor + ": " + currentProductReserve.getProducto() + " de " + currentProductReserve.getReservadoA() + " la fecha " + fechaReserva);
+                            SuccessReserve newSuccessReserve = new SuccessReserve(currentProductReserve.getProducto(), nombreDelConsumidor, currentProductReserve.getReservadoA(), currentProductReserve.getCantidadReservada(), currentProductReserve.getPrecio(), fechaReserva);
+                            reservesRef.setValue(newSuccessReserve);
                         } else {
-                            /*successReserves.addListenerForSingleValueEvent(new ValueEventListener() {
+                            // Lee los datos de las reservas exitosas
+                            successReserves.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot snapshot) {
-                                    System.out.println("Value: " + snapshot.getValue());
-                                    System.out.println("Ref: " + snapshot.getRef());
                                     for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                                         SuccessReserve successReserve = postSnapshot.getValue(SuccessReserve.class);
 
-                                        if (successReserve.getReservadoPor().equals(nombreDelConsumidor) && currentProductReserve.getProducto().equals(successReserve.getProducto()) && currentProductReserve.getReservadoA().equals(successReserve.getReservadoA())) {
-                                            System.out.println("Producto: " + currentProductReserve.getProducto() + " con Key: " + successReserve.getClass());
-                                        }
+                                        //Elimina el producto  de la base de datos
+                                        Firebase deleteProduct = myRef.child("successReserves").child(nombreDelConsumidor + ": " + currentProductReserve.getProducto() + " de " + currentProductReserve.getReservadoA() + " la fecha " + successReserve.getFecha());
+                                        deleteProduct.removeValue();
                                     }
                                 }
 
                                 @Override
                                 public void onCancelled(FirebaseError firebaseError) {
                                 }
-                            });*/
-                            System.out.println("Eliminó el producto " + currentProductReserve.getProducto());
-                            /*//Elimina el producto
-                            Firebase deleteProduct = myRef.child("successReserves").child(nombreDelProductor + ": " + nombreDelProducto);
-                            deleteProduct.removeValue();*/
+                            });
                         }
                     }
                 }
@@ -314,6 +299,8 @@ public class ProductosReservados extends Fragment {
                         });
                     } else {
                         System.out.println("No hay pedidos reclamados con éxito ®");
+                        checkBox.setEnabled(true);
+                        puederReclamar = true;
                     }
                 }
 
