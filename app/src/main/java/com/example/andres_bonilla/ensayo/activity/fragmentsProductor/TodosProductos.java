@@ -40,6 +40,9 @@ public class TodosProductos extends Fragment {
     private ArrayList<String> mylistProduct = new ArrayList<>();
     private ArrayList<String> mylistProductNoDuplicate = new ArrayList<>();
 
+    private ArrayList<String> myListMarketProduct = new ArrayList<>();
+    private ArrayList<Double> myListMarketProductCantidad = new ArrayList<>();
+
     private TextView textoNoHay;
 
     private Typeface texto;
@@ -48,8 +51,7 @@ public class TodosProductos extends Fragment {
     private ProgressBar progress;
 
     private Boolean pinto;
-
-    private int i;
+    private Boolean ya;
 
     public TodosProductos() {
         // Required empty public constructor
@@ -84,6 +86,7 @@ public class TodosProductos extends Fragment {
         textoNoHay.setVisibility(View.GONE);
 
         pinto = false;
+        ya = false;
 
         listaBaseDatos();
         listView();
@@ -109,10 +112,13 @@ public class TodosProductos extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    MarketProduct marketProduct = postSnapshot.getValue(MarketProduct.class);
                     progress.setVisibility(View.GONE);
 
                     marketProductList.add(postSnapshot.getValue(MarketProduct.class));
                     pinto = true;
+
+                    myListMarketProduct.add(marketProduct.getNombre());
 
                     // We notify the data model is changed
                     adapter.notifyDataSetChanged();
@@ -123,83 +129,40 @@ public class TodosProductos extends Fragment {
                         textoNoHay.setVisibility(View.VISIBLE);
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            }
-        });
-
-
-        // Lee los datos de las reservas
-        reserves.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    Reserve reserve = postSnapshot.getValue(Reserve.class);
-
-                    mylistProduct.add(reserve.getProducto());
-
-                    /*if (currentMarketProduct.getNombre().equals(reserve.getProducto())) {
-                        mylistProduct.add(reserve.getProducto());
-                    } else {
-                            System.out.println(currentMarketProduct.getNombre() + " no tiene reservas");
-                        }*/
-                }
-
-                System.out.println("Estos son los productos: " + mylistProduct);
-
-                // Remove duplicates from ArrayList of Strings.
-                ArrayList<String> unique = removeDuplicates(mylistProduct);
-                for (String element : unique) {
-                    mylistProductNoDuplicate.add(element); //Agrega los elementos sin duplicados a un nuevo arrayList
-                }
-                System.out.println("ArrayList sin elementos duplicados: " + mylistProductNoDuplicate);
-
-                //for (i = 0; i < mylistProductNoDuplicate.size(); i++) {
+                for (int i = 0; i < myListMarketProduct.size(); i++) {
                     // Lee los datos de las reservas
+                    final int finalI = i;
                     reserves.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
+                            double sumaCantidad = 0;
                             for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                                 Reserve reserve = postSnapshot.getValue(Reserve.class);
 
-                                if (reserve.getProducto().equals(mylistProductNoDuplicate.get(0))) {
-                                    System.out.println("Producto: " + mylistProductNoDuplicate.get(0) + " Cantidad: " + reserve.getCantidadReservada());
+                                if (reserve.getProducto().equals(myListMarketProduct.get(finalI))) {
+                                    sumaCantidad = sumaCantidad+reserve.getCantidadReservada();
+                                    System.out.println("Producto: " + reserve.getProducto() + " Cantidad: " + reserve.getCantidadReservada());
                                 }
                             }
+                            System.out.println(sumaCantidad);
+                            //Agregar al arraList
+                            myListMarketProductCantidad.add(sumaCantidad);
+                            ya = true;
+                            System.out.println("------------");
                         }
 
                         @Override
                         public void onCancelled(FirebaseError firebaseError) {
                         }
                     });
-                //}
+                }
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
-    }
-
-    public static ArrayList<String> removeDuplicates(ArrayList<String> list) {
-
-        // Store unique items in result.
-        ArrayList<String> result = new ArrayList<>();
-
-        // Record encountered Strings in HashSet.
-        HashSet<String> set = new HashSet<>();
-
-        // Loop over argument list.
-        for (String item : list) {
-            // If String is not in set, add it to the list and the set.
-            if (!set.contains(item)) {
-                result.add(item);
-                set.add(item);
-            }
-        }
-        return result;
     }
 
     private void listView() {
@@ -239,7 +202,12 @@ public class TodosProductos extends Fragment {
             //Cantidad:
             TextView textCantidad = (TextView) productsView.findViewById(R.id.textCantidad);
             textCantidad.setTypeface(texto);
-            textCantidad.setText("0.0 lb");
+
+
+            if (ya) {
+                System.out.println("Las sumas dos: " + myListMarketProductCantidad.get(position));
+                textCantidad.setText(myListMarketProductCantidad.get(position) + " lb");
+            }
 
             return productsView;
         }
