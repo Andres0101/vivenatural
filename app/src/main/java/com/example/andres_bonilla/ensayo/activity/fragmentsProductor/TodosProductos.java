@@ -24,7 +24,6 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class TodosProductos extends Fragment {
@@ -37,8 +36,6 @@ public class TodosProductos extends Fragment {
     MyListAdapter adapter;
 
     private List<MarketProduct> marketProductList = new ArrayList<>();
-    private ArrayList<String> mylistProduct = new ArrayList<>();
-    private ArrayList<String> mylistProductNoDuplicate = new ArrayList<>();
 
     private ArrayList<String> myListMarketProduct = new ArrayList<>();
     private ArrayList<Double> myListMarketProductCantidad = new ArrayList<>();
@@ -51,7 +48,7 @@ public class TodosProductos extends Fragment {
     private ProgressBar progress;
 
     private Boolean pinto;
-    private Boolean ya;
+    private Boolean yaAgrego;
 
     public TodosProductos() {
         // Required empty public constructor
@@ -86,7 +83,7 @@ public class TodosProductos extends Fragment {
         textoNoHay.setVisibility(View.GONE);
 
         pinto = false;
-        ya = false;
+        yaAgrego = false;
 
         listaBaseDatos();
         listView();
@@ -141,15 +138,20 @@ public class TodosProductos extends Fragment {
                                 Reserve reserve = postSnapshot.getValue(Reserve.class);
 
                                 if (reserve.getProducto().equals(myListMarketProduct.get(finalI))) {
-                                    sumaCantidad = sumaCantidad+reserve.getCantidadReservada();
+                                    sumaCantidad = sumaCantidad + reserve.getCantidadReservada();
                                     System.out.println("Producto: " + reserve.getProducto() + " Cantidad: " + reserve.getCantidadReservada());
                                 }
                             }
                             System.out.println(sumaCantidad);
                             //Agregar al arraList
                             myListMarketProductCantidad.add(sumaCantidad);
-                            ya = true;
                             System.out.println("------------");
+
+                            System.out.println("Como van las apuestas " + myListMarketProductCantidad.size() + "/" + myListMarketProduct.size());
+
+                            if (myListMarketProductCantidad.size() == myListMarketProduct.size()) {
+                                yaAgrego = true;
+                            }
                         }
 
                         @Override
@@ -203,9 +205,9 @@ public class TodosProductos extends Fragment {
             TextView textCantidad = (TextView) productsView.findViewById(R.id.textCantidad);
             textCantidad.setTypeface(texto);
 
-
-            if (ya) {
-                System.out.println("Las sumas dos: " + myListMarketProductCantidad.get(position));
+            if (yaAgrego) {
+                System.out.println("Que paso?");
+                System.out.println("El size: " + myListMarketProductCantidad.size());
                 textCantidad.setText(myListMarketProductCantidad.get(position) + " lb");
             }
 

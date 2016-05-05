@@ -12,7 +12,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -453,13 +452,6 @@ public class ProductosFragment extends Fragment {
 
             return productsView;
         }
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        menu.clear();    //remove all items
-        getActivity().getMenuInflater().inflate(R.menu.menu_busqueda, menu);
     }
 
     @Override
