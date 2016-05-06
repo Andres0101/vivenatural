@@ -151,6 +151,7 @@ public class TodosProductos extends Fragment {
 
                             if (myListMarketProductCantidad.size() == myListMarketProduct.size()) {
                                 yaAgrego = true;
+                                listView();
                             }
                         }
 
@@ -206,8 +207,6 @@ public class TodosProductos extends Fragment {
             textCantidad.setTypeface(texto);
 
             if (yaAgrego) {
-                System.out.println("Que paso?");
-                System.out.println("El size: " + myListMarketProductCantidad.size());
                 textCantidad.setText(myListMarketProductCantidad.get(position) + " lb");
             }
 

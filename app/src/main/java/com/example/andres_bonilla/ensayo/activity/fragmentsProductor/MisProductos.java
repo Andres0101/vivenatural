@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
+import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -31,10 +32,14 @@ public class MisProductos extends Fragment {
 
     private Firebase myRef;
     private Firebase productos;
+    private Firebase reserves;
 
     MyListAdapter adapter;
 
     private List<Product> myProducts = new ArrayList<>();
+
+    private ArrayList<String> myOwnProduct = new ArrayList<>();
+    private ArrayList<Double> myOwnProductCantidad = new ArrayList<>();
 
     private TextView textoNoHay;
 
@@ -46,12 +51,14 @@ public class MisProductos extends Fragment {
     private ProgressBar progress;
 
     private Boolean pinto;
+    private Boolean yaAgrego;
 
     public MisProductos() {
         // Required empty public constructor
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
         productos = myRef.child("products");
+        reserves = myRef.child("reserves");
     }
 
     @Override
@@ -82,6 +89,7 @@ public class MisProductos extends Fragment {
         textoNoHay.setVisibility(View.GONE);
 
         pinto = false;
+        yaAgrego = false;
 
         listaBaseDatos();
         listView();
@@ -121,6 +129,8 @@ public class MisProductos extends Fragment {
                                     myProducts.add(postSnapshot.getValue(Product.class));
                                     pinto = true;
 
+                                    myOwnProduct.add(product.getNombreProducto());
+
                                     // We notify the data model is changed
                                     adapter.notifyDataSetChanged();
                                 } else {
@@ -132,6 +142,40 @@ public class MisProductos extends Fragment {
                                 } else {
                                     textoNoHay.setVisibility(View.VISIBLE);
                                 }
+                            }
+
+                            for (int i = 0; i < myOwnProduct.size(); i++) {
+                                // Lee los datos de las reservas
+                                final int finalI = i;
+                                reserves.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshot) {
+                                        double sumaCantidad = 0;
+                                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                            Reserve reserve = postSnapshot.getValue(Reserve.class);
+
+                                            if (reserve.getProducto().equals(myOwnProduct.get(finalI))) {
+                                                sumaCantidad = sumaCantidad + reserve.getCantidadReservada();
+                                                System.out.println("Producto: " + reserve.getProducto() + " Cantidad: " + reserve.getCantidadReservada());
+                                            }
+                                        }
+                                        System.out.println(sumaCantidad);
+                                        //Agregar al arraList
+                                        myOwnProductCantidad.add(sumaCantidad);
+                                        System.out.println("------------");
+
+                                        System.out.println("Como van las apuestas " + myOwnProductCantidad.size() + "/" + myOwnProduct.size());
+
+                                        if (myOwnProductCantidad.size() == myOwnProduct.size()) {
+                                            yaAgrego = true;
+                                            listView();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+                                    }
+                                });
                             }
                         }
 
@@ -189,7 +233,10 @@ public class MisProductos extends Fragment {
             //Cantidad:
             TextView textCantidad = (TextView) productsView.findViewById(R.id.textCantidad);
             textCantidad.setTypeface(texto);
-            textCantidad.setText(currentProduct.getCantidad() + " lb");
+
+            if (yaAgrego) {
+                textCantidad.setText(myOwnProductCantidad.get(position) + " lb");
+            }
 
             return productsView;
         }
