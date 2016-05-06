@@ -139,15 +139,11 @@ public class TodosProductos extends Fragment {
 
                                 if (reserve.getProducto().equals(myListMarketProduct.get(finalI))) {
                                     sumaCantidad = sumaCantidad + reserve.getCantidadReservada();
-                                    System.out.println("Producto: " + reserve.getProducto() + " Cantidad: " + reserve.getCantidadReservada());
                                 }
                             }
-                            System.out.println(sumaCantidad);
+
                             //Agregar al arraList
                             myListMarketProductCantidad.add(sumaCantidad);
-                            System.out.println("------------");
-
-                            System.out.println("Como van las apuestas " + myListMarketProductCantidad.size() + "/" + myListMarketProduct.size());
 
                             if (myListMarketProductCantidad.size() == myListMarketProduct.size()) {
                                 yaAgrego = true;
