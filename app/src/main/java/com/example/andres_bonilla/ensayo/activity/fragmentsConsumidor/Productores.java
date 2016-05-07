@@ -3,6 +3,7 @@ package com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.VerDetalleProductor;
+import com.example.andres_bonilla.ensayo.activity.classes.Rate;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -32,7 +34,9 @@ import java.util.List;
 public class Productores extends Fragment {
 
     private View rootView;
+    private Firebase myRef;
     private Firebase usuarios;
+    private Firebase rates;
 
     private SwipeRefreshLayout swipeContainer;
 
@@ -48,15 +52,22 @@ public class Productores extends Fragment {
     private User clickedProducer;
     private List<User> productores = new ArrayList<>();
 
+    private ArrayList<String> myUsers = new ArrayList<>();
+    private ArrayList<Integer> myRatesCantidad = new ArrayList<>();
+    private ArrayList<Integer> myRatesCantidadTotal = new ArrayList<>();
+    private ArrayList<Integer> userArray = new ArrayList<>();
+
     private ProgressBar progress;
 
     private Boolean pinto;
+    private Boolean yaAgrego;
 
     public Productores() {
         // Required empty public constructor
 
-        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        myRef = new Firebase("https://vivenatural.firebaseio.com/");
         usuarios = myRef.child("users");
+        rates = myRef.child("rates");
     }
 
     @Override
@@ -105,6 +116,7 @@ public class Productores extends Fragment {
         progress = (ProgressBar) rootView.findViewById(R.id.progress);
 
         pinto = false;
+        yaAgrego = false;
 
         listaBaseDatos();
 
@@ -116,30 +128,96 @@ public class Productores extends Fragment {
     }
 
     private void listaBaseDatos(){
-        // Lee los datos de los productos
-        usuarios.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    User user = postSnapshot.getValue(User.class);
+                if (snapshot.hasChild("rates")) {
+                    System.out.println("Si hay calificaciones ®");
+                    // Lee los datos de los productos
+                    usuarios.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                User user = postSnapshot.getValue(User.class);
 
-                    //Si el nombre del productor coincide con el que inicio sesión entonces...
-                    if (user.getRol().equals("Productor")) {
-                        progress.setVisibility(View.GONE);
-                        productores.add(postSnapshot.getValue(User.class));
-                        pinto = true;
+                                //Si el nombre del productor coincide con el que inicio sesión entonces...
+                                if (user.getRol().equals("Productor")) {
+                                    progress.setVisibility(View.GONE);
+                                    productores.add(postSnapshot.getValue(User.class));
+                                    pinto = true;
 
-                        // We notify the data model is changed
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        progress.setVisibility(View.GONE);
-                    }
+                                    myUsers.add(user.getNombre());
 
-                    if (pinto) {
-                        textoNoHay.setVisibility(View.GONE);
-                    } else {
-                        textoNoHay.setVisibility(View.VISIBLE);
-                    }
+                                    // We notify the data model is changed
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    progress.setVisibility(View.GONE);
+                                }
+
+                                if (pinto) {
+                                    textoNoHay.setVisibility(View.GONE);
+                                } else {
+                                    textoNoHay.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                            for (int i = 0; i < myUsers.size(); i++) {
+                                // Lee los datos de las reservas
+                                final int finalI = i;
+                                rates.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshot) {
+                                        Integer sumaCantidad = 0;
+                                        Integer productor = 0;
+                                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                            Rate rate = postSnapshot.getValue(Rate.class);
+
+                                            if (rate.getCalificoA().equals(myUsers.get(finalI))) {
+                                                sumaCantidad = sumaCantidad + rate.getCalificacion();
+                                                productor = productor + 1;
+                                            }
+                                        }
+                                        //Agregar al arraList
+                                        myRatesCantidad.add(sumaCantidad);
+                                        userArray.add(productor);
+
+                                        System.out.println(sumaCantidad);
+                                        System.out.println("#Productores: " + productor);
+                                        System.out.println("-----------------------------");
+
+                                        if (myRatesCantidad.size() == myUsers.size()) {
+                                            for (int i = 0; i < myRatesCantidad.size(); i++) {
+                                                Integer calificaionTotal = 0;
+                                                    if (userArray.get(i) != 0) {
+                                                        calificaionTotal = calificaionTotal + (myRatesCantidad.get(i)/userArray.get(i));
+                                                    } else {
+                                                        calificaionTotal = calificaionTotal + myRatesCantidad.get(i);
+                                                    }
+                                                //Agregar al arraList
+                                                myRatesCantidadTotal.add(calificaionTotal);
+                                                System.out.println("Estas son las calificaciones: " + myRatesCantidadTotal);
+                                            }
+
+                                            if (myRatesCantidadTotal.size() == myUsers.size()) {
+                                                yaAgrego = true;
+                                                listView();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                        }
+                    });
+                } else {
+                    System.out.println("No hay calificaciones ®");
                 }
             }
 
@@ -215,10 +293,22 @@ public class Productores extends Fragment {
             nombreProductor.setTypeface(text);
             nombreProductor.setText(currentProducer.getNombre());
 
+            ImageView iconStar = (ImageView) producersView.findViewById(R.id.iconStar);
+
             //Calificación:
             TextView textViewCalificacion = (TextView) producersView.findViewById(R.id.textViewCalificacion);
             textViewCalificacion.setTypeface(editText);
-            textViewCalificacion.setText("0/5");
+
+            if (yaAgrego) {
+                textViewCalificacion.setText(myRatesCantidadTotal.get(position) + "/5");
+                if (myRatesCantidadTotal.get(position) <= 2) {
+                    iconStar.setColorFilter(Color.parseColor("#B6B6B6"));
+                } else if (myRatesCantidadTotal.get(position) == 3) {
+                    iconStar.setColorFilter(Color.parseColor("#EBC775"));
+                } else if (myRatesCantidadTotal.get(position) >= 4) {
+                    iconStar.setColorFilter(Color.parseColor("#FFC107"));
+                }
+            }
 
             return producersView;
         }

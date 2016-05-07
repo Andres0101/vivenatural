@@ -31,8 +31,7 @@
         android:layout_marginStart="-7dp"
         android:layout_below="@+id/textNameProducer"
         android:layout_toRightOf="@+id/imageProducer"
-        android:layout_toEndOf="@+id/imageProducer"
-        android:tint="#FFC107"/>
+        android:layout_toEndOf="@+id/imageProducer"/>
 
     <TextView
         android:id="@+id/textViewCalificacion"
@@ -40,7 +39,7 @@
         android:layout_height="wrap_content"
         android:textColor="#4C4C4C"
         android:textSize="16sp"
-        android:text="Small Text"
+        android:text=""
         android:layout_below="@+id/textNameProducer"
         android:layout_toRightOf="@+id/iconStar"
         android:layout_toEndOf="@+id/iconStar"/>

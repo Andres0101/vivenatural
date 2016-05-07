@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.VerDetalleProductoProductor;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
+import com.example.andres_bonilla.ensayo.activity.classes.Rate;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -33,6 +34,7 @@ import java.util.List;
 public class VerProductoMarketFragment extends Fragment {
 
     private Firebase products;
+    private Firebase rates;
 
     private Product clickedProducer;
 
@@ -51,15 +53,22 @@ public class VerProductoMarketFragment extends Fragment {
 
     private List<Product> myProducers = new ArrayList<>();
 
+    private ArrayList<String> myUsers = new ArrayList<>();
+    private ArrayList<Integer> myRatesCantidad = new ArrayList<>();
+    private ArrayList<Integer> myRatesCantidadTotal = new ArrayList<>();
+    private ArrayList<Integer> userArray = new ArrayList<>();
+
     private ProgressBar producerProgress;
 
     private Boolean pinto;
+    private Boolean yaAgrego;
 
     public VerProductoMarketFragment() {
         // Required empty public constructor
 
         Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
         products = myRef.child("products");
+        rates = myRef.child("rates");
     }
 
     @Override
@@ -95,6 +104,7 @@ public class VerProductoMarketFragment extends Fragment {
         producerProgress = (ProgressBar) rootView.findViewById(R.id.producerProgress);
 
         pinto = false;
+        yaAgrego = false;
 
         listaBaseDatos();
         listView();
@@ -119,6 +129,8 @@ public class VerProductoMarketFragment extends Fragment {
 
                         pinto = true;
 
+                        myUsers.add(product.getProductor());
+
                         // We notify the data model is changed
                         adapter.notifyDataSetChanged();
                     } else {
@@ -130,6 +142,56 @@ public class VerProductoMarketFragment extends Fragment {
                     } else {
                         nohayProductores.setVisibility(View.VISIBLE);
                     }
+                }
+
+                for (int i = 0; i < myUsers.size(); i++) {
+                    // Lee los datos de las reservas
+                    final int finalI = i;
+                    rates.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            Integer sumaCantidad = 0;
+                            Integer productor = 0;
+                            for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                Rate rate = postSnapshot.getValue(Rate.class);
+
+                                if (rate.getCalificoA().equals(myUsers.get(finalI))) {
+                                    sumaCantidad = sumaCantidad + rate.getCalificacion();
+                                    productor = productor + 1;
+                                }
+                            }
+                            //Agregar al arraList
+                            myRatesCantidad.add(sumaCantidad);
+                            userArray.add(productor);
+
+                            System.out.println(sumaCantidad);
+                            System.out.println("#Productores: " + productor);
+                            System.out.println("-----------------------------");
+
+                            if (myRatesCantidad.size() == myUsers.size()) {
+                                for (int i = 0; i < myRatesCantidad.size(); i++) {
+                                    Integer calificaionTotal = 0;
+                                    if (userArray.get(i) != 0) {
+                                        calificaionTotal = calificaionTotal + (myRatesCantidad.get(i)/userArray.get(i));
+                                    } else {
+                                        calificaionTotal = calificaionTotal + myRatesCantidad.get(i);
+                                    }
+                                    //Agregar al arraList
+                                    myRatesCantidadTotal.add(calificaionTotal);
+                                    System.out.println("Estas son las calificaciones: " + myRatesCantidadTotal);
+                                }
+
+                                if (myRatesCantidadTotal.size() == myUsers.size()) {
+                                    yaAgrego = true;
+                                    listView();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                        }
+                    });
                 }
             }
 
@@ -204,18 +266,34 @@ public class VerProductoMarketFragment extends Fragment {
             //Calificación:
             TextView textViewCalificacion = (TextView) productsView.findViewById(R.id.textViewCalificacion);
             textViewCalificacion.setTypeface(editText);
-            textViewCalificacion.setText("0/5");
 
             ImageView iconStar = (ImageView) productsView.findViewById(R.id.iconStar);
 
             if (currentProductProducer.getCantidad() == 0.0) {
                 nombreProductor.setTextColor(Color.parseColor("#B6B6B6"));
                 textViewCalificacion.setTextColor(Color.parseColor("#B6B6B6"));
-                iconStar.setColorFilter(Color.parseColor("#B6B6B6"));
             } else {
                 nombreProductor.setTextColor(Color.parseColor("#000000"));
                 textViewCalificacion.setTextColor(Color.parseColor("#4C4C4C"));
-                iconStar.setColorFilter(Color.parseColor("#FFC107"));
+            }
+
+            if (yaAgrego) {
+                textViewCalificacion.setText(myRatesCantidadTotal.get(position) + "/5");
+                if (myRatesCantidadTotal.get(position) <= 2) {
+                    iconStar.setColorFilter(Color.parseColor("#B6B6B6"));
+                } else if (myRatesCantidadTotal.get(position) == 3) {
+                    if (currentProductProducer.getCantidad() == 0.0) {
+                        iconStar.setColorFilter(Color.parseColor("#B6B6B6"));
+                    } else {
+                        iconStar.setColorFilter(Color.parseColor("#EBC775"));
+                    }
+                } else if (myRatesCantidadTotal.get(position) >= 4) {
+                    if (currentProductProducer.getCantidad() == 0.0) {
+                        iconStar.setColorFilter(Color.parseColor("#B6B6B6"));
+                    } else {
+                        iconStar.setColorFilter(Color.parseColor("#FFC107"));
+                    }
+                }
             }
 
             return productsView;

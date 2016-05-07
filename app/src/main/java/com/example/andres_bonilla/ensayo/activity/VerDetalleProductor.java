@@ -1,5 +1,6 @@
 package com.example.andres_bonilla.ensayo.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,19 +11,25 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.classes.Product;
+import com.example.andres_bonilla.ensayo.activity.classes.Rate;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -34,6 +41,7 @@ import java.util.List;
 
 public class VerDetalleProductor extends AppCompatActivity {
 
+    private Firebase myRef;
     private Firebase products;
 
     private Product clickedProduct;
@@ -57,6 +65,8 @@ public class VerDetalleProductor extends AppCompatActivity {
     private ProgressBar descriptionProgress;
     private ProgressBar productProgress;
 
+    private RatingBar calificar;
+
     private Boolean pinto;
 
     @Override
@@ -79,7 +89,7 @@ public class VerDetalleProductor extends AppCompatActivity {
         // Set the padding to match the Status Bar height
         toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
 
-        Firebase myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        myRef = new Firebase("https://vivenatural.firebaseio.com/");
         products = myRef.child("products");
 
         productProgress = (ProgressBar) findViewById(R.id.productProgress);
@@ -289,6 +299,13 @@ public class VerDetalleProductor extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_calificar, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -297,6 +314,45 @@ public class VerDetalleProductor extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 super.onBackPressed();
+                return true;
+
+            case R.id.calificar:
+                final Dialog d = new Dialog(VerDetalleProductor.this);
+
+                d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                d.setContentView(R.layout.rate);
+                d.setCancelable(true);
+
+                calificar = (RatingBar) d.findViewById(R.id.ratingBar);
+
+                Button readyToAdd = (Button) d.findViewById(R.id.done);
+                readyToAdd.setTypeface(textCantidad);
+                readyToAdd.setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        // Agrega producto a la base de datos
+                        Firebase rateRef = myRef.child("rates").child(nombreDelConsumidor + " a " + nombreDelProductor);
+                        Rate newrate = new Rate(nombreDelConsumidor, nombreDelProductor, (int)calificar.getRating());
+                        rateRef.setValue(newrate);
+
+                        Toast.makeText(VerDetalleProductor.this,
+                                String.valueOf("Calificación realizada con éxito!"),
+                                Toast.LENGTH_SHORT).show();
+
+                        d.dismiss();
+                    }
+                });
+
+                Button cancel = (Button) d.findViewById(R.id.cancel);
+                cancel.setTypeface(textCantidad);
+                cancel.setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        d.dismiss();
+                    }
+                });
+
+                d.show();
                 return true;
 
             default:
