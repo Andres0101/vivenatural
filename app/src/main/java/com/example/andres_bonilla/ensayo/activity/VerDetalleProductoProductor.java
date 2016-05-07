@@ -8,8 +8,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,6 +77,10 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
     MyListAdapter adapter;
 
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     private List<Comment> myComments = new ArrayList<>();
 
     private Boolean agregandoComentario;
@@ -120,8 +127,17 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         commentProgress = (ProgressBar) findViewById(R.id.commentProgress);
 
         pinto = false;
-
         agregandoComentario = false;
+
+        /*mRecyclerView = (RecyclerView) findViewById(R.id.commentsRecyclerView);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setNestedScrollingEnabled(false);*/
 
         listaBaseDatos();
         listView();
@@ -337,6 +353,11 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
     }
 
     private void listView() {
+        // specify an adapter (see also next example)
+        /*mAdapter = new MyAdapter(myComments);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();*/
+
         adapter = new MyListAdapter();
         ListView list = (ListView) findViewById(R.id.commentsListView);
         list.setAdapter(adapter);
@@ -561,4 +582,76 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
         }
     }
+
+    /*private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+        private List<Comment> myComments;
+
+        // Provide a reference to the views for each data item
+        // Complex data items may need more than one view per item, and
+        // you provide access to all the views for a data item in a view holder
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            // each data item is just a string in this case
+            public View view;
+            public ViewHolder(View v) {
+                super(v);
+                view = v;
+            }
+        }
+
+        // Provide a suitable constructor (depends on the kind of dataset)
+        public MyAdapter(List<Comment> myComments) {
+            this.myComments = myComments;
+        }
+
+        // Create new views (invoked by the layout manager)
+        @Override
+        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                       int viewType) {
+            // create a new view
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.comment_view, parent, false);
+            // set the view's size, margins, paddings and layout parameters
+            return new ViewHolder(v);
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+
+            //Encontrar el comentario
+            Comment currentComment = myComments.get(position);
+
+            //LLenar el View
+            ImageView imageView = (ImageView) holder.view.findViewById(R.id.imageConsumer);
+            if (!currentComment.getImagenConsumidor().equals("")) {
+                String imagenConsumerComment = currentComment.getImagenConsumidor();
+                Bitmap imagenConsumidor = StringToBitMap(imagenConsumerComment);
+                imageView.setImageBitmap(imagenConsumidor);
+            } else {
+                imageView.setImageResource(R.drawable.no_image_profile);
+            }
+
+            //Nombre:
+            TextView nombreConsumidor = (TextView) holder.view.findViewById(R.id.textNameConsumer);
+            nombreConsumidor.setTypeface(text);
+            //Si el consumidor que puso el comentario es el mismo que está en sesión, entonces...
+            if (currentComment.getHechoPor().equals(nombreDelConsumidor)) {
+                nombreConsumidor.setText("Tú");
+            } else {
+                nombreConsumidor.setText(currentComment.getHechoPor());
+            }
+
+            //Comentario:
+            TextView textoComentario = (TextView) holder.view.findViewById(R.id.textViewComentario);
+            textoComentario.setTypeface(editText);
+            textoComentario.setText(currentComment.getComentario());
+
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        @Override
+        public int getItemCount() {
+            return myComments.size();
+        }
+    }*/
 }
