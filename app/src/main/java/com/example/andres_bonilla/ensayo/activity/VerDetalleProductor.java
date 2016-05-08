@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -55,6 +56,8 @@ public class VerDetalleProductor extends AppCompatActivity {
     private TextView nohayProductos;
 
     MyListAdapter adapter;
+
+    private ListView listHeight;
 
     private Typeface editText;
     private Typeface textCantidad;
@@ -116,6 +119,8 @@ public class VerDetalleProductor extends AppCompatActivity {
         nohayProductos = (TextView) findViewById(R.id.textoInfoProductos);
         nohayProductos.setTypeface(editText);
         nohayProductos.setVisibility(View.GONE);
+
+        listHeight = (ListView) findViewById(R.id.productsListView);
 
         descripcionProductor = (EditText) findViewById(R.id.editTextDescriProducer);
         descripcionProductor.setTypeface(editText);
@@ -194,6 +199,8 @@ public class VerDetalleProductor extends AppCompatActivity {
                         myProducts.add(postSnapshot.getValue(Product.class));
                         cantidadProducto.setText(" " + myProducts.size());
 
+                        setListViewHeightBasedOnItems(listHeight);
+
                         pinto = true;
 
                         // We notify the data model is changed
@@ -214,6 +221,40 @@ public class VerDetalleProductor extends AppCompatActivity {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
+    }
+
+    //Método que obtiene el alto del listView
+    public static boolean setListViewHeightBasedOnItems(ListView listView) {
+
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = listView.getDividerHeight() *
+                    (numberOfItems - 1);
+
+            // Set list height.
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalItemsHeight + totalDividersHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+
+            return true;
+
+        } else {
+            return false;
+        }
+
     }
 
     private void listView() {

@@ -45,111 +45,124 @@
         android:layout_centerHorizontal="true" >
     </ProgressBar>
 
-    <ImageView
-        android:id="@+id/iconDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_description"
-        android:layout_below="@+id/imageProducer"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:tint="#B6B6B6" />
-
-    <EditText
-        android:id="@+id/editTextDescriProducer"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLength="140"
-        android:enabled="false"
-        android:focusable="false"
-        android:textSize="14sp"
-        android:hint="@string/cargandoDescrip"
-        android:paddingTop="5dp"
-        android:paddingBottom="0dp"
-        android:layout_alignTop="@+id/iconDescription"
-        android:layout_toRightOf="@+id/iconDescription"
-        android:layout_toEndOf="@+id/iconDescription"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imageProducer">
 
-    <ProgressBar
-        android:id="@+id/descriptionProgress"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignTop="@+id/editTextDescriProducer"
-        android:layout_alignRight="@+id/editTextDescriProducer"
-        android:layout_alignEnd="@+id/editTextDescriProducer">
-    </ProgressBar>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <View
-        android:id="@+id/divisor"
-        android:layout_width="fill_parent"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_height="1dip"
-        android:background="#B6B6B6"
-        android:layout_below="@+id/editTextDescriProducer" />
+            <ImageView
+                android:id="@+id/iconDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_description"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:tint="#B6B6B6" />
 
-    <TextView
-        android:id="@+id/textViewProducts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/divisor"
-        android:textColor="#CCCCCC"
-        android:layout_alignLeft="@+id/iconDescription"
-        android:layout_alignStart="@+id/iconDescription"
-        android:text="@string/productos" />
+            <EditText
+                android:id="@+id/editTextDescriProducer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="140"
+                android:enabled="false"
+                android:focusable="false"
+                android:textSize="14sp"
+                android:hint="@string/cargandoDescrip"
+                android:paddingTop="5dp"
+                android:paddingBottom="0dp"
+                android:layout_alignTop="@+id/iconDescription"
+                android:layout_toRightOf="@+id/iconDescription"
+                android:layout_toEndOf="@+id/iconDescription"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp" />
 
-    <TextView
-        android:id="@+id/textViewCantidadProductos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:text=" 0"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@+id/divisor"
-        android:layout_toRightOf="@+id/textViewProducts"
-        android:layout_toEndOf="@+id/textViewProducts"
-        android:textColor="#CCCCCC" />
+            <ProgressBar
+                android:id="@+id/descriptionProgress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignTop="@+id/editTextDescriProducer"
+                android:layout_alignRight="@+id/editTextDescriProducer"
+                android:layout_alignEnd="@+id/editTextDescriProducer">
+            </ProgressBar>
 
-    <ListView
-        android:id="@+id/productsListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewProducts"
-        android:layout_alignLeft="@+id/iconDescription"
-        android:layout_alignStart="@+id/iconDescription"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp" />
+            <View
+                android:id="@+id/divisor"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_height="1dip"
+                android:background="#B6B6B6"
+                android:layout_below="@+id/editTextDescriProducer" />
 
-    <ProgressBar
-        android:id="@+id/productProgress"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:layout_alignTop="@+id/productsListView"
-        android:layout_centerHorizontal="true" >
-    </ProgressBar>
+            <TextView
+                android:id="@+id/textViewProducts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_below="@+id/divisor"
+                android:textColor="#CCCCCC"
+                android:layout_alignLeft="@+id/iconDescription"
+                android:layout_alignStart="@+id/iconDescription"
+                android:text="@string/productos" />
 
-    <TextView
-        android:id="@+id/textoInfoProductos"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:layout_marginTop="70dp"
-        android:gravity="center_horizontal"
-        android:text="@string/emptyProducts"
-        android:visibility="visible"
-        android:layout_alignTop="@+id/productsListView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+            <TextView
+                android:id="@+id/textViewCantidadProductos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text=" 0"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_below="@+id/divisor"
+                android:layout_toRightOf="@+id/textViewProducts"
+                android:layout_toEndOf="@+id/textViewProducts"
+                android:textColor="#CCCCCC" />
+
+            <ListView
+                android:id="@+id/productsListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewProducts"
+                android:layout_alignLeft="@+id/iconDescription"
+                android:layout_alignStart="@+id/iconDescription"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp" />
+
+            <ProgressBar
+                android:id="@+id/productProgress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="55dp"
+                android:layout_alignTop="@+id/productsListView"
+                android:layout_centerHorizontal="true" >
+            </ProgressBar>
+
+            <TextView
+                android:id="@+id/textoInfoProductos"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginTop="70dp"
+                android:gravity="center_horizontal"
+                android:text="@string/emptyProducts"
+                android:visibility="visible"
+                android:layout_alignTop="@+id/productsListView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -77,9 +78,7 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
     MyListAdapter adapter;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private ListView listHeight;
 
     private List<Comment> myComments = new ArrayList<>();
 
@@ -129,16 +128,6 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         pinto = false;
         agregandoComentario = false;
 
-        /*mRecyclerView = (RecyclerView) findViewById(R.id.commentsRecyclerView);
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setNestedScrollingEnabled(false);*/
-
         listaBaseDatos();
         listView();
 
@@ -170,6 +159,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         nohayComentarios = (TextView) findViewById(R.id.textoInfoComentarios);
         nohayComentarios.setTypeface(editText);
         nohayComentarios.setVisibility(View.GONE);
+
+        listHeight = (ListView) findViewById(R.id.commentsListView);
 
         agregarComentario.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -289,6 +280,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
                             cantidadComentario.setText(" " + myComments.size());
                             nohayComentarios.setVisibility(View.GONE);
 
+                            setListViewHeightBasedOnItems(listHeight);
+
                             // We notify the data model is changed
                             adapter.notifyDataSetChanged();
                         }
@@ -317,6 +310,8 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
                                         myComments.add(postSnapshot.getValue(Comment.class));
                                         cantidadComentario.setText(" " + myComments.size());
+
+                                        setListViewHeightBasedOnItems(listHeight);
 
                                         pinto = true;
 
@@ -352,12 +347,41 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
         }
     }
 
-    private void listView() {
-        // specify an adapter (see also next example)
-        /*mAdapter = new MyAdapter(myComments);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();*/
+    //Método que obtiene el alto del listView
+    public static boolean setListViewHeightBasedOnItems(ListView listView) {
 
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = listView.getDividerHeight() *
+                    (numberOfItems - 1);
+
+            // Set list height.
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalItemsHeight + totalDividersHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+
+            return true;
+
+        } else {
+            return false;
+        }
+
+    }
+
+    private void listView() {
         adapter = new MyListAdapter();
         ListView list = (ListView) findViewById(R.id.commentsListView);
         list.setAdapter(adapter);
@@ -582,76 +606,4 @@ public class VerDetalleProductoProductor extends AppCompatActivity {
 
         }
     }
-
-    /*private class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-        private List<Comment> myComments;
-
-        // Provide a reference to the views for each data item
-        // Complex data items may need more than one view per item, and
-        // you provide access to all the views for a data item in a view holder
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            // each data item is just a string in this case
-            public View view;
-            public ViewHolder(View v) {
-                super(v);
-                view = v;
-            }
-        }
-
-        // Provide a suitable constructor (depends on the kind of dataset)
-        public MyAdapter(List<Comment> myComments) {
-            this.myComments = myComments;
-        }
-
-        // Create new views (invoked by the layout manager)
-        @Override
-        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                       int viewType) {
-            // create a new view
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.comment_view, parent, false);
-            // set the view's size, margins, paddings and layout parameters
-            return new ViewHolder(v);
-        }
-
-        // Replace the contents of a view (invoked by the layout manager)
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-
-            //Encontrar el comentario
-            Comment currentComment = myComments.get(position);
-
-            //LLenar el View
-            ImageView imageView = (ImageView) holder.view.findViewById(R.id.imageConsumer);
-            if (!currentComment.getImagenConsumidor().equals("")) {
-                String imagenConsumerComment = currentComment.getImagenConsumidor();
-                Bitmap imagenConsumidor = StringToBitMap(imagenConsumerComment);
-                imageView.setImageBitmap(imagenConsumidor);
-            } else {
-                imageView.setImageResource(R.drawable.no_image_profile);
-            }
-
-            //Nombre:
-            TextView nombreConsumidor = (TextView) holder.view.findViewById(R.id.textNameConsumer);
-            nombreConsumidor.setTypeface(text);
-            //Si el consumidor que puso el comentario es el mismo que está en sesión, entonces...
-            if (currentComment.getHechoPor().equals(nombreDelConsumidor)) {
-                nombreConsumidor.setText("Tú");
-            } else {
-                nombreConsumidor.setText(currentComment.getHechoPor());
-            }
-
-            //Comentario:
-            TextView textoComentario = (TextView) holder.view.findViewById(R.id.textViewComentario);
-            textoComentario.setTypeface(editText);
-            textoComentario.setText(currentComment.getComentario());
-
-        }
-
-        // Return the size of your dataset (invoked by the layout manager)
-        @Override
-        public int getItemCount() {
-            return myComments.size();
-        }
-    }*/
 }
