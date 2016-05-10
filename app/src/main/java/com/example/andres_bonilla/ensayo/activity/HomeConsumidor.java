@@ -1,13 +1,17 @@
 package com.example.andres_bonilla.ensayo.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -38,6 +42,9 @@ public class HomeConsumidor extends AppCompatActivity {
     private Firebase myRef;
     private Firebase comments;
 
+    private Typeface light;
+    private Typeface medium;
+
     private DrawerLayout drawerLayout;
 
     private ImageView imageUserHeader;
@@ -66,7 +73,11 @@ public class HomeConsumidor extends AppCompatActivity {
         // Set the padding to match the Status Bar height
         mToolbar.setPadding(0, getStatusBarHeight(), 0, 0);
 
-        Typeface medium = Typeface.createFromAsset(
+        light = Typeface.createFromAsset(
+                this.getAssets(),
+                "fonts/Roboto-Light.ttf");
+
+        medium = Typeface.createFromAsset(
                 this.getAssets(),
                 "fonts/Roboto-Medium.ttf");
 
@@ -222,6 +233,7 @@ public class HomeConsumidor extends AppCompatActivity {
 
                         Bundle bundleProducts = new Bundle();
                         bundleProducts.putString("nombreDelConsumidor", dataNombre);
+                        bundleProducts.putBoolean("delete", false);
                         // set Fragmentclass Arguments
                         fragmentTres.setArguments(bundleProducts);
 
@@ -380,6 +392,61 @@ public class HomeConsumidor extends AppCompatActivity {
                 // as a favorite...
                 //openSearch();
                 Toast.makeText(getApplicationContext(), "Buscar fue seleccionada!", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.delete_list_items:
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(HomeConsumidor.this);
+                // Setting Dialog Title
+                builder1.setTitle("Eliminar lista");
+                builder1.setIcon(R.drawable.ic_delete);
+                builder1.setMessage("¿Estás seguro que deseas elminar todos los productos de tu lista de mercado?");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Eliminar",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                fragmentTres = new ProductosReservados();
+                                android.support.v4.app.FragmentTransaction fragmentTransactionTres = getSupportFragmentManager().beginTransaction();
+                                fragmentTransactionTres.replace(R.id.container_body, fragmentTres);
+
+                                Bundle bundleProducts = new Bundle();
+                                bundleProducts.putString("nombreDelConsumidor", dataNombre);
+                                bundleProducts.putBoolean("delete", true);
+                                // set Fragmentclass Arguments
+                                fragmentTres.setArguments(bundleProducts);
+
+                                //Setea el nombre del label
+                                setTitle(R.string.title_lista_mercado);
+
+                                fragmentTransactionTres.commit();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "Cancelar",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                Dialog alert11 = builder1.create();
+                alert11.show();
+
+                //Change message text font
+                TextView content = ((TextView) alert11.findViewById(android.R.id.message));
+                content.setTypeface(light);
+                //Change dialog button text font
+                TextView textButtonUno = ((TextView) alert11.findViewById(android.R.id.button1));
+                textButtonUno.setTypeface(medium);
+                TextView textButtonDos = ((TextView) alert11.findViewById(android.R.id.button2));
+                textButtonDos.setTypeface(medium);
+                //Change dialog icon color
+                ImageView icon = ((ImageView) alert11.findViewById(android.R.id.icon));
+                int color = Color.parseColor("#B6B6B6");
+                icon.setColorFilter(color);
+
                 return true;
 
             default:

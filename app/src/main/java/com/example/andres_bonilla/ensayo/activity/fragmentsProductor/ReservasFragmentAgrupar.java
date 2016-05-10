@@ -18,7 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -27,7 +26,6 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class ReservasFragmentAgrupar extends Fragment {
@@ -43,8 +41,6 @@ public class ReservasFragmentAgrupar extends Fragment {
 
     private ArrayList<String> myReserveProduct = new ArrayList<>();
     private ArrayList<Double> myReserveProductCantidad = new ArrayList<>();
-
-    private Product clickedProduct;
 
     private TextView textoNoHay;
 
@@ -99,7 +95,6 @@ public class ReservasFragmentAgrupar extends Fragment {
 
         listaBaseDatos();
         listView();
-        //clickSobreItem();
 
 
         // Inflate the layout for this fragment

@@ -18,7 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -39,8 +38,6 @@ public class ReservasFragment extends Fragment {
     MyListAdapter adapter;
 
     private List<Reserve> myReserves = new ArrayList<>();
-
-    private Product clickedProduct;
 
     private TextView textoNoHay;
 
@@ -174,23 +171,6 @@ public class ReservasFragment extends Fragment {
         list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
-
-    /*private void clickSobreItem() {
-        ListView list = (ListView) rootView.findViewById(R.id.productsListView);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                clickedProduct = myProducts.get(position);
-
-                Bundle bundle = new Bundle();
-                bundle.putString("nombreProducto", clickedProduct.getNombreProducto());
-                bundle.putString("nombreProductor", nombreDelProductor);
-                Intent i = new Intent(getActivity(), VerDetalleProducto.class);
-                i.putExtras(bundle);
-                startActivity(i);
-            }
-        });
-    }*/
 
     private class MyListAdapter extends ArrayAdapter<Reserve> {
         public MyListAdapter(){
