@@ -399,7 +399,7 @@ public class HomeConsumidor extends AppCompatActivity {
                 // Setting Dialog Title
                 builder1.setTitle("Eliminar lista");
                 builder1.setIcon(R.drawable.ic_delete);
-                builder1.setMessage("¿Estás seguro que deseas elminar todos los productos de tu lista de mercado?");
+                builder1.setMessage("Esta acción elimina todos los productos de tu lista de mercado");
                 builder1.setCancelable(true);
 
                 builder1.setPositiveButton(

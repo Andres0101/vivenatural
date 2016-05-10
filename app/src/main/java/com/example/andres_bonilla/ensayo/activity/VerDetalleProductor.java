@@ -371,16 +371,22 @@ public class VerDetalleProductor extends AppCompatActivity {
                 readyToAdd.setOnClickListener(new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        // Agrega producto a la base de datos
-                        Firebase rateRef = myRef.child("rates").child(nombreDelConsumidor + " a " + nombreDelProductor);
-                        Rate newrate = new Rate(nombreDelConsumidor, nombreDelProductor, (int)calificar.getRating());
-                        rateRef.setValue(newrate);
+                        if (calificar.getRating() != 0) {
+                            // Agrega producto a la base de datos
+                            Firebase rateRef = myRef.child("rates").child(nombreDelConsumidor + " a " + nombreDelProductor);
+                            Rate newrate = new Rate(nombreDelConsumidor, nombreDelProductor, (int)calificar.getRating());
+                            rateRef.setValue(newrate);
 
-                        Toast.makeText(VerDetalleProductor.this,
-                                String.valueOf("Calificación realizada con éxito!"),
-                                Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VerDetalleProductor.this,
+                                    String.valueOf("Calificación realizada con éxito!"),
+                                    Toast.LENGTH_SHORT).show();
 
-                        d.dismiss();
+                            d.dismiss();
+                        } else {
+                            Snackbar snackbar = Snackbar
+                                    .make(v, "Debes seleccionar un número de estrellas para calificar", Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
                     }
                 });
 
