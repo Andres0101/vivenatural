@@ -7,8 +7,8 @@
     <string name="action_edit_product">Editar</string>
     <string name="calificar">Calificar</string>
     <string name="delete_list_items">Borrar productos reservados</string>
-    <string name="action_show_less">Agrupar</string>
-    <string name="action_show_more">Desagrupar</string>
+    <string name="action_show_less">Agrupar productos</string>
+    <string name="action_show_more">Desagrupar productos</string>
     <string name="action_save">Guardar</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>

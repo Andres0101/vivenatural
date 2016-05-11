@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.andres_bonilla.ensayo.R;
+import com.example.andres_bonilla.ensayo.activity.classes.Product;
 import com.example.andres_bonilla.ensayo.activity.classes.Reserve;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -33,14 +34,15 @@ public class ReservasFragmentAgrupar extends Fragment {
     private View rootView;
 
     private Firebase myRef;
+    private Firebase productos;
     private Firebase productosReservados;
 
     MyListAdapter adapter;
 
-    private List<Reserve> myReserves = new ArrayList<>();
+    private List<Product> myProducts = new ArrayList<>();
 
-    private ArrayList<String> myReserveProduct = new ArrayList<>();
-    private ArrayList<Double> myReserveProductCantidad = new ArrayList<>();
+    private ArrayList<String> myProductsName = new ArrayList<>();
+    private ArrayList<Double> myProductCantidad = new ArrayList<>();
 
     private TextView textoNoHay;
 
@@ -58,6 +60,7 @@ public class ReservasFragmentAgrupar extends Fragment {
         // Required empty public constructor
 
         myRef = new Firebase("https://vivenatural.firebaseio.com/");
+        productos = myRef.child("products");
         productosReservados = myRef.child("reserves");
     }
 
@@ -116,24 +119,23 @@ public class ReservasFragmentAgrupar extends Fragment {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.hasChild("reserves")) {
-                    System.out.println("Si hay pedidos ®");
-                    // Lee los datos de las reservas
-                    Query queryRef = productosReservados.orderByChild("fechaReserva");
-                    queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                if (snapshot.hasChild("products")) {
+                    System.out.println("Si hay productos ®");
+                    // Lee los datos de los productos
+                    productos.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                                Reserve reservedProducts = postSnapshot.getValue(Reserve.class);
+                                Product product = postSnapshot.getValue(Product.class);
 
                                 //Si el productor tiene reservas entonces...
-                                if (reservedProducts.getReservadoA().equals(nombreDelProductor)) {
+                                if (product.getProductor().equals(nombreDelProductor)) {
                                     progress.setVisibility(View.GONE);
 
-                                    myReserves.add(postSnapshot.getValue(Reserve.class));
+                                    myProducts.add(postSnapshot.getValue(Product.class));
                                     pinto = true;
 
-                                    myReserveProduct.add(reservedProducts.getProducto());
+                                    myProductsName.add(product.getNombreProducto());
 
                                     // We notify the data model is changed
                                     adapter.notifyDataSetChanged();
@@ -148,7 +150,7 @@ public class ReservasFragmentAgrupar extends Fragment {
                                 }
                             }
 
-                            for (int i = 0; i < myReserveProduct.size(); i++) {
+                            for (int i = 0; i < myProductsName.size(); i++) {
                                 // Lee los datos de las reservas
                                 final int finalI = i;
                                 productosReservados.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -158,24 +160,21 @@ public class ReservasFragmentAgrupar extends Fragment {
                                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                                             Reserve reserve = postSnapshot.getValue(Reserve.class);
 
-                                            if (reserve.getProducto().equals(myReserveProduct.get(finalI)) && reserve.getReservadoA().equals(nombreDelProductor)) {
+                                            if (reserve.getProducto().equals(myProductsName.get(finalI)) && reserve.getReservadoA().equals(nombreDelProductor)) {
                                                 sumaCantidad = sumaCantidad + reserve.getCantidadReservada();
                                                 System.out.println("Producto: " + reserve.getProducto() + " Cantidad: " + reserve.getCantidadReservada());
                                             }
                                         }
                                         System.out.println(sumaCantidad);
                                         //Agregar al arraList
-                                        myReserveProductCantidad.add(sumaCantidad);
+                                        myProductCantidad.add(sumaCantidad);
                                         System.out.println("------------");
 
-                                        System.out.println("Como van las apuestas " + myReserveProductCantidad.size() + "/" + myReserveProduct.size());
+                                        System.out.println("Como van las apuestas " + myProductCantidad.size() + "/" + myProductsName.size());
 
-                                        if (myReserveProductCantidad.size() == myReserveProduct.size()) {
+                                        if (myProductCantidad.size() == myProductsName.size()) {
                                             yaAgrego = true;
                                             listView();
-                                            /*if (myReserveProductCantidad.get(finalI) == 0.0) {
-                                                myReserves.remove(myReserves.get(position));
-                                            }*/
                                         }
                                     }
 
@@ -210,9 +209,9 @@ public class ReservasFragmentAgrupar extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
-    private class MyListAdapter extends ArrayAdapter<Reserve> {
+    private class MyListAdapter extends ArrayAdapter<Product> {
         public MyListAdapter(){
-            super(getActivity(), R.layout.mis_productos_view, myReserves);
+            super(getActivity(), R.layout.mis_productos_view, myProducts);
         }
 
         @Override
@@ -224,28 +223,28 @@ public class ReservasFragmentAgrupar extends Fragment {
             }
 
             //Encontrar productos reservados
-            Reserve currentProductReserve = myReserves.get(position);
+            Product currentProductReserve = myProducts.get(position);
 
             //LLenar el View
             ImageView imageView = (ImageView) productsView.findViewById(R.id.imageProduct);
-            String imageProduct = currentProductReserve.getImagenProducto();
+            String imageProduct = currentProductReserve.getImagen();
             Bitmap imagenProducto = StringToBitMap(imageProduct);
             imageView.setImageBitmap(imagenProducto);
 
             //Nombre:
             TextView nombreProducto = (TextView) productsView.findViewById(R.id.textNameProduct);
             nombreProducto.setTypeface(regular);
-            nombreProducto.setText(currentProductReserve.getProducto());
+            nombreProducto.setText(currentProductReserve.getNombreProducto());
 
             //Cantidad:
             TextView textCantidad = (TextView) productsView.findViewById(R.id.textCantidad);
             textCantidad.setTypeface(texto);
 
             if (yaAgrego) {
-                textCantidad.setText(myReserveProductCantidad.get(position) + " lb");
-                /*if (myListMarketProductCantidad.get(position) == 0.0) {
-                    myReserves.remove(myReserves.get(position));
-                }*/
+                textCantidad.setText(myProductCantidad.get(position) + " lb");
+                if (myProductCantidad.get(position) == 0.0) {
+                    myProducts.remove(myProducts.get(position));
+                }
             }
 
             return productsView;

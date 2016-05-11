@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -309,7 +310,9 @@ public class ProductosFragment extends Fragment {
                     });
 
                 } else {
-                    Toast.makeText(getContext(), "Por favor llena todos los campos.", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar
+                        .make(v, "Por favor llena todos los campos", Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             }
         });

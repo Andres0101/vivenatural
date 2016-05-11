@@ -7,5 +7,6 @@
         android:id="@+id/action_show_less"
         android:title="@string/action_show_less"
         android:orderInCategory="100"
+        android:icon="@drawable/ic_compare_arrow"
         app:showAsAction="ifRoom"/>
 </menu>
