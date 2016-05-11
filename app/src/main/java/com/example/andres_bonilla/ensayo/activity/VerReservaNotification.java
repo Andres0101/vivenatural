@@ -233,7 +233,11 @@ public class VerReservaNotification extends AppCompatActivity {
         } else if (diff < 90 * MINUTE_MILLIS) {
             return "Hace una hora";
         } else if (diff < 24 * HOUR_MILLIS) {
-            return "Hace " + diff / HOUR_MILLIS + " horas";
+            if (diff / HOUR_MILLIS > 1) {
+                return "Hace " + diff / HOUR_MILLIS + " horas";
+            } else {
+                return "Hace " + diff / HOUR_MILLIS + " hora";
+            }
         } else if (diff < 48 * HOUR_MILLIS) {
             return "Ayer";
         } else {

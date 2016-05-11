@@ -39,7 +39,7 @@ public class ReservasFragmentAgrupar extends Fragment {
 
     MyListAdapter adapter;
 
-    private List<Product> myProducts = new ArrayList<>();
+    private List<Product> marketProductList = new ArrayList<>();
 
     private ArrayList<String> myProductsName = new ArrayList<>();
     private ArrayList<Double> myProductCantidad = new ArrayList<>();
@@ -132,7 +132,7 @@ public class ReservasFragmentAgrupar extends Fragment {
                                 if (product.getProductor().equals(nombreDelProductor)) {
                                     progress.setVisibility(View.GONE);
 
-                                    myProducts.add(postSnapshot.getValue(Product.class));
+                                    marketProductList.add(postSnapshot.getValue(Product.class));
                                     pinto = true;
 
                                     myProductsName.add(product.getNombreProducto());
@@ -211,7 +211,7 @@ public class ReservasFragmentAgrupar extends Fragment {
 
     private class MyListAdapter extends ArrayAdapter<Product> {
         public MyListAdapter(){
-            super(getActivity(), R.layout.mis_productos_view, myProducts);
+            super(getActivity(), R.layout.mis_productos_view, marketProductList);
         }
 
         @Override
@@ -223,7 +223,7 @@ public class ReservasFragmentAgrupar extends Fragment {
             }
 
             //Encontrar productos reservados
-            Product currentProductReserve = myProducts.get(position);
+            Product currentProductReserve = marketProductList.get(position);
 
             //LLenar el View
             ImageView imageView = (ImageView) productsView.findViewById(R.id.imageProduct);
@@ -242,9 +242,11 @@ public class ReservasFragmentAgrupar extends Fragment {
 
             if (yaAgrego) {
                 textCantidad.setText(myProductCantidad.get(position) + " lb");
-                if (myProductCantidad.get(position) == 0.0) {
-                    myProducts.remove(myProducts.get(position));
-                }
+                /*if (myProductCantidad.get(position) == 0.0) {
+                    marketProductList.remove(marketProductList.get(position));
+                    adapter.notifyDataSetChanged();
+                    System.out.println(marketProductList.size());
+                }*/
             }
 
             return productsView;
