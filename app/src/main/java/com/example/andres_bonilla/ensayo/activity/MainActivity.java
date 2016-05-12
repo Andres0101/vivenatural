@@ -97,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onAuthenticated(AuthData authData) {
                         System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
+                        Batch.User.editor()
+                                .setIdentifier(authData.getUid()) // Set to `null` if you want to remove the identifier.
+                                .save();
 
                         // Lee los datos de los usuarios
                         Firebase usuarios = myRef.child("users");
