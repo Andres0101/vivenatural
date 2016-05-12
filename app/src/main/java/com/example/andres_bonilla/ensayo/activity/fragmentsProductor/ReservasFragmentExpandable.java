@@ -291,6 +291,9 @@ public class ReservasFragmentExpandable extends Fragment {
     private void listView() {
         listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
         expListView = (ExpandableListView) rootView.findViewById(R.id.productsListView);
+        System.out.println("Ancho: " + expListView.getWidth());
+        System.out.println("Derecha: " + expListView.getRight());
+        expListView.setIndicatorBounds(expListView.getRight() - 16, expListView.getWidth());
         expListView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
     }
@@ -367,6 +370,10 @@ public class ReservasFragmentExpandable extends Fragment {
 
             Product currentProduct = listDataHeader.get(groupPosition);
 
+            Group groupHolder = new Group();
+            groupHolder.arrowImg = (ImageView) convertView.findViewById(R.id.arrowIndicator);
+            convertView.setTag(groupHolder);
+
             ImageView imageProduct = (ImageView) convertView.findViewById(R.id.imageProduct);
             String image = currentProduct.getImagen();
             Bitmap imagenProducto = StringToBitMap(image);
@@ -406,6 +413,10 @@ public class ReservasFragmentExpandable extends Fragment {
                 return null;
             }
         }
+    }
+
+    class Group {
+        public ImageView arrowImg;
     }
 
     @Override
