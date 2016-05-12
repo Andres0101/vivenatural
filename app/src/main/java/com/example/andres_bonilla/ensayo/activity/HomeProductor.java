@@ -11,6 +11,7 @@ import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.PerfilFragm
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ProductosFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ReservasFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ReservasFragmentAgrupar;
+import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ReservasFragmentExpandable;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -302,7 +303,7 @@ public class HomeProductor extends AppCompatActivity {
                         fragmentTransactionDos.commit();
                         return true;
                     case R.id.reservas:
-                        ReservasFragment fragmentTres = new ReservasFragment();
+                        ReservasFragmentExpandable fragmentTres = new ReservasFragmentExpandable();
                         android.support.v4.app.FragmentTransaction fragmentTransactionTres = getSupportFragmentManager().beginTransaction();
                         fragmentTransactionTres.replace(R.id.container_body, fragmentTres);
 

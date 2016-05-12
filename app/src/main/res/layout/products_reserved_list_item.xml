@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/textColorPrimary">
+
+    <!--<de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageProduct"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"/>
+
+    <ImageView
+        android:id="@+id/iconConsumer"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_profile"
+        android:layout_marginTop="9dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginStart="9dp"
+        android:tint="#B6B6B6"/>
+
+    <TextView
+        android:id="@+id/textCantidad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#838383"
+        android:textSize="14sp"
+        android:text="Small Text"
+        android:gravity="end"
+        android:paddingTop="2dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_alignTop="@+id/textNameConsumer"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />-->
+
+    <TextView
+        android:id="@+id/textNameConsumer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#4C4C4C"
+        android:textSize="16sp"
+        android:text="Small Text"
+        android:layout_marginTop="-2dp"
+        android:layout_margin="16dp"/>
+
+    <!--<TextView
+        android:id="@+id/textDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#838383"
+        android:text="Small Text"
+        android:textSize="12sp"
+        android:layout_marginTop="-5dp"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@+id/iconConsumer"
+        android:layout_toRightOf="@+id/iconConsumer"
+        android:layout_toEndOf="@+id/iconConsumer" />-->
+
+</RelativeLayout>
