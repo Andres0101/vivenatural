@@ -49,6 +49,7 @@ public class ReservasFragmentExpandable extends Fragment {
 
     private Boolean pinto;
     private Boolean yaAgrego;
+    private Boolean empezarAgregar;
 
     private ArrayList<String> myProductsName = new ArrayList<>();
     private ArrayList<Double> myProductCantidad = new ArrayList<>();
@@ -62,6 +63,7 @@ public class ReservasFragmentExpandable extends Fragment {
     private HashMap<Product, List<Reserve>> listDataChild = new HashMap<>();
 
     private int itemABloquear;
+    private ArrayList<Integer> itemNumber = new ArrayList<>();
 
     public ReservasFragmentExpandable() {
         // Required empty public constructor
@@ -102,6 +104,7 @@ public class ReservasFragmentExpandable extends Fragment {
 
         pinto = false;
         yaAgrego = false;
+        empezarAgregar = false;
 
         listaBaseDatos();
         listView();
@@ -111,7 +114,7 @@ public class ReservasFragmentExpandable extends Fragment {
 
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                if(groupPosition == itemABloquear) {
+                if (itemNumber.contains(groupPosition)) {
                     return true;
                 } else {
                     return false;
@@ -370,9 +373,14 @@ public class ReservasFragmentExpandable extends Fragment {
                 if (myProductCantidad.get(groupPosition) == 0) {
                     groupHolder.arrowImg.setVisibility(View.GONE);
                     itemABloquear = groupPosition;
+                    empezarAgregar = true;
                 } else {
                     groupHolder.arrowImg.setVisibility(View.VISIBLE);
                     groupHolder.arrowImg.setImageResource(isExpanded ? R.drawable.arrow_up : R.drawable.arrow_down );
+                }
+
+                if (empezarAgregar) {
+                    itemNumber.add(itemABloquear);
                 }
             }
 
