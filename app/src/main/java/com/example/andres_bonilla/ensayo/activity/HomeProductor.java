@@ -9,8 +9,6 @@ import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.Estadistica
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.PerfilFragment;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.PerfilFragmentCheck;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ProductosFragment;
-import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ReservasFragment;
-import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ReservasFragmentAgrupar;
 import com.example.andres_bonilla.ensayo.activity.fragmentsProductor.ReservasFragmentExpandable;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -486,38 +484,6 @@ public class HomeProductor extends AppCompatActivity {
                 // as a favorite...
                 //openSearch();
                 Toast.makeText(getApplicationContext(), "Buscar fue seleccionada!", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.action_show_less:
-                ReservasFragmentAgrupar fragmentAgrupar = new ReservasFragmentAgrupar();
-                android.support.v4.app.FragmentTransaction fragmentTransactionAgrupar = getSupportFragmentManager().beginTransaction();
-                fragmentTransactionAgrupar.replace(R.id.container_body, fragmentAgrupar);
-
-                Bundle bundleProducts = new Bundle();
-                bundleProducts.putString("nombreDelProductor", dataNombre);
-                // set Fragmentclass Arguments
-                fragmentAgrupar.setArguments(bundleProducts);
-
-                //Setea el nombre del label
-                setTitle(R.string.title_reservas);
-
-                fragmentTransactionAgrupar.commit();
-                return true;
-
-            case R.id.action_show_more:
-                ReservasFragment fragmentTres = new ReservasFragment();
-                android.support.v4.app.FragmentTransaction fragmentTransactionTres = getSupportFragmentManager().beginTransaction();
-                fragmentTransactionTres.replace(R.id.container_body, fragmentTres);
-
-                Bundle bundleProductsUngroup = new Bundle();
-                bundleProductsUngroup.putString("nombreDelProductor", dataNombre);
-                // set Fragmentclass Arguments
-                fragmentTres.setArguments(bundleProductsUngroup);
-
-                //Setea el nombre del label
-                setTitle(R.string.title_reservas);
-
-                fragmentTransactionTres.commit();
                 return true;
 
             default:

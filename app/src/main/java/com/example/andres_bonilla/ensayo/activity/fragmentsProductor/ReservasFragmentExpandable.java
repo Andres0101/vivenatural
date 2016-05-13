@@ -53,10 +53,15 @@ public class ReservasFragmentExpandable extends Fragment {
     private ArrayList<String> myProductsName = new ArrayList<>();
     private ArrayList<Double> myProductCantidad = new ArrayList<>();
 
+    private List<String> myConsumidorReserva = new ArrayList<>();
+
     private ExpandableListAdapter listAdapter;
     private ExpandableListView expListView;
-    private List<Product> listDataHeader;
-    private HashMap<String, List<String>> listDataChild;
+    private List<Product> listDataHeader = new ArrayList<>();
+    private List<Reserve> listDataReserve = new ArrayList<>();
+    private HashMap<Product, List<Reserve>> listDataChild = new HashMap<>();
+
+    private int itemABloquear;
 
     public ReservasFragmentExpandable() {
         // Required empty public constructor
@@ -105,12 +110,12 @@ public class ReservasFragmentExpandable extends Fragment {
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
             @Override
-            public boolean onGroupClick(ExpandableListView parent, View v,
-                                        int groupPosition, long id) {
-                // Toast.makeText(getApplicationContext(),
-                // "Group Clicked " + listDataHeader.get(groupPosition),
-                // Toast.LENGTH_SHORT).show();
-                return false;
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if(groupPosition == itemABloquear) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         });
 
@@ -156,7 +161,6 @@ public class ReservasFragmentExpandable extends Fragment {
             }
         });
 
-
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -165,9 +169,6 @@ public class ReservasFragmentExpandable extends Fragment {
      * Preparing the list data
      */
     private void listaBaseDatos() {
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
-
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -210,17 +211,28 @@ public class ReservasFragmentExpandable extends Fragment {
                                     @Override
                                     public void onDataChange(DataSnapshot snapshot) {
                                         double sumaCantidad = 0;
+                                        String reservadoPor = "";
                                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                                             Reserve reserve = postSnapshot.getValue(Reserve.class);
 
                                             if (reserve.getProducto().equals(myProductsName.get(finalI)) && reserve.getReservadoA().equals(nombreDelProductor)) {
                                                 sumaCantidad = sumaCantidad + reserve.getCantidadReservada();
+                                                reservadoPor = reserve.getReservadoPor();
+                                                listDataReserve.add(postSnapshot.getValue(Reserve.class));
                                                 System.out.println("Producto: " + reserve.getProducto() + " Cantidad: " + reserve.getCantidadReservada());
+                                                System.out.println("Reservado por: " + reserve.getReservadoPor());
                                             }
                                         }
                                         System.out.println(sumaCantidad);
                                         //Agregar al arraList
                                         myProductCantidad.add(sumaCantidad);
+                                        myConsumidorReserva.add(reservadoPor);
+
+                                        for (int i = 0; i < listDataHeader.size(); i++) {
+                                            if (sumaCantidad != 0.0) {
+                                                listDataChild.put(listDataHeader.get(i), listDataReserve); // Header, Child data
+                                            }
+                                        }
                                         System.out.println("------------");
 
                                         System.out.println("Como van las apuestas " + myProductCantidad.size() + "/" + myProductsName.size());
@@ -253,47 +265,11 @@ public class ReservasFragmentExpandable extends Fragment {
             public void onCancelled(FirebaseError firebaseError) {
             }
         });
-
-        // Adding child data
-        /*List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
-
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
-
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
-
-        for (int i = 0; i < listDataHeader.size(); i++) {
-            listDataChild.put(listDataHeader.get(i), top250);
-        }
-
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);*/
     }
 
     private void listView() {
         listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
         expListView = (ExpandableListView) rootView.findViewById(R.id.productsListView);
-        System.out.println("Ancho: " + expListView.getWidth());
-        System.out.println("Derecha: " + expListView.getRight());
-        expListView.setIndicatorBounds(expListView.getRight() - 16, expListView.getWidth());
         expListView.setAdapter(listAdapter);
         listAdapter.notifyDataSetChanged();
     }
@@ -301,10 +277,10 @@ public class ReservasFragmentExpandable extends Fragment {
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
         private List<Product> listDataHeader; // header titles
         // child data in format of header title, child title
-        private HashMap<String, List<String>> _listDataChild;
+        private HashMap<Product, List<Reserve>> _listDataChild;
 
         public ExpandableListAdapter(Context context, List<Product> listDataHeader,
-                                     HashMap<String, List<String>> listChildData) {
+                                     HashMap<Product, List<Reserve>> listChildData) {
             this.listDataHeader = listDataHeader;
             this._listDataChild = listChildData;
         }
@@ -324,24 +300,26 @@ public class ReservasFragmentExpandable extends Fragment {
         public View getChildView(int groupPosition, final int childPosition,
                                  boolean isLastChild, View convertView, ViewGroup parent) {
 
-            final String childText = (String) getChild(groupPosition, childPosition);
+            //final String childText = (String) getChild(groupPosition, childPosition);
 
             if (convertView == null) {
                 LayoutInflater infalInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = infalInflater.inflate(R.layout.products_reserved_list_item, null);
             }
 
-            TextView txtListChild = (TextView) convertView
-                    .findViewById(R.id.textNameConsumer);
+            Reserve currentReserve = listDataReserve.get(childPosition);
 
-            txtListChild.setText(childText);
+            TextView textNameProduct = (TextView) convertView.findViewById(R.id.textNameConsumer);
+            textNameProduct.setTypeface(regular);
+            textNameProduct.setText(currentReserve.getReservadoPor());
+
+            //txtListChild.setText(childText);
             return convertView;
         }
 
         @Override
         public int getChildrenCount(int groupPosition) {
-            return this._listDataChild.get(this.listDataHeader.get(groupPosition))
-                    .size();
+            return this._listDataChild.get(this.listDataHeader.get(groupPosition)).size();
         }
 
         @Override
@@ -388,6 +366,14 @@ public class ReservasFragmentExpandable extends Fragment {
 
             if (yaAgrego) {
                 textCantidad.setText(myProductCantidad.get(groupPosition) + " lb");
+
+                if (myProductCantidad.get(groupPosition) == 0) {
+                    groupHolder.arrowImg.setVisibility(View.GONE);
+                    itemABloquear = groupPosition;
+                } else {
+                    groupHolder.arrowImg.setVisibility(View.VISIBLE);
+                    groupHolder.arrowImg.setImageResource(isExpanded ? R.drawable.arrow_up : R.drawable.arrow_down );
+                }
             }
 
             return convertView;
