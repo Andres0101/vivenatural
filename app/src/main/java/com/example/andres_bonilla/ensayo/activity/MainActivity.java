@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             intent.putExtra("NombreUsuario", user.getNombre());  // manda el nombre del usuario que inicia sesión
                                             intent.putExtra("DescripcionUsuario", user.getDescripcion());  // manda el nombre del usuario que inicia sesión
+                                            intent.putExtra("LogIn", true);
                                             intent.putExtra("accion", true);
                                             startActivity(intent);
                                         } else if (user.getRol().equals("Consumidor")){

@@ -99,73 +99,75 @@ public class HomeProductor extends AppCompatActivity {
         dataNombre = getIntent().getExtras().getString("NombreUsuario");
         tv.setText(dataNombre);
 
-        // Lee los datos de las reservas para ver si tiene nuevas
-        reservas.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Reserve newReserve = dataSnapshot.getValue(Reserve.class);
-                //Si el productor tiene nuevas reservas, entonces le llega la notificación
-                if (newReserve.getReservadoA().equals(dataNombre)) {
-                    // Creates an explicit intent for an Activity in your app
-                    Intent intent = new Intent(HomeProductor.this, VerReservaNotification.class);
-                    intent.putExtra("nombreDelProductor", dataNombre);
-                    // This somehow makes sure, there is only 1 CountDownTimer going if the notification is pressed:
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        Boolean vengoDe = getIntent().getExtras().getBoolean("LogIn");
+        if (vengoDe) {// Lee los datos de las reservas para ver si tiene nuevas
+            reservas.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Reserve newReserve = dataSnapshot.getValue(Reserve.class);
+                    //Si el productor tiene nuevas reservas, entonces le llega la notificación
+                    if (newReserve.getReservadoA().equals(dataNombre)) {
+                        // Creates an explicit intent for an Activity in your app
+                        Intent intent = new Intent(HomeProductor.this, VerReservaNotification.class);
+                        intent.putExtra("nombreDelProductor", dataNombre);
+                        // This somehow makes sure, there is only 1 CountDownTimer going if the notification is pressed:
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-                    // Make this unique ID to make sure there is not generated just a brand new intent with new extra values:
-                    int requestID = (int) System.currentTimeMillis();
+                        // Make this unique ID to make sure there is not generated just a brand new intent with new extra values:
+                        int requestID = (int) System.currentTimeMillis();
 
-                    // Pass the unique ID to the resultPendingIntent:
-                    PendingIntent pendingIntent = PendingIntent.getActivity(HomeProductor.this, requestID, intent, 0);
-                    NotificationManager notificationManager =
-                            (NotificationManager) HomeProductor.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                        // Pass the unique ID to the resultPendingIntent:
+                        PendingIntent pendingIntent = PendingIntent.getActivity(HomeProductor.this, requestID, intent, 0);
+                        NotificationManager notificationManager =
+                                (NotificationManager) HomeProductor.this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-                    // The stack builder object will contain an artificial back stack for the started Activity.
-                    // This ensures that navigating backward from the Activity leads out of
-                    // your application to the Home screen.
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(HomeProductor.this);
-                    // Adds the back stack for the Intent (but not the Intent itself)
-                    stackBuilder.addParentStack(MainActivity.class);
-                    stackBuilder.addNextIntent(intent);
-                    stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                        // The stack builder object will contain an artificial back stack for the started Activity.
+                        // This ensures that navigating backward from the Activity leads out of
+                        // your application to the Home screen.
+                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(HomeProductor.this);
+                        // Adds the back stack for the Intent (but not the Intent itself)
+                        stackBuilder.addParentStack(MainActivity.class);
+                        stackBuilder.addNextIntent(intent);
+                        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                    NotificationCompat.Builder notification = new NotificationCompat.Builder(HomeProductor.this)
-                            .setSmallIcon(R.drawable.ic_launcher_vive_notification)
-                            .setLargeIcon(largeIcon)
-                            .setContentTitle("Nuevo pedido")
-                            .setContentText(newReserve.getReservadoPor() + " te ha reservado " + newReserve.getCantidadReservada() + " de " + newReserve.getProducto())
-                            .setAutoCancel(true)
-                            .setStyle(new NotificationCompat.BigTextStyle().bigText(newReserve.getReservadoPor() + " te ha reservado " + newReserve.getCantidadReservada() + " de " + newReserve.getProducto()))
-                            .setContentIntent(pendingIntent);
+                        NotificationCompat.Builder notification = new NotificationCompat.Builder(HomeProductor.this)
+                                .setSmallIcon(R.drawable.ic_launcher_vive_notification)
+                                .setLargeIcon(largeIcon)
+                                .setContentTitle("Nuevo pedido")
+                                .setContentText(newReserve.getReservadoPor() + " te ha reservado " + newReserve.getCantidadReservada() + " de " + newReserve.getProducto())
+                                .setAutoCancel(true)
+                                .setStyle(new NotificationCompat.BigTextStyle().bigText(newReserve.getReservadoPor() + " te ha reservado " + newReserve.getCantidadReservada() + " de " + newReserve.getProducto()))
+                                .setContentIntent(pendingIntent);
 
-                    // Make the notification play the default notification sound:
-                    Uri alarmSound = RingtoneManager
-                            .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                    notification.setSound(alarmSound);
-                    notification.setOngoing(true);
+                        // Make the notification play the default notification sound:
+                        Uri alarmSound = RingtoneManager
+                                .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        notification.setSound(alarmSound);
+                        notification.setOngoing(true);
 
-                    // mId allows you to update the notification later on.
-                    notificationManager.notify(0, notification.build());
+                        // mId allows you to update the notification later on.
+                        notificationManager.notify(0, notification.build());
+                    }
                 }
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                }
 
-            @Override
-            //Elimina el producto de la lista en tiempo real.
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
+                @Override
+                //Elimina el producto de la lista en tiempo real.
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            }
-        });
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                }
+            });
+        }
 
         // Lee los datos de los usuarios del mercado para obtener su imagen de perfil.
         userImage.addListenerForSingleValueEvent(new ValueEventListener() {
