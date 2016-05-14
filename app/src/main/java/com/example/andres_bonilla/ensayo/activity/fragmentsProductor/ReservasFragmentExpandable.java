@@ -316,6 +316,10 @@ public class ReservasFragmentExpandable extends Fragment {
             textNameProduct.setTypeface(regular);
             textNameProduct.setText(currentReserve.getReservadoPor());
 
+            TextView textCantidad = (TextView) convertView.findViewById(R.id.textCantidad);
+            textCantidad.setTypeface(texto);
+            textCantidad.setText(currentReserve.getCantidadReservada() + " lb");
+
             //txtListChild.setText(childText);
             return convertView;
         }
