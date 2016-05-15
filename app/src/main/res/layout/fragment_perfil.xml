@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/imagenFondo"
-        android:src="@drawable/agricultura"
+        android:src="@drawable/fondo"
         android:layout_width="wrap_content"
         android:layout_height="180dp"
         android:scaleType="centerCrop"
