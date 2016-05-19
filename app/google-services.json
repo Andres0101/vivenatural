@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "236350259608",
+    "firebase_url": "https://vivenatural.firebaseio.com",
+    "project_id": "project-7401759123631645723",
+    "storage_bucket": "project-7401759123631645723.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236350259608:android:14fc257c53c21683",
+        "android_client_info": {
+          "package_name": "com.example.andres_bonilla.ensayo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236350259608-e6iualv9j88qo2den04sch3n5c3flfm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYMuGKZQy528PcNq8IwMrBlYEDtvchR48"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
