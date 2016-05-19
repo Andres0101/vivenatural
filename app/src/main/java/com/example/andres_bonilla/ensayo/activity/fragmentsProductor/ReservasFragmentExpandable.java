@@ -54,13 +54,13 @@ public class ReservasFragmentExpandable extends Fragment {
     private ArrayList<String> myProductsName = new ArrayList<>();
     private ArrayList<Double> myProductCantidad = new ArrayList<>();
 
-    private List<String> myConsumidorReserva = new ArrayList<>();
-
     private ExpandableListAdapter listAdapter;
     private ExpandableListView expListView;
     private List<Product> listDataHeader = new ArrayList<>();
     private List<Reserve> listDataReserve = new ArrayList<>();
     private HashMap<Product, List<Reserve>> listDataChild = new HashMap<>();
+
+    private List<List<Reserve>> superArrayList = new ArrayList<>();
 
     private int itemABloquear;
     private ArrayList<Integer> itemNumber = new ArrayList<>();
@@ -122,48 +122,6 @@ public class ReservasFragmentExpandable extends Fragment {
             }
         });
 
-        // Listview Group expanded listener
-        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getActivity(),
-                        listDataHeader.get(groupPosition) + " Expanded",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Listview Group collasped listener
-        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getActivity(),
-                        listDataHeader.get(groupPosition) + " Collapsed",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        // Listview on child click listener
-        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                // TODO Auto-generated method stub
-                Toast.makeText(
-                        getActivity(),
-                        listDataHeader.get(groupPosition)
-                                + " : "
-                                + listDataChild.get(
-                                listDataHeader.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT)
-                        .show();
-                return false;
-            }
-        });
-
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -214,14 +172,16 @@ public class ReservasFragmentExpandable extends Fragment {
                                     @Override
                                     public void onDataChange(DataSnapshot snapshot) {
                                         double sumaCantidad = 0;
-                                        String reservadoPor = "";
+                                        listDataReserve = new ArrayList<>();
+
                                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                                             Reserve reserve = postSnapshot.getValue(Reserve.class);
 
                                             if (reserve.getProducto().equals(myProductsName.get(finalI)) && reserve.getReservadoA().equals(nombreDelProductor)) {
                                                 sumaCantidad = sumaCantidad + reserve.getCantidadReservada();
-                                                reservadoPor = reserve.getReservadoPor();
+
                                                 listDataReserve.add(postSnapshot.getValue(Reserve.class));
+
                                                 System.out.println("Producto: " + reserve.getProducto() + " Cantidad: " + reserve.getCantidadReservada());
                                                 System.out.println("Reservado por: " + reserve.getReservadoPor());
                                             }
@@ -229,16 +189,18 @@ public class ReservasFragmentExpandable extends Fragment {
                                         System.out.println(sumaCantidad);
                                         //Agregar al arraList
                                         myProductCantidad.add(sumaCantidad);
-                                        myConsumidorReserva.add(reservadoPor);
+                                        superArrayList.add(listDataReserve);
 
-                                        for (int i = 0; i < listDataHeader.size(); i++) {
-                                            if (sumaCantidad != 0.0) {
-                                                listDataChild.put(listDataHeader.get(i), listDataReserve); // Header, Child data
-                                            }
-                                        }
                                         System.out.println("------------");
 
                                         System.out.println("Como van las apuestas " + myProductCantidad.size() + "/" + myProductsName.size());
+
+                                        if (superArrayList.size() == listDataHeader.size()) {
+                                            for (int i = 0; i < listDataHeader.size(); i++) {
+                                                //Add child to each Parent
+                                                listDataChild.put(listDataHeader.get(i), superArrayList.get(i));
+                                            }
+                                        }
 
                                         if (myProductCantidad.size() == myProductsName.size()) {
                                             yaAgrego = true;
@@ -303,14 +265,12 @@ public class ReservasFragmentExpandable extends Fragment {
         public View getChildView(int groupPosition, final int childPosition,
                                  boolean isLastChild, View convertView, ViewGroup parent) {
 
-            //final String childText = (String) getChild(groupPosition, childPosition);
-
             if (convertView == null) {
                 LayoutInflater infalInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = infalInflater.inflate(R.layout.products_reserved_list_item, null);
             }
 
-            Reserve currentReserve = listDataReserve.get(childPosition);
+            Reserve currentReserve = (Reserve) getChild(groupPosition,childPosition);
 
             TextView textNameProduct = (TextView) convertView.findViewById(R.id.textNameConsumer);
             textNameProduct.setTypeface(regular);
@@ -319,8 +279,6 @@ public class ReservasFragmentExpandable extends Fragment {
             TextView textCantidad = (TextView) convertView.findViewById(R.id.textCantidad);
             textCantidad.setTypeface(texto);
             textCantidad.setText(currentReserve.getCantidadReservada() + " lb");
-
-            //txtListChild.setText(childText);
             return convertView;
         }
 
