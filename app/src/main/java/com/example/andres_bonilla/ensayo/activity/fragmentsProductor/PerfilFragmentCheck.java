@@ -219,7 +219,7 @@ public class PerfilFragmentCheck extends Fragment {
 
     public String BitMapToString(Bitmap bitmap){
         ByteArrayOutputStream baos = new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 5, baos);
         byte [] b = baos.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
