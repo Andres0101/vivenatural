@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.batch.android.Batch;
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
 import com.firebase.client.AuthData;
@@ -97,9 +96,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onAuthenticated(AuthData authData) {
                         System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
-                        Batch.User.editor()
-                                .setIdentifier(authData.getUid()) // Set to `null` if you want to remove the identifier.
-                                .save();
 
                         // Lee los datos de los usuarios
                         Firebase usuarios = myRef.child("users");
@@ -237,33 +233,5 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Batch.onStart(this);
-    }
-
-    @Override
-    protected void onStop() {
-        Batch.onStop(this);
-
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Batch.onDestroy(this);
-
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        Batch.onNewIntent(this, intent);
-
-        super.onNewIntent(intent);
     }
 }

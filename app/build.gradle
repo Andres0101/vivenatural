@@ -48,7 +48,8 @@ dependencies {
 
     compile 'com.elmargomez.typer:typerlib:1.0.0'
 
-    compile 'com.batch.android:batch-sdk:1.5+'
+    compile 'com.google.android.gms:play-services-gcm:9.0.0'
 
-    compile 'com.google.android.gms:play-services-gcm:8.4.0'
+    //Message notification
+    compile 'com.google.firebase:firebase-messaging:9.0.0'
 }
