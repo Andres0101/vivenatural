@@ -49,7 +49,8 @@
     <!-- Drawer Consumidor -->
     <string name="title_productores">Productores</string>
     <string name="title_lista_mercado">Lista de mercado</string>
-    <string name="title_procesos">Procesos</string>
+    <string name="title_info">Acerca del Mercado</string>
+    <string name="title_mercado">Mercado Agroecológico</string>
     <string name="title_products_market">Productos del mercado</string>
 
     <string name="title_cuenta">Cuenta</string>
@@ -92,5 +93,18 @@
 
     <!-- Market products-->
     <string name="producers">PRODUCTORES •</string>
+
+    <!-- Info -->
+    <string name="title_asoproorganico">Asoproorgánicos</string>
+    <string name="asoproorganico">Es una Asociación de pequeños y medianos productores orgánicos, compuesta por personas naturales y asociaciones de base que practica la agricultura ecológica familiar, beneficiando  aproximadamente a 300 familias campesinas del Valle y Cauca.</string>
+
+    <string name="title_mercado_cali">Mercado Orgánico de Cali</string>
+    <string name="mercado_cali">Proyecto Productivo sustentable y sostenible apoyado por la CVC con aproximadamente 15 años y cuenta con 3 componentes básicos:</string>
+    <string name="mercado_cali1">Proceso productivo basado en la agroecología, protege el medio ambiente y nuestros ecosistemas ya que no usa agroquímicos, ni pesticidas, ni fertilizantes químicos o de síntesis. Usamos fertilizantes orgánicos con base en compostajes producidos en nuestras fincas.</string>
+    <string name="mercado_cali2">Nuestro soporte es la agricultura ecológica familiar, la cultura asociativa, la economía solidaria, cuyo propósito, es contribuir a elevar el nivel y calidad de vida del productor rural. A través de los Mercados Orgánicos y de la Red de Mercados Orgánicos, estamos generando tejido social y fortaleciendo la economía del campesino colombiano.</string>
+    <string name="mercado_cali3">Con la producción agroecológica de alimentos inicuos, protegemos la salud de los consumidores y mejoramos su calidad de vida.</string>
+
+    <string name="title_comercializacion">Comercialización</string>
+    <string name="comercializacion">Somos productores orgánicos y comercializadores directos, eliminamos los intermediarios, que son los que encarecen los productos al consumidor. Nuestra filosofía se fundamenta en el PRECIO JUSTO, es decir, que es favorable tanto para el productor como para el consumidor. Utilizamos diferentes canales   de comercialización: directamente en el Mercado Orgánico de Cali, todos los sábados de 5 am a 12 am, ubicado en el parqueadero de la parte  de atrás de la CVC. En góndolas en los almacenes de cadena, a través de domicilios dentro de la ciudad de Cali y mediante ésta Aplicación.</string>
 
 </resources>

@@ -28,10 +28,10 @@
             android:title="@string/title_lista_mercado" />
 
         <item
-            android:id="@+id/procesos"
+            android:id="@+id/info"
             android:checked="false"
-            android:icon="@drawable/ic_process"
-            android:title="@string/title_procesos" />
+            android:icon="@drawable/ic_info"
+            android:title="@string/title_info" />
 
         <!-- Sección de configuración -->
         <item

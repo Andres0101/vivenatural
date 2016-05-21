@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.example.andres_bonilla.ensayo.R;
 import com.example.andres_bonilla.ensayo.activity.classes.Comment;
 import com.example.andres_bonilla.ensayo.activity.classes.User;
+import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.Info;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.PerfilConsumidor;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.PerfilConsumidorCheck;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.Productores;
@@ -55,6 +56,7 @@ public class HomeConsumidor extends AppCompatActivity {
     private Productores fragmentDos;
     private ProductosReservados fragmentTres;
     private ProductsMarket fragmentCuatro;
+    private Info fragmentInfo;
 
     private String dataNombre;
     private String datadescripcion;
@@ -241,6 +243,16 @@ public class HomeConsumidor extends AppCompatActivity {
                         setTitle(R.string.title_lista_mercado);
 
                         fragmentTransactionTres.commit();
+                        return true;
+                    case R.id.info:
+                        fragmentInfo = new Info();
+                        android.support.v4.app.FragmentTransaction fragmentTransactionInfo = getSupportFragmentManager().beginTransaction();
+                        fragmentTransactionInfo.replace(R.id.container_body, fragmentInfo);
+
+                        //Setea el nombre del label
+                        setTitle(R.string.title_mercado);
+
+                        fragmentTransactionInfo.commit();
                         return true;
                     case R.id.log_out:
                         myRef.unauth();

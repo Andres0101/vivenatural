@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/textColorPrimary">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_margin="16dp"
+        android:text="@string/title_mercado_cali" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="@string/mercado_cali"
+        android:layout_below="@+id/title"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <ImageView
+        android:id="@+id/world"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/content"
+        android:src="@drawable/world"
+        android:tint="#B6B6B6"
+        android:layout_alignLeft="@+id/content"
+        android:layout_alignStart="@+id/content"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/content1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="@string/mercado_cali1"
+        android:layout_below="@+id/content"
+        android:layout_toRightOf="@+id/world"
+        android:layout_toEndOf="@+id/world"
+        android:layout_alignTop="@+id/world"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <ImageView
+        android:id="@+id/social"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/content1"
+        android:src="@drawable/ic_producers"
+        android:tint="#B6B6B6"
+        android:layout_alignLeft="@+id/content"
+        android:layout_alignStart="@+id/content"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/content2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="@string/mercado_cali2"
+        android:layout_below="@+id/content1"
+        android:layout_toRightOf="@+id/social"
+        android:layout_toEndOf="@+id/social"
+        android:layout_alignTop="@+id/social"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <ImageView
+        android:id="@+id/responsabilidadSocial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/content2"
+        android:src="@drawable/responsability"
+        android:tint="#B6B6B6"
+        android:layout_alignLeft="@+id/content"
+        android:layout_alignStart="@+id/content"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/content3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="@string/mercado_cali3"
+        android:layout_below="@+id/content2"
+        android:layout_toRightOf="@+id/responsabilidadSocial"
+        android:layout_toEndOf="@+id/responsabilidadSocial"
+        android:layout_alignTop="@+id/responsabilidadSocial"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
+
+</RelativeLayout>
