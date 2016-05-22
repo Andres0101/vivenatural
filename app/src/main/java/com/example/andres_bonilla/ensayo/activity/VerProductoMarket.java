@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.andres_bonilla.ensayo.R;
-import com.example.andres_bonilla.ensayo.activity.classes.Product;
+import com.example.andres_bonilla.ensayo.activity.classes.MarketProduct;
 import com.example.andres_bonilla.ensayo.activity.fragmentsConsumidor.VerProductoMarketFragment;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -46,32 +46,6 @@ public class VerProductoMarket extends AppCompatActivity {
         String nombreDelConsumidor = getIntent().getExtras().getString("nombreDelConsumidor");
         setTitle(nombreDelProducto);
 
-        imagenProducto = (ImageView) findViewById(R.id.imageProduct);
-        progress = (ProgressBar) findViewById(R.id.imageProgress);
-
-        // Lee los datos de los productos
-        Firebase productos = myRef.child("products");
-        productos.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    Product product = postSnapshot.getValue(Product.class);
-
-                    if (product.getNombreProducto().equals(nombreDelProducto)) {
-                        String imageProduct = product.getImagen();
-                        Bitmap imagenBitmap = StringToBitMap(imageProduct);
-                        imagenProducto.setImageBitmap(imagenBitmap);
-
-                        progress.setVisibility(View.GONE);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            }
-        });
-
         // Inicia en el fragment de VerProductoMarketFragment
         VerProductoMarketFragment fragmentUno = new VerProductoMarketFragment();
         android.support.v4.app.FragmentTransaction fragmentInicio = getSupportFragmentManager().beginTransaction();
@@ -84,6 +58,32 @@ public class VerProductoMarket extends AppCompatActivity {
         fragmentUno.setArguments(bundle);
 
         fragmentInicio.commit();
+
+        imagenProducto = (ImageView) findViewById(R.id.imageProduct);
+        progress = (ProgressBar) findViewById(R.id.imageProgress);
+
+        // Lee los datos de los productos
+        Firebase productosMercado = myRef.child("marketProducts");
+        productosMercado.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    MarketProduct marketProduct = postSnapshot.getValue(MarketProduct.class);
+
+                    if (marketProduct.getNombre().equals(nombreDelProducto)) {
+                        String imageProduct = marketProduct.getImagen();
+                        Bitmap imagenBitmap = StringToBitMap(imageProduct);
+                        imagenProducto.setImageBitmap(imagenBitmap);
+
+                        progress.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
     }
 
     // A method to find height of the status bar
