@@ -36,6 +36,37 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236350259608:android:590fd6235b2d3380",
+        "android_client_info": {
+          "package_name": "andres_bonilla.viveNatural.activity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236350259608-e6iualv9j88qo2den04sch3n5c3flfm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYMuGKZQy528PcNq8IwMrBlYEDtvchR48"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"
